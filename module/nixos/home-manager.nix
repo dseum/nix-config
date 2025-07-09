@@ -1,8 +1,10 @@
 {
+  self,
   config,
   pkgs,
   lib,
   user,
+  targetDir,
   ...
 }:
 let
@@ -10,6 +12,9 @@ let
 in
 {
   home-manager = {
+    extraSpecialArgs = {
+      inherit targetDir;
+    };
     useGlobalPkgs = true;
     useUserPackages = true;
     users.${user} =

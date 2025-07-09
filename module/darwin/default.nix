@@ -4,6 +4,7 @@
   pkgs,
   lib,
   user,
+  targetDir,
   ...
 }:
 let

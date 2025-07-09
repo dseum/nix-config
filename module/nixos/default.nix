@@ -1,8 +1,10 @@
 {
+  self,
   config,
   pkgs,
   lib,
   user,
+  targetDir,
   ...
 }:
 let

@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  targetDir,
   ...
 }:
 {
@@ -220,7 +221,7 @@
     recursive = true;
   };
   xdg.configFile."nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink ./config/nvim;
+    source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/nvim");
     recursive = true;
   };
 }

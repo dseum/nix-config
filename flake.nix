@@ -111,6 +111,7 @@
           inherit system;
           specialArgs = inputs // {
             inherit user;
+            targetDir = "/private/etc/nix-darwin";
           };
           modules = [
             home-manager.darwinModules.home-manager
@@ -125,6 +126,7 @@
           inherit system;
           specialArgs = inputs // {
             inherit user;
+            targetDir = "/etc/nixos";
           };
           modules = [
             home-manager.nixosModules.home-manager
