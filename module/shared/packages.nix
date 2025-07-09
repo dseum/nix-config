@@ -1,0 +1,34 @@
+{ pkgs }:
+[
+  pkgs.ccache
+  pkgs.cmake
+  pkgs.cmake-format
+  pkgs.curl
+  pkgs.docker
+  pkgs.docker-compose
+  pkgs.fd
+  pkgs.fzf
+  pkgs.go
+  pkgs.google-chrome
+  pkgs.luarocks
+  pkgs.mupdf
+  pkgs.nixfmt-rfc-style
+  pkgs.nodejs_24
+  pkgs.opam
+  pkgs.pnpm
+  pkgs.python313Full
+  pkgs.qemu
+  pkgs.R
+  pkgs.ripgrep
+  pkgs.rustup
+  pkgs.slack
+  pkgs.spotify
+  pkgs.tex-fmt
+  pkgs.texliveFull
+  pkgs.tmux
+  pkgs.tree-sitter
+  pkgs.uv
+  pkgs.vscode
+  pkgs.wget
+  pkgs.zig
+]

@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+YELLOW='\033[1;33m'
+
+println() {
+    printf "\033[1mnix-config: "
+    printf "$@"
+    printf "\n\033[0m"
+}
+
+TARGET="aarch64-darwin"
+
+FLAKE_DIR=$(realpath "/etc/nix-darwin")
+
+println "running on ${TARGET}"
+
+println "${YELLOW}building..."
+
+nix --extra-experimental-features 'nix-command flakes' build path:${FLAKE_DIR}#"darwinConfigurations.${TARGET}.system" "$@"
+
+println "${YELLOW}switching..."
+
+sudo ./result/sw/bin/darwin-rebuild switch --flake path:${FLAKE_DIR}#${TARGET} "$@"
+
+unlink ./result
+
+println "${GREEN}switched"
