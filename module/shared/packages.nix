@@ -8,6 +8,7 @@
   pkgs.docker-compose
   pkgs.fd
   pkgs.fzf
+  pkgs.gnumake
   pkgs.go
   pkgs.google-chrome
   pkgs.luarocks
