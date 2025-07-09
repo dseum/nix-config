@@ -39,7 +39,7 @@ in
     networkmanager.enable = true;
   };
   nix = {
-    nixPath = [ "nixos-config=/etc/nixos/.nix-config:/etc/nixos" ];
+    channel.enable = false;
     settings = {
       allowed-users = [ "${user}" ];
       trusted-users = [
