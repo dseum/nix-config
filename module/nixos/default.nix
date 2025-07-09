@@ -26,7 +26,7 @@ in
       };
     };
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelParams = lib.mkForce [
+    kernelParams = [
       "quiet"
       "fbcon=vc:2-6"
       "console=tty0"
@@ -53,6 +53,17 @@ in
   };
   powerManagement.cpuFreqGovernor = "schedutil";
   programs = {
+    dconf = {
+      enable = true;
+      profiles.user.databases = [
+        {
+          settings = {
+            "org/gnome/desktop/datetime".automatic-timezone = true;
+            "org/gnome/system/location".enabled = true;
+          };
+        }
+      ];
+    };
     zsh.enable = true;
   };
   services = {
@@ -78,6 +89,7 @@ in
     };
   };
   system.stateVersion = "21.05";
+  time.timeZone = lib.mkForce null;
   users.users = {
     ${user} = {
       extraGroups = [
