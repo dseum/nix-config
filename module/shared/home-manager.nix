@@ -37,9 +37,6 @@
         set -g fish_cursor_default block
         set -g fish_cursor_insert block
 
-        # Path
-        fish_add_path -g "$XDG_CONFIG_HOME/bin"
-
         # fzf
         set -x FZF_DEFAULT_COMMAND "fd --type file"
         set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS \
@@ -195,7 +192,6 @@
         bindkey -v
 
         # Path
-        export PATH="$XDG_CONFIG_HOME/bin:$PATH"
         export PATH="$HOME/Projects/external/chromium/depot_tools:$PATH"
 
         # Prompt
