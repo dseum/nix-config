@@ -51,6 +51,7 @@ in
       experimental-features = nix-command flakes
     '';
   };
+  powerManagement.cpuFreqGovernor = "schedutil";
   programs = {
     zsh.enable = true;
   };
