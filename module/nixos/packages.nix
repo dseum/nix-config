@@ -5,4 +5,5 @@ in
 shared-packages
 ++ [
   pkgs.llvmPackages_20.clangWithLibcAndBasicRtAndLibcxx
+  pkgs.unzip
 ]
