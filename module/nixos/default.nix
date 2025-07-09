@@ -15,6 +15,7 @@ in
     ../../hardware.nix
   ];
   boot = {
+    consoleLogLevel = 0;
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot = {
@@ -25,11 +26,8 @@ in
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = lib.mkForce [
       "quiet"
-      "loglevel=0"
-      "systemd.show_status=0"
-      "systemd.log_level=0"
-      "rd.udev.log_level=0"
-      "vt.global_cursor_default=0"
+      "fbcon=vc:2-6"
+      "console=tty0"
     ];
   };
   environment.systemPackages = shared-system-packages ++ [
