@@ -7,7 +7,6 @@ else
 fi
 
 paths=$(
-	echo "$HOME/.config/"
 	echo "$HOME/Projects/"
 	fd . ~/Projects --exact-depth 1 --type d
 	fd . ~/Projects/courses --exact-depth 1 --type d
