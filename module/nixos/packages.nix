@@ -4,6 +4,7 @@ let
 in
 shared-packages
 ++ [
+  pkgs._1password-gui
   pkgs.llvmPackages_20.clangWithLibcAndBasicRtAndLibcxx
   pkgs.unzip
 ]
