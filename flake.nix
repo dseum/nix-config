@@ -1,20 +1,20 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-darwin/nix-darwin";
     };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
   outputs =
     inputs@{
       self,
-      nixpkgs,
       home-manager,
       nix-darwin,
       nix-homebrew,
+      nixpkgs,
     }:
     let
       user = "denniseum";
