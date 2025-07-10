@@ -23,7 +23,9 @@ in
       systemd-boot = {
         enable = true;
         configurationLimit = 1;
+        consoleMode = "max";
       };
+      timeout = null;
     };
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [
@@ -70,6 +72,21 @@ in
     automatic-timezoned.enable = true;
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
+    keyd = {
+      enable = true;
+      keyboards = {
+        default = {
+          ids = [ "*" ];
+          settings = {
+            main = {
+              capslock = "esc";
+              leftalt = "layer(meta)";
+              meta = "leftalt";
+            };
+          };
+        };
+      };
+    };
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
@@ -93,6 +110,7 @@ in
   users.users = {
     ${user} = {
       extraGroups = [
+        "docker"
         "networkmanager"
         "wheel"
       ];
@@ -100,4 +118,5 @@ in
       shell = pkgs.zsh;
     };
   };
+  virtualisation.docker.enable = true;
 }
