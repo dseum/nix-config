@@ -31,7 +31,6 @@ in
   homebrew = {
     enable = true;
     casks = [
-      "1password"
       "ghostty"
     ];
     masApps = {
@@ -46,23 +45,7 @@ in
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
   };
-  nix = {
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 7d";
-    };
-    package = pkgs.nix;
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      trusted-users = [
-        "@admin"
-        "${user}"
-      ];
-    };
-  };
+  nix.enable = false;
   nix-homebrew = {
     inherit user;
     enable = true;
@@ -70,6 +53,11 @@ in
   power.sleep = {
     computer = 20;
     display = 15;
+  };
+  programs = {
+    _1password-gui.enable = false;
+    fish.enable = true;
+    zsh.enable = true;
   };
   services = {
     skhd.enable = true;
@@ -79,33 +67,84 @@ in
     };
   };
   system = {
-    activationScripts.applications.text =
-      let
-        env = pkgs.buildEnv {
-          name = "system-applications";
-          paths = config.environment.systemPackages;
-          pathsToLink = "/Applications";
-        };
-      in
-      pkgs.lib.mkForce ''
-        echo "setting up apps..." >&2
-        find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-        while read -r app_src; do
-          app_name=$(basename -s ".app" "$app_src")
-          echo "copying $app_name" >&2
-          cp -R "$app_src" "/Applications"
-          # icns_src="/icons/$app_name.icns"
-          # if [ -f "$icns_src" ]; then
-          #   icns_tgt=$(find "/Applications/$app_name.app/Contents/Resources" -name "*.icns")
-          #   cp "$icns_src" "$icns_tgt"
-          # fi
+    activationScripts.applications.text = lib.mkForce ''
+      echo "setting up /Applications/Nix Apps..." >&2
+
+      ourLink () {
+        local link
+        link=$(readlink "$1")
+        [ -L "$1" ] && [ "''${link#*-}" = 'system-applications/Applications' ]
+      }
+
+      targetFolder='/Applications/Nix Apps'
+
+      # Clean up old style symlink to nix store
+      if [ -e "$targetFolder" ] && ourLink "$targetFolder"; then
+        rm "$targetFolder"
+      fi
+
+      mkdir -p "$targetFolder"
+
+      rsyncFlags=(
+        --checksum
+        --copy-unsafe-links
+        --archive
+        --delete
+        --chmod=-w
+        --no-group
+        --no-owner
+      )
+
+      ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${config.system.build.applications}/Applications/ "$targetFolder"
+    '';
+    checks.text = lib.mkAfter ''
+      ensureAppManagement() {
+        for appBundle in /Applications/Nix\ Apps/*.app; do
+          if [[ -d "$appBundle" ]]; then
+            if ! touch "$appBundle/.DS_Store" &> /dev/null; then
+              return 1
+            fi
+          fi
         done
-        echo "resetting icons..." >&2
-        rm -rf /Library/Caches/com.apple.iconservices.store 2>/dev/null
-        find /private/var/folders/ \( -name com.apple.dock.iconcache -or -name com.apple.iconservices \) -exec rm -rf {} \; 2>/dev/null
-        killall Finder
-        killall Dock
-      '';
+
+        return 0
+      }
+
+      if ! ensureAppManagement; then
+        if [[ "$(launchctl managername)" != Aqua ]]; then
+          # It is possible to grant the App Management permission to `sshd-keygen-wrapper`, however
+          # there are many pitfalls like requiring the primary user to grant the permission and to
+          # be logged in when `darwin-rebuild` is run over SSH and it will still fail sometimes...
+          printf >&2 '\e[1;31merror: permission denied when trying to update apps over SSH, aborting activation\e[0m\n'
+          printf >&2 'Apps could not be updated as `darwin-rebuild` requires Full Disk Access to work over SSH.\n'
+          printf >&2 'You can either:\n'
+          printf >&2 '\n'
+          printf >&2 '  grant Full Disk Access to all programs run over SSH\n'
+          printf >&2 '\n'
+          printf >&2 'or\n'
+          printf >&2 '\n'
+          printf >&2 '  run `darwin-rebuild` in a graphical session.\n'
+          printf >&2 '\n'
+          printf >&2 'The option "Allow full disk access for remote users" can be found by\n'
+          printf >&2 'navigating to System Settings > General > Sharing > Remote Login\n'
+          printf >&2 'and then pressing on the i icon next to the switch.\n'
+          exit 1
+        else
+          # The TCC service required to modify notarised app bundles is `kTCCServiceSystemPolicyAppBundles`
+          # and we can reset it to ensure the user gets another prompt
+          tccutil reset SystemPolicyAppBundles > /dev/null
+
+          if ! ensureAppManagement; then
+            printf >&2 '\e[1;31merror: permission denied when trying to update apps, aborting activation\e[0m\n'
+            printf >&2 '`darwin-rebuild` requires permission to update your apps, please accept the notification\n'
+            printf >&2 'and grant the permission for your terminal emulator in System Settings.\n'
+            printf >&2 '\n'
+            printf >&2 'If you did not get a notification, you can navigate to System Settings > Privacy & Security > App Management.\n'
+            exit 1
+          fi
+        fi
+      fi
+    '';
     configurationRevision = self.rev or self.dirtyRev or null;
     defaults = {
       dock = {
@@ -113,15 +152,15 @@ in
         autohide-delay = 0.0;
         autohide-time-modifier = 0.0;
         persistent-apps = [
-          "/Applications/Google Chrome.app"
+          "${pkgs.google-chrome}/Applications/Google Chrome.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Todoist.app"
-          "/Applications/Spotify.app"
+          "${pkgs.spotify}/Applications/Spotify.app"
           "/Applications/Ghostty.app"
-          "/Applications/Visual Studio Code.app"
-          "/Applications/VMware Fusion.app"
-          "/Applications/Slack.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          # "/Applications/VMware Fusion.app"
+          "${pkgs.slack}/Applications/Slack.app"
           "/Applications/KakaoTalk.app"
           "/Applications/WhatsApp.app"
           "/Applications/Messenger.app"

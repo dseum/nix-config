@@ -11,10 +11,11 @@
   pkgs.gnumake
   pkgs.go
   pkgs.google-chrome
+  pkgs.jq
   pkgs.luarocks
   pkgs.mupdf
   pkgs.nixfmt-rfc-style
-  pkgs.nodejs_24
+  pkgs.nodejs_22
   pkgs.opam
   pkgs.pnpm
   pkgs.python313Full
