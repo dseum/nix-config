@@ -45,6 +45,18 @@ in
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
   };
+  networking = {
+    knownNetworkServices = [
+      "Wi-Fi"
+    ];
+    dns = [
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
+    ];
+    hostName = "darwin";
+  };
   nix.enable = false;
   nix-homebrew = {
     inherit user;
@@ -60,43 +72,84 @@ in
     zsh.enable = true;
   };
   services = {
-    skhd.enable = true;
     yabai = {
       enable = true;
       enableScriptingAddition = true;
     };
   };
   system = {
-    activationScripts.applications.text = lib.mkForce ''
-      echo "setting up /Applications/Nix Apps..." >&2
+    activationScripts = {
+      applications.text = lib.mkForce ''
+        echo "setting up /Applications/Nix Apps..." >&2
 
-      ourLink () {
-        local link
-        link=$(readlink "$1")
-        [ -L "$1" ] && [ "''${link#*-}" = 'system-applications/Applications' ]
-      }
+        ourLink () {
+          local link
+          link=$(readlink "$1")
+          [ -L "$1" ] && [ "''${link#*-}" = 'system-applications/Applications' ]
+        }
 
-      targetFolder='/Applications/Nix Apps'
+        targetFolder='/Applications/Nix Apps'
 
-      # Clean up old style symlink to nix store
-      if [ -e "$targetFolder" ] && ourLink "$targetFolder"; then
-        rm "$targetFolder"
-      fi
+        if [ -e "$targetFolder" ] && ourLink "$targetFolder"; then
+          rm "$targetFolder"
+        fi
 
-      mkdir -p "$targetFolder"
+        mkdir -p "$targetFolder"
 
-      rsyncFlags=(
-        --checksum
-        --copy-unsafe-links
-        --archive
-        --delete
-        --chmod=-w
-        --no-group
-        --no-owner
-      )
+        rsyncFlags=(
+          --archive
+          --checksum
+          --chmod=-w
+          --copy-unsafe-links
+          --delete
+          --no-group
+          --no-owner
+          --exclude=$'Icon\r'
+        )
 
-      ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${config.system.build.applications}/Applications/ "$targetFolder"
-    '';
+        ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${config.system.build.applications}/Applications/ "$targetFolder"
+      '';
+      extraActivation.text = lib.mkAfter (
+        lib.concatStringsSep "\n" (
+          let
+            users = builtins.attrNames config.users.users;
+            paths =
+              [
+                "/Applications/Nix Apps"
+              ]
+              ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Nix Apps") (
+                builtins.filter (u: builtins.hasAttr u config.home-manager.users) users
+              ));
+          in
+          (builtins.map (p: ''
+            echo "settings icons in ${p}..."
+            for appPath in "${p}/"*.app; do
+              appName=$(basename "$appPath" .app)
+              iconPath="${./icon}/''${appName}.icns"
+
+              if [ -f "$iconPath" ]; then
+                osascript \
+                  -e "use framework \"Cocoa\"" \
+                  -e "set sourcePath to \"$iconPath\"" \
+                  -e "set destPath to \"$appPath\"" \
+                  -e "set imageData to (current application's NSImage's alloc()'s initWithContentsOfFile:sourcePath)" \
+                  -e "(current application's NSWorkspace's sharedWorkspace()'s setIcon:imageData forFile:destPath options:2)" \
+                  >/dev/null
+              fi
+            done
+          '') paths)
+          ++ [
+            ''
+              echo "uncaching icons..."
+
+              rm -rf /Library/Caches/com.apple.iconservices.store 2>/dev/null
+              killall Dock
+              killall Finder
+            ''
+          ]
+        )
+      );
+    };
     checks.text = lib.mkAfter ''
       ensureAppManagement() {
         for appBundle in /Applications/Nix\ Apps/*.app; do
@@ -152,15 +205,14 @@ in
         autohide-delay = 0.0;
         autohide-time-modifier = 0.0;
         persistent-apps = [
-          "${pkgs.google-chrome}/Applications/Google Chrome.app"
+          "${config.users.users.${user}.home}/Applications/Nix Apps/Google Chrome.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Todoist.app"
-          "${pkgs.spotify}/Applications/Spotify.app"
+          "${config.users.users.${user}.home}/Applications/Nix Apps/Spotify.app"
           "/Applications/Ghostty.app"
-          "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          # "/Applications/VMware Fusion.app"
-          "${pkgs.slack}/Applications/Slack.app"
+          "${config.users.users.${user}.home}/Applications/Nix Apps/Visual Studio Code.app"
+          "${config.users.users.${user}.home}/Applications/Nix Apps/Slack.app"
           "/Applications/KakaoTalk.app"
           "/Applications/WhatsApp.app"
           "/Applications/Messenger.app"

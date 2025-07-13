@@ -122,28 +122,24 @@
     };
     tmux = {
       enable = true;
-      shell = "${pkgs.fish}/bin/fish";
-      historyLimit = 50000;
+      baseIndex = 1;
+      clock24 = true;
+      escapeTime = 10;
       extraConfig = ''
         # General
         set -as terminal-overrides ',*:Setulc=\E[58::2::::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
         set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
         set -g bell-action none
-        set -g default-terminal "$TERM"
-        set -g focus-events on
-        set -g mouse on
         set -g status-left-length 40
         set -g visual-activity off
         set -g visual-bell off
         set -g visual-silence off
-        set -sg escape-time 10
         setw -g monitor-activity off
         setw -g pane-border-status off
 
         # Indexing
         set -g base-index 1
         set -g renumber-windows on
-        setw -g pane-base-index 1
 
         # Theme
         set -g message-command-style "fg=#7aa2f7,bg=#3b4261"
@@ -175,10 +171,16 @@
         bind j select-pane -D
         bind k select-pane -U
         bind l select-pane -R
-        bind r source-file ~/.config/tmux/tmux.conf
+        bind r source-file /tmux/tmux.conf
         bind s choose-tree -ZsK '#{?#{e|<:#{line},9},#{e|+:1,#{line}},#{?#{e|<:#{line},35},M-#{a:#{e|+:97,#{e|-:#{line},9}}},}}'
         bind w choose-tree -ZK '#{?#{e|<:#{line},9},#{e|+:1,#{line}},#{?#{e|<:#{line},35},M-#{a:#{e|+:97,#{e|-:#{line},9}}},}}'
       '';
+      focusEvents = true;
+      historyLimit = 50000;
+      keyMode = "vi";
+      mouse = true;
+      shell = "${pkgs.fish}/bin/fish";
+      terminal = "$TERM";
     };
     zsh = {
       enable = true;

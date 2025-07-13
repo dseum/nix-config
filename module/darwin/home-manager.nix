@@ -7,9 +7,6 @@
   targetDir,
   ...
 }:
-let
-  shared-files = import ../shared/files.nix { inherit config pkgs; };
-in
 {
   home-manager = {
     extraSpecialArgs = {
@@ -37,7 +34,7 @@ in
               };
             in
             ''
-              echo "setting up ~/Applications/Nix Apps…" >&2
+              echo "setting up ~/Applications/Nix Apps..." >&2
 
               ourLink () {
                 local link
@@ -54,19 +51,19 @@ in
               mkdir -p "$targetFolder"
 
               rsyncFlags=(
-                --checksum
-                --copy-unsafe-links
                 --archive
-                --delete
+                --checksum
                 --chmod=-w
+                --copy-unsafe-links
+                --delete
                 --no-group
                 --no-owner
+                --exclude=$'Icon\r'
               )
 
               ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${applications}/Applications/ "$targetFolder"
             ''
           );
-          file = shared-files // import ./files.nix { inherit config user; };
           packages = pkgs.callPackage ./packages.nix { inherit pkgs; };
         };
         programs.ghostty.package = null;
@@ -102,23 +99,23 @@ in
               lalt - p : yabai -m space --focus prev
               lalt - n : yabai -m space --focus next
 
-              lalt - 0x32 : ${config.xdg.configHome}/.config/skhd/scripts/effect 1
-              lalt - 1 : ${config.xdg.configHome}/.config/skhd/scripts/effect 2
-              lalt - 2 : ${config.xdg.configHome}/.config/skhd/scripts/effect 3
-              lalt - 3 : ${config.xdg.configHome}/.config/skhd/scripts/effect 4
-              lalt - 4 : ${config.xdg.configHome}/.config/skhd/scripts/effect 5
-              lalt - 5 : ${config.xdg.configHome}/.config/skhd/scripts/effect 6
-              lalt - q : ${config.xdg.configHome}/.config/skhd/scripts/effect 7
-              lalt - w : ${config.xdg.configHome}/.config/skhd/scripts/effect 8
-              lalt - e : ${config.xdg.configHome}/.config/skhd/scripts/effect 9
-              lalt - r : ${config.xdg.configHome}/.config/skhd/scripts/effect 10
+              lalt - 0x32 : ${config.xdg.configHome}/skhd/scripts/effect 1
+              lalt - 1 : ${config.xdg.configHome}/skhd/scripts/effect 2
+              lalt - 2 : ${config.xdg.configHome}/skhd/scripts/effect 3
+              lalt - 3 : ${config.xdg.configHome}/skhd/scripts/effect 4
+              lalt - 4 : ${config.xdg.configHome}/skhd/scripts/effect 5
+              lalt - 5 : ${config.xdg.configHome}/skhd/scripts/effect 6
+              lalt - q : ${config.xdg.configHome}/skhd/scripts/effect 7
+              lalt - w : ${config.xdg.configHome}/skhd/scripts/effect 8
+              lalt - e : ${config.xdg.configHome}/skhd/scripts/effect 9
+              lalt - r : ${config.xdg.configHome}/skhd/scripts/effect 10
 
               shift + lalt - m : yabai -m space --layout $(apps)
 
-              shift + lalt - 1 : ${pkgs.google-chrome}/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 0" --new-window
-              shift + lalt - 2 : ${pkgs.google-chrome}/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window
-              shift + lalt - 3 : ${pkgs.google-chrome}/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 2" --new-window
-              shift + lalt - 4 : ${pkgs.google-chrome}/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 3" --new-window
+              shift + lalt - 1 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 0" --new-window
+              shift + lalt - 2 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window
+              shift + lalt - 3 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 2" --new-window
+              shift + lalt - 4 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 3" --new-window
               shift + lalt - e : open -na /Applications/Ghostty.app
 
               ctrl + lalt - q : yabai --stop-service
