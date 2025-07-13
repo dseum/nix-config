@@ -180,6 +180,17 @@
       shell = "${pkgs.fish}/bin/fish";
       terminal = "$TERM";
     };
+    vscode = {
+      enable = true;
+      mutableExtensionsDir = false;
+      profiles.default = {
+        extensions = with pkgs.nix-vscode-extensions.vscode-marketplace; [
+          enkia.tokyo-night
+        ];
+        keybindings = builtins.fromJSON (builtins.readFile ./config/vscode/keybindings.json);
+        userSettings = builtins.fromJSON (builtins.readFile ./config/vscode/settings.json);
+      };
+    };
     zsh = {
       enable = true;
       dotDir = ".config/zsh";

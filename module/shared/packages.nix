@@ -4,8 +4,6 @@
   pkgs.cmake
   pkgs.cmake-format
   pkgs.curl
-  pkgs.docker
-  pkgs.docker-compose
   pkgs.fd
   pkgs.fzf
   pkgs.gnumake
