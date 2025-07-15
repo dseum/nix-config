@@ -110,7 +110,7 @@
               lalt - e : ${config.xdg.configHome}/skhd/scripts/effect 9
               lalt - r : ${config.xdg.configHome}/skhd/scripts/effect 10
 
-              shift + lalt - m : yabai -m space --layout $(apps)
+              shift + lalt - m : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" elif .type == "bsp" then "float" else "stack" end')
 
               shift + lalt - 1 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 0" --new-window
               shift + lalt - 2 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window
