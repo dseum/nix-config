@@ -9,8 +9,11 @@
       url = "github:nix-darwin/nix-darwin";
     };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-vscode-extensions = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-vscode-extensions";
+    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
   outputs =
     inputs@{
