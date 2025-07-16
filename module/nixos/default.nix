@@ -8,7 +8,7 @@
   ...
 }:
 let
-  shared-system-packages = import ../shared/system-packages.nix { inherit pkgs; };
+  sharedSystemPackages = import ../shared/system-packages.nix { inherit pkgs; };
 in
 {
   imports = [
@@ -34,7 +34,7 @@ in
       "console=tty0"
     ];
   };
-  environment.systemPackages = shared-system-packages ++ [
+  environment.systemPackages = sharedSystemPackages ++ [
   ];
   networking = {
     hostName = "nixos";

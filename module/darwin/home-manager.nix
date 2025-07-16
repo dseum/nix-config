@@ -53,12 +53,11 @@
               rsyncFlags=(
                 --archive
                 --checksum
-                --chmod=-w
                 --copy-unsafe-links
                 --delete
+                --exclude=$'Icon\r'
                 --no-group
                 --no-owner
-                --exclude=$'Icon\r'
               )
 
               ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${applications}/Applications/ "$targetFolder"

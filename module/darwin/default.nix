@@ -8,7 +8,7 @@
   ...
 }:
 let
-  shared-system-packages = import ../shared/system-packages.nix { inherit pkgs; };
+  sharedSystemPackages = import ../shared/system-packages.nix { inherit pkgs; };
 in
 {
   imports = [
@@ -23,7 +23,7 @@ in
     shells = [
       pkgs.zsh
     ];
-    systemPackages = shared-system-packages ++ [
+    systemPackages = sharedSystemPackages ++ [
       pkgs.appcleaner
       pkgs.pam-reattach
     ];
@@ -103,14 +103,14 @@ in
           --chmod=-w
           --copy-unsafe-links
           --delete
+          --exclude=$'Icon\r'
           --no-group
           --no-owner
-          --exclude=$'Icon\r'
         )
 
         ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${config.system.build.applications}/Applications/ "$targetFolder"
       '';
-      extraActivation.text = lib.mkAfter (
+      postActivation.text = lib.mkAfter (
         lib.concatStringsSep "\n" (
           let
             users = builtins.attrNames config.users.users;
@@ -142,10 +142,8 @@ in
           ++ [
             ''
               echo "uncaching icons..."
-
               rm -rf /Library/Caches/com.apple.iconservices.store 2>/dev/null
               killall Dock
-              killall Finder
             ''
           ]
         )
