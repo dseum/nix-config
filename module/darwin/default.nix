@@ -73,6 +73,7 @@ in
     zsh.enable = true;
   };
   services = {
+    skhd.enable = true;
     yabai = {
       enable = true;
       enableScriptingAddition = true;
