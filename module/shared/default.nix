@@ -1,4 +1,4 @@
-{ nix-vscode-extensions, ... }:
+{ pkgs, nix-vscode-extensions, ... }:
 {
   nixpkgs = {
     config = {
@@ -6,4 +6,7 @@
     };
     overlays = [ nix-vscode-extensions.overlays.default ];
   };
+  fonts.packages = [
+    pkgs.ibm-plex
+  ];
 }

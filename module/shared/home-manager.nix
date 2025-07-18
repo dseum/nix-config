@@ -60,7 +60,7 @@
         copy-on-select = "clipboard";
         cursor-style = "block";
         cursor-style-blink = "false";
-        font-family = "JetBrains Mono";
+        font-family = "IBM Plex Mono";
         font-feature = "-calt";
         font-size = 14;
         font-thicken = true;
@@ -169,7 +169,6 @@
         bind j select-pane -D
         bind k select-pane -U
         bind l select-pane -R
-        bind r source-file /tmux/tmux.conf
         bind s choose-tree -ZsK '#{?#{e|<:#{line},9},#{e|+:1,#{line}},#{?#{e|<:#{line},35},M-#{a:#{e|+:97,#{e|-:#{line},9}}},}}'
         bind w choose-tree -ZK '#{?#{e|<:#{line},9},#{e|+:1,#{line}},#{?#{e|<:#{line},35},M-#{a:#{e|+:97,#{e|-:#{line},9}}},}}'
       '';

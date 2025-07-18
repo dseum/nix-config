@@ -63,7 +63,7 @@
   "workbench.iconTheme": "keen-neutral-icon-theme",
   "editor.lineHeight": 20,
   "terminal.integrated.lineHeight": 1.25,
-  "editor.fontFamily": "Jetbrains Mono",
+  "editor.fontFamily": "IBM Plex Mono",
   "editor.fontSize": 14,
   "workbench.colorCustomizations": {
     "editorLineNumber.foreground": "#B4B4B4"
