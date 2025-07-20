@@ -56,8 +56,7 @@ return {
             vim.wo.foldlevel = 99
             vim.wo.foldmethod = "expr"
             vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-            vim.bo[bufnr].indentexpr =
-              "v:lua.require'nvim-treesitter'.indentexpr()"
+            vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           end,
         })
       end
@@ -69,7 +68,7 @@ return {
       "folke/lazydev.nvim",
       "rafamadriz/friendly-snippets",
     },
-    version = "1.4.1",
+    version = "1.5.1",
     opts = {
       sources = {
         default = { "lazydev", "lsp", "path", "snippets", "buffer" },
@@ -79,7 +78,7 @@ return {
             module = "lazydev.integrations.blink",
             score_offset = 100,
           },
-        },
+        }
       },
       completion = {
         list = { selection = { preselect = true, auto_insert = false } },
@@ -155,7 +154,7 @@ return {
         },
         ocamllsp = {},
         ruff = { "ruff" },
-        rust_analyzer = { "rust-analyzer" },
+        rust_analyzer = {},
         svelte = { "svelte-language-server" },
         tailwindcss = { "tailwindcss-language-server" },
         taplo = { "taplo" },
@@ -183,21 +182,21 @@ return {
         if type(pkg_name) == "string" then
           -- Assume package is valid
           MasonOptional.of_nilable(pkg_name)
-            :map(function(name)
-              local ok, pkg = pcall(MasonRegistry.get_package, name)
-              if ok then
-                return pkg
-              end
-            end)
-            :if_present(
-              ---@param pkg Package
-              function(pkg)
-                if not pkg:is_installed() then
-                  local _, version = MasonPackage.Parse(server_id)
-                  pkg:install({ version = version })
+              :map(function(name)
+                local ok, pkg = pcall(MasonRegistry.get_package, name)
+                if ok then
+                  return pkg
                 end
-              end
-            )
+              end)
+              :if_present(
+              ---@param pkg Package
+                function(pkg)
+                  if not pkg:is_installed() then
+                    local _, version = MasonPackage.Parse(server_id)
+                    pkg:install({ version = version })
+                  end
+                end
+              )
           server_config[1] = nil
         end
 
@@ -217,7 +216,7 @@ return {
               ["experimental/serverStatus"] = function(_, result, ctx, _)
                 if result.quiescent and not M.ran_once then
                   for _, bufnr in
-                    ipairs(vim.lsp.get_buffers_by_client_id(ctx.client_id))
+                  ipairs(vim.lsp.get_buffers_by_client_id(ctx.client_id))
                   do
                     vim.lsp.inlay_hint.enable(false, {
                       bufnr = bufnr,
