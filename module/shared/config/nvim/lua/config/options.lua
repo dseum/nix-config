@@ -1,6 +1,6 @@
 vim.opt.guicursor = "a:block"
 
--- Better
+-- General
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
@@ -12,8 +12,6 @@ vim.diagnostic.config({
   virtual_text = false,
   underline = false,
 })
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
 vim.opt.cursorline = true
 
 -- Lines
@@ -32,9 +30,10 @@ vim.opt.autoindent = true
 -- Undo
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true

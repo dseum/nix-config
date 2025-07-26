@@ -258,4 +258,8 @@
     source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/nvim");
     recursive = true;
   };
+  xdg.configFile."vim" = {
+    source = config.lib.file.mkOutOfStoreSymlink ./config/vim;
+    recursive = true;
+  };
 }

@@ -1,0 +1,59 @@
+" General
+set guicursor=a:block
+set termguicolors
+set signcolumn=yes
+set isfname+=@-@
+set updatetime=50
+set noshowmode
+set noshowcmd
+
+" Lines
+set number relativenumber
+set nowrap
+set scrolloff=8
+
+" Tabs
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+
+" Undo
+set noswapfile
+set nobackup
+if exists('$XDG_STATE_HOME') && !empty($XDG_STATE_HOME)
+  let s:state = $XDG_STATE_HOME
+else
+  let s:state = expand('~/.local/state')
+endif
+let s:undodir = s:state . '/vim/undo'
+if !isdirectory(s:undodir)
+  call mkdir(s:undodir, 'p', 0700)
+endif
+let &undodir = s:undodir
+set undofile
+
+" Search
+set ignorecase
+set smartcase
+set nohlsearch
+set incsearch
+
+let g:mapleader = ' '
+let g:maplocalleader = '\'
+nnoremap J mzJ`z
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+vnoremap p "_dP
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+nnoremap <C-f> :silent !tmux neww tmod<CR>
+nnoremap <C-g> :silent !tmux neww tmcd<CR>
+tnoremap <C-W>j <C-\><C-N><C-W>j
+tnoremap <C-W>k <C-\><C-N><C-W>k
+tnoremap <C-W>h <C-\><C-N><C-W>h
+tnoremap <C-W>l <C-\><C-N><C-W>l
