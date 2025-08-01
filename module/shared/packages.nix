@@ -1,5 +1,6 @@
 { pkgs }:
 [
+  pkgs.caddy
   pkgs.ccache
   pkgs.cmake
   pkgs.cmake-format
