@@ -303,6 +303,7 @@ return {
         css = { "prettierd" },
         dart = { "dart_format" },
         fish = { "fish_indent" },
+        hcl = { "hcl" },
         javascript = { "prettierd" },
         javascriptreact = { "prettierd" },
         json = { "prettierd" },
