@@ -81,47 +81,16 @@ in
   };
   system = {
     activationScripts = {
-      applications.text = lib.mkForce ''
-        echo "setting up /Applications/Nix Apps..." >&2
-
-        ourLink () {
-          local link
-          link=$(readlink "$1")
-          [ -L "$1" ] && [ "''${link#*-}" = 'system-applications/Applications' ]
-        }
-
-        targetFolder='/Applications/Nix Apps'
-
-        if [ -e "$targetFolder" ] && ourLink "$targetFolder"; then
-          rm "$targetFolder"
-        fi
-
-        mkdir -p "$targetFolder"
-
-        rsyncFlags=(
-          --archive
-          --checksum
-          --chmod=-w
-          --copy-unsafe-links
-          --delete
-          --exclude=$'Icon\r'
-          --no-group
-          --no-owner
-        )
-
-        ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${config.system.build.applications}/Applications/ "$targetFolder"
-      '';
       postActivation.text = lib.mkAfter (
         lib.concatStringsSep "\n" (
           let
             users = builtins.attrNames config.users.users;
-            paths =
-              [
-                "/Applications/Nix Apps"
-              ]
-              ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Nix Apps") (
-                builtins.filter (u: builtins.hasAttr u config.home-manager.users) users
-              ));
+            paths = [
+              "/Applications/Nix Apps"
+            ]
+            ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Nix Apps") (
+              builtins.filter (u: builtins.hasAttr u config.home-manager.users) users
+            ));
           in
           (builtins.map (p: ''
             echo "settings icons in ${p}..."
