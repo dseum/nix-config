@@ -251,7 +251,7 @@
     };
   };
   xdg.configFile."bin" = {
-    source = config.lib.file.mkOutOfStoreSymlink ./config/bin;
+    source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/bin");
     recursive = true;
   };
   xdg.configFile."nvim" = {
@@ -259,7 +259,7 @@
     recursive = true;
   };
   xdg.configFile."vim" = {
-    source = config.lib.file.mkOutOfStoreSymlink ./config/vim;
+    source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/vim");
     recursive = true;
   };
 }
