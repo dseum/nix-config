@@ -46,6 +46,23 @@ in
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
   };
+  launchd.daemons.nix-gc = {
+    serviceConfig = {
+      Label = "com.system.nix-gc";
+      ProgramArguments = [
+        "${pkgs.nix}/bin/nix-collect-garbage"
+        "--delete-older-than"
+        "30d"
+      ];
+      StartCalendarInterval = {
+        Hour = 2;
+        Minute = 30;
+      };
+      StandardOutPath = "/var/log/nix-gc.log";
+      StandardErrorPath = "/var/log/nix-gc.log";
+      RunAtLoad = false;
+    };
+  };
   networking = {
     knownNetworkServices = [
       "Wi-Fi"
