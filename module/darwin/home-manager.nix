@@ -54,7 +54,7 @@
                 --archive
                 --checksum
                 --chmod=-w
-                --chown=$USER:$USER
+                --chown=$USER:staff
                 --copy-unsafe-links
                 --delete
                 --exclude=$'Icon\r'
