@@ -13,6 +13,7 @@
   pkgs.jq
   pkgs.luarocks
   pkgs.mupdf
+  pkgs.ninja
   pkgs.nixfmt-rfc-style
   pkgs.nodejs_22
   pkgs.opam
