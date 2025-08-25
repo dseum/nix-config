@@ -64,7 +64,7 @@
         font-feature = "-calt";
         font-size = 14;
         font-thicken = true;
-        macos-titlebar-style = "hidden";
+        macos-titlebar-style = "tabs";
         macos-window-shadow = false;
         maximize = true;
         quit-after-last-window-closed = true;

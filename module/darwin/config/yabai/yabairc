@@ -21,3 +21,5 @@ yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^System Settings$" manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app="^Surfshark$" manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app="^Google Drive$" manage=off
+yabai -m signal --add app='^Ghostty$' event=window_created action='yabai -m space --layout $(yabai -m query --spaces --space | jq -r ".type")'
+yabai -m signal --add app='^Ghostty$' event=window_destroyed action='yabai -m space --layout $(yabai -m query --spaces --space | jq -r ".type")'
