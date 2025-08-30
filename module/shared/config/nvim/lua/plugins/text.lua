@@ -1,8 +1,8 @@
 return {
-  { "echasnovski/mini.surround", opts = {} },
-  { "echasnovski/mini.ai", opts = {} },
+  { "nvim-mini/mini.surround", opts = {} },
+  { "nvim-mini/mini.ai",       opts = {} },
   {
-    "echasnovski/mini.indentscope",
+    "nvim-mini/mini.indentscope",
     config = function()
       require("mini.indentscope").setup({
         draw = {
