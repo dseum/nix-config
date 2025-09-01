@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh -e
 
-if [[ $# -eq 1 ]]; then
+if [ $# -eq 1 ]; then
 	query=$1
 else
 	query=""
@@ -13,31 +13,35 @@ paths=$(
 	fd . ~/Projects/external --exact-depth 1 --type d
 )
 selected_path=$(echo "$paths" | fzf --delimiter / --with-nth -3,-2 --query "$query" --select-1)
-selected_path=${selected_path%/}
+selected_path=$(echo "$selected_path" | sed 's:/*$::')
 
-if [[ -z $selected_path ]]; then
+if [ -z "$selected_path" ]; then
 	exit 0
 fi
+
+selected_name=$(echo "$selected_path" |
+	awk -F/ '{print $(NF-1) "-" $NF}' |
+	tr . - |
+	tr ' ' - |
+	tr '[:upper:]' '[:lower:]')
+case "$selected_name" in
+-*) selected_name="dir$selected_name" ;;
+*) selected_name="dir-$selected_name" ;;
+esac
 
 tmux_running=$(pgrep tmux)
-selected_name=$(basename "$selected_path" | tr . - | tr ' ' - | tr [:upper:] [:lower:])
-if [[ $selected_name =~ ^- ]]; then
-	selected_name="dir$selected_name"
-else
-	selected_name="dir-$selected_name"
-fi
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-	tmux new-session -s $selected_name -c "$selected_path"
+if [ -z "$TMUX" ] && [ -z "$tmux_running" ]; then
+	tmux new-session -s "$selected_name" -c "$selected_path"
 	exit 0
 fi
 
-if ! tmux has-session -t $selected_name 2>/dev/null; then
-	tmux new-session -ds $selected_name -c "$selected_path"
+if ! tmux has-session -t "$selected_name" 2>/dev/null; then
+	tmux new-session -ds "$selected_name" -c "$selected_path"
 fi
 
-if [[ -z $TMUX ]]; then
-	tmux attach -t $selected_name
+if [ -z "$TMUX" ]; then
+	tmux attach -t "$selected_name"
 else
-	tmux switch-client -t $selected_name
+	tmux switch-client -t "$selected_name"
 fi
