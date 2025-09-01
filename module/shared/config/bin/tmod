@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 
 if [ $# -eq 1 ]; then
 	query=$1
