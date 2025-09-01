@@ -14,6 +14,11 @@
     stateVersion = "25.05";
   };
   programs = {
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      silent = true;
+    };
     fish = {
       enable = true;
       binds = {
