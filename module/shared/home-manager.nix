@@ -137,6 +137,7 @@
         set -g visual-activity off
         set -g visual-bell off
         set -g visual-silence off
+        set -gq allow-passthrough on
         setw -g monitor-activity off
         setw -g pane-border-status off
 
