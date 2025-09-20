@@ -202,7 +202,7 @@ return {
 
         -- Setup LSP
         local M = {}
-        require("lspconfig")[server_id].setup(
+        vim.lsp.config(server_id,
           vim.tbl_deep_extend("keep", server_config, {
             capabilities = require("blink.cmp").get_lsp_capabilities(
               server_config.capabilities
@@ -262,6 +262,7 @@ return {
             end,
           })
         )
+        vim.lsp.enable(server_id)
       end
     end,
   },
