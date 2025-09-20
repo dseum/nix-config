@@ -15,10 +15,10 @@
   pkgs.mupdf
   pkgs.ninja
   pkgs.nixfmt-rfc-style
-  pkgs.nodejs_22
+  pkgs.nodejs_24
   pkgs.opam
   pkgs.pnpm
-  pkgs.python313Full
+  pkgs.python313
   pkgs.qemu
   pkgs.R
   pkgs.ripgrep
@@ -30,7 +30,6 @@
   pkgs.tmux
   pkgs.tree-sitter
   pkgs.uv
-  pkgs.vscode
   pkgs.wget
   pkgs.zig
 ]

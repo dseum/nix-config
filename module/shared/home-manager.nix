@@ -189,6 +189,8 @@
       enable = true;
       mutableExtensionsDir = false;
       profiles.default = {
+        enableExtensionUpdateCheck = false;
+        enableUpdateCheck = false;
         extensions = with pkgs.nix-vscode-extensions.vscode-marketplace; [
           bradlc.vscode-tailwindcss
           charliermarsh.ruff
