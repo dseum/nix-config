@@ -73,8 +73,10 @@
         macos-titlebar-style = "tabs";
         macos-window-shadow = false;
         maximize = true;
+        quick-terminal-animation-duration = 0;
         shell-integration-features = "no-cursor";
         window-colorspace = "display-p3";
+        window-inherit-working-directory = false;
         window-padding-balance = true;
         window-padding-x = 8;
         window-padding-y = 3;
