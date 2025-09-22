@@ -120,7 +120,6 @@
               shift + lalt - 2 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window
               shift + lalt - 3 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 2" --new-window
               shift + lalt - 4 : ${config.home.homeDirectory}/Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 3" --new-window
-              shift + lalt - e : open -na /Applications/Ghostty.app
 
               ctrl + lalt - q : yabai --stop-service
               ctrl + lalt - s : yabai --start-service

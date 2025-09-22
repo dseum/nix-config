@@ -58,6 +58,7 @@
       enable = true;
       settings = {
         # General
+        auto-update = "check";
         clipboard-paste-protection = false;
         clipboard-trim-trailing-spaces = true;
         command = "${pkgs.fish}/bin/fish --interactive --login";
@@ -72,7 +73,6 @@
         macos-titlebar-style = "tabs";
         macos-window-shadow = false;
         maximize = true;
-        quit-after-last-window-closed = true;
         shell-integration-features = "no-cursor";
         window-colorspace = "display-p3";
         window-padding-balance = true;
@@ -104,6 +104,12 @@
         ];
         selection-background = "#283457";
         selection-foreground = "#c0caf5";
+
+        # Keybinds
+        keybind = [
+          "global:cmd+backquote=toggle_quick_terminal"
+          "global:shift+alt+e=new_window"
+        ];
       };
     };
     git = {
