@@ -8,5 +8,6 @@
   };
   fonts.packages = [
     pkgs.ibm-plex
+    pkgs.newcomputermodern
   ];
 }
