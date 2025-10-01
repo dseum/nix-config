@@ -191,14 +191,14 @@ in
         autohide-delay = 0.0;
         autohide-time-modifier = 0.0;
         persistent-apps = [
-          "${config.users.users.${user}.home}/Applications/Nix Apps/Google Chrome.app"
+          "/Applications/Nix Apps/Google Chrome.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Todoist.app"
-          "${config.users.users.${user}.home}/Applications/Nix Apps/Spotify.app"
+          "/Applications/Nix Apps/Spotify.app"
           "/Applications/Ghostty.app"
           "${config.users.users.${user}.home}/Applications/Nix Apps/Visual Studio Code.app"
-          "${config.users.users.${user}.home}/Applications/Nix Apps/Slack.app"
+          "/Applications/Nix Apps/Slack.app"
           "/Applications/KakaoTalk.app"
           "/Applications/WhatsApp.app"
           "/Applications/Messenger.app"

@@ -9,7 +9,6 @@
   pkgs.fzf
   pkgs.gnumake
   pkgs.go
-  pkgs.google-chrome
   pkgs.jq
   pkgs.luarocks
   pkgs.mupdf
@@ -23,8 +22,6 @@
   pkgs.R
   pkgs.ripgrep
   pkgs.rustup
-  pkgs.slack
-  pkgs.spotify
   pkgs.tex-fmt
   pkgs.texliveFull
   pkgs.tmux
