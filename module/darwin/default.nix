@@ -108,12 +108,13 @@ in
             ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Nix Apps") (
               builtins.filter (u: builtins.hasAttr u config.home-manager.users) users
             ));
+            iconDir = (targetDir + "/module/darwin/icon");
           in
           (builtins.map (p: ''
             echo "settings icons in ${p}..."
             for appPath in "${p}/"*.app; do
               appName=$(basename "$appPath" .app)
-              iconPath="${./icon}/''${appName}.icns"
+              iconPath="${iconDir}/''${appName}.icns"
 
               if [ -f "$iconPath" ]; then
                 osascript \
