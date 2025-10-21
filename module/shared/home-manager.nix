@@ -116,15 +116,17 @@
     };
     git = {
       enable = true;
-      userName = "dseum";
-      userEmail = "me@denniseum.com";
-      extraConfig = {
-        init.defaultBranch = "main";
+      settings = {
         core = {
-          editor = "nvim";
           autocrlf = "input";
+          editor = "nvim";
         };
+        init.defaultBranch = "main";
         pull.rebase = true;
+        user = {
+          email = "me@denniseum.com";
+          name = "dseum";
+        };
       };
     };
     neovim = {
