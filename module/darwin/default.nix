@@ -85,7 +85,6 @@ in
     display = 15;
   };
   programs = {
-    _1password-gui.enable = false;
     fish.enable = true;
     zsh.enable = true;
   };
