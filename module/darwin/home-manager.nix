@@ -24,49 +24,7 @@
         imports = [
           ../shared/home-manager.nix
         ];
-        home = {
-          activation.linkApps = lib.hm.dag.entryAfter [ "installPackages" ] (
-            let
-              applications = pkgs.buildEnv {
-                name = "user-applications";
-                paths = config.home.packages;
-                pathsToLink = "/Applications";
-              };
-            in
-            ''
-              echo "setting up ~/Applications/Nix Apps..." >&2
-
-              ourLink () {
-                local link
-                link=$(readlink "$1")
-                [ -L "$1" ] && [ "''${link#*-}" = 'user-applications/Applications' ]
-              }
-
-              targetFolder='Applications/Nix Apps'
-
-              if [ -e "$targetFolder" ] && ourLink "$targetFolder"; then
-                rm "$targetFolder"
-              fi
-
-              mkdir -p "$targetFolder"
-
-              rsyncFlags=(
-                --archive
-                --checksum
-                --chmod=-w
-                --chown=$USER:staff
-                --copy-unsafe-links
-                --delete
-                --exclude=$'Icon\r'
-                --no-group
-                --no-owner
-              )
-
-              ${lib.getExe pkgs.rsync} "''${rsyncFlags[@]}" ${applications}/Applications/ "$targetFolder"
-            ''
-          );
-          packages = pkgs.callPackage ./packages.nix { inherit pkgs; };
-        };
+        home.packages = pkgs.callPackage ./packages.nix { inherit pkgs; };
         programs.ghostty.package = null;
         targets.darwin.linkApps.enable = false;
         xdg.configFile."skhd/skhdrc" =
@@ -116,10 +74,10 @@
 
               shift + lalt - m : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" elif .type == "bsp" then "float" else "stack" end')
 
-              shift + lalt - 1 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 0" --new-window
-              shift + lalt - 2 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window
-              shift + lalt - 3 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 2" --new-window
-              shift + lalt - 4 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 3" --new-window
+              shift + lalt - 1 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 0" --new-window
+              shift + lalt - 2 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 1" --new-window
+              shift + lalt - 3 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 2" --new-window
+              shift + lalt - 4 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 3" --new-window
 
               ctrl + lalt - q : yabai --stop-service
               ctrl + lalt - s : yabai --start-service

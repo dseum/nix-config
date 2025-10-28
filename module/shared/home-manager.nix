@@ -11,7 +11,7 @@
     sessionPath = [
       "${config.xdg.configHome}/bin"
     ];
-    stateVersion = "25.05";
+    stateVersion = "25.11";
   };
   programs = {
     direnv = {
@@ -59,6 +59,7 @@
       settings = {
         # General
         auto-update = "check";
+        auto-update-channel = "tip";
         clipboard-paste-protection = false;
         clipboard-trim-trailing-spaces = true;
         command = "${pkgs.fish}/bin/fish --interactive --login";

@@ -104,7 +104,7 @@ in
             paths = [
               "/Applications/Nix Apps"
             ]
-            ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Nix Apps") (
+            ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Home Manager Apps") (
               builtins.filter (u: builtins.hasAttr u config.home-manager.users) users
             ));
             iconDir = (targetDir + "/module/darwin/icon");
@@ -191,13 +191,13 @@ in
         autohide-delay = 0.0;
         autohide-time-modifier = 0.0;
         persistent-apps = [
-          "/Applications/Nix Apps/Google Chrome.app"
+          "/Applications/Helium.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Todoist.app"
           "/Applications/Nix Apps/Spotify.app"
           "/Applications/Ghostty.app"
-          "${config.users.users.${user}.home}/Applications/Nix Apps/Visual Studio Code.app"
+          "${config.users.users.${user}.home}/Applications/Home Manager Apps/Visual Studio Code.app"
           "/Applications/Nix Apps/Slack.app"
           "/Applications/KakaoTalk.app"
           "/Applications/WhatsApp.app"
