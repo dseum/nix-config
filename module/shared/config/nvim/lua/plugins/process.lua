@@ -309,6 +309,7 @@ return {
         javascriptreact = { "prettierd" },
         json = { "prettierd" },
         jsonc = { "prettierd" },
+        just = { "just" },
         lua = { "stylua" },
         markdown = { "prettierd" },
         nix = { "nixfmt" },
