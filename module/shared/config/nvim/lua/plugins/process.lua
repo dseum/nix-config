@@ -340,9 +340,13 @@ return {
     },
   },
   {
-    "lervag/vimtex",
-    init = function()
-      vim.g.vimtex_view_method = "mupdf"
-    end,
+    "github/copilot.vim",
+    config = function()
+      vim.keymap.set('i', '<s-tab>', 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false
+      })
+      vim.g.copilot_no_tab_map = true
+    end
   },
 }
