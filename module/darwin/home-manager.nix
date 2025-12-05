@@ -78,6 +78,7 @@
               shift + lalt - 2 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 1" --new-window
               shift + lalt - 3 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 2" --new-window
               shift + lalt - 4 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 3" --new-window
+              shift + lalt - 5 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 4" --new-window
 
               ctrl + lalt - q : yabai --stop-service
               ctrl + lalt - s : yabai --start-service
