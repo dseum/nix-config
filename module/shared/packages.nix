@@ -2,6 +2,7 @@
 [
   pkgs.caddy
   pkgs.ccache
+  pkgs.claude-code
   pkgs.cmake
   pkgs.cmake-format
   pkgs.curl
