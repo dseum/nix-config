@@ -33,7 +33,6 @@
       darwinSystems = [
         "aarch64-darwin"
       ];
-      forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
       mkApp = pkgs: name: system: {
         type = "app";
         program = "${pkgs.writeScriptBin name ''
@@ -111,8 +110,7 @@
     in
     {
       apps =
-        nixpkgs.lib.genAttrs linuxSystems mkLinuxApps
-        // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
+        nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (
         system:
         nix-darwin.lib.darwinSystem {
