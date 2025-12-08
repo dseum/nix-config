@@ -152,6 +152,7 @@ return {
             },
           },
         },
+        nixd = {},
         ocamllsp = {},
         ruff = { "ruff" },
         rust_analyzer = {},

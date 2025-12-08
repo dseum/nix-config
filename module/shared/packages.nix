@@ -14,6 +14,7 @@
   pkgs.luarocks
   pkgs.mupdf
   pkgs.ninja
+  pkgs.nixd
   pkgs.nixfmt-rfc-style
   pkgs.nodejs_24
   pkgs.opam
