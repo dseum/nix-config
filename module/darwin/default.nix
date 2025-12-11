@@ -76,7 +76,6 @@ in
     hostName = "darwin";
   };
   nix.enable = false;
-  nix.package = lib.mkDefault pkgs.nix;
   nix-homebrew = {
     inherit user;
     enable = true;
