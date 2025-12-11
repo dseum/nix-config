@@ -37,7 +37,6 @@ in
     masApps = {
       "Goodnotes 6" = 1444383602;
       "KakaoTalk" = 869223134;
-      "Messenger" = 1480068668;
       "SurfShark" = 1437809329;
       "Todoist" = 585829637;
       "WhatsApp" = 310633997;
@@ -201,7 +200,6 @@ in
           "/Applications/Nix Apps/Slack.app"
           "/Applications/KakaoTalk.app"
           "/Applications/WhatsApp.app"
-          "/Applications/Messenger.app"
           "/System/Applications/System Settings.app"
         ];
         launchanim = false;
