@@ -168,6 +168,7 @@ return {
             },
           },
         },
+        ty = { cmd = { "uv", "run", "ty", "server" } },
         yamlls = { "yaml-language-server" },
         zls = { "zls" },
       }
