@@ -11,6 +11,7 @@
   pkgs.gnumake
   pkgs.go
   pkgs.jq
+  pkgs.jujutsu
   pkgs.luarocks
   pkgs.mupdf
   pkgs.ninja
