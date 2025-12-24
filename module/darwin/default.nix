@@ -95,46 +95,6 @@ in
     };
   };
   system = {
-    activationScripts = {
-      postActivation.text = lib.mkAfter (
-        lib.concatStringsSep "\n" (
-          let
-            users = builtins.attrNames config.users.users;
-            paths = [
-              "/Applications/Nix Apps"
-            ]
-            ++ (builtins.map (u: "${config.users.users.${u}.home}/Applications/Home Manager Apps") (
-              builtins.filter (u: builtins.hasAttr u config.home-manager.users) users
-            ));
-            iconDir = (targetDir + "/module/darwin/icon");
-          in
-          (builtins.map (p: ''
-            echo "settings icons in ${p}..."
-            for appPath in "${p}/"*.app; do
-              appName=$(basename "$appPath" .app)
-              iconPath="${iconDir}/''${appName}.icns"
-
-              if [ -f "$iconPath" ]; then
-                osascript \
-                  -e "use framework \"Cocoa\"" \
-                  -e "set sourcePath to \"$iconPath\"" \
-                  -e "set destPath to \"$appPath\"" \
-                  -e "set imageData to (current application's NSImage's alloc()'s initWithContentsOfFile:sourcePath)" \
-                  -e "(current application's NSWorkspace's sharedWorkspace()'s setIcon:imageData forFile:destPath options:2)" \
-                  >/dev/null
-              fi
-            done
-          '') paths)
-          ++ [
-            ''
-              echo "uncaching icons..."
-              rm -rf /Library/Caches/com.apple.iconservices.store 2>/dev/null
-              killall Dock
-            ''
-          ]
-        )
-      );
-    };
     checks.text = lib.mkAfter ''
       ensureAppManagement() {
         for appBundle in /Applications/Nix\ Apps/*.app; do
