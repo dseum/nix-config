@@ -18,6 +18,7 @@
   pkgs.nixd
   pkgs.nixfmt-rfc-style
   pkgs.nodejs_24
+  pkgs.obsidian
   pkgs.opam
   pkgs.pnpm
   pkgs.python313
@@ -27,8 +28,10 @@
   pkgs.rustup
   pkgs.tex-fmt
   pkgs.texliveFull
+  pkgs.tinymist
   pkgs.tmux
   pkgs.tree-sitter
+  pkgs.typst
   pkgs.uv
   pkgs.wget
   pkgs.zig
