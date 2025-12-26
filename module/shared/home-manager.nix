@@ -206,6 +206,7 @@
         extensions = with pkgs.nix-vscode-extensions.vscode-marketplace; [
           bradlc.vscode-tailwindcss
           charliermarsh.ruff
+          dart-code.dart-code
           dbaeumer.vscode-eslint
           docker.docker
           enkia.tokyo-night
