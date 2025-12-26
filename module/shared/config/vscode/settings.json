@@ -1,7 +1,4 @@
 {
-  "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
-  },
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2
@@ -118,15 +115,6 @@
   "git.decorations.enabled": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "always",
-  "github.copilot.enable": {
-    "*": true,
-    "cpp": false,
-    "latex": true,
-    "markdown": false,
-    "plaintext": false,
-    "python": false,
-    "scminput": false
-  },
   "latex-workshop.formatting.latex": "tex-fmt",
   "latex-workshop.latex.autoBuild.run": "onSave",
   "latex-workshop.latex.autoClean.run": "onBuilt",
