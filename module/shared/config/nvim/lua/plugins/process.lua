@@ -168,7 +168,9 @@ return {
             },
           },
         },
-        ty = { cmd = { "uv", "run", "ty", "server" } },
+        ty = {
+          cmd = { 'uv', 'run', 'ty', 'server' }
+        },
         yamlls = { "yaml-language-server" },
         zls = { "zls" },
       }
@@ -316,7 +318,11 @@ return {
         markdown = { "prettierd" },
         nix = { "nixfmt" },
         ocaml = { "ocamlformat" },
-        python = { "ruff_format" },
+        python = {
+          "ruff_fix",
+          "ruff_format",
+          "ruff_organize_imports",
+        },
         rmd = { "rmd" },
         sh = { "shfmt" },
         svelte = { "prettierd" },
