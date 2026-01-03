@@ -5,6 +5,7 @@
   pkgs.claude-code
   pkgs.cmake
   pkgs.cmake-format
+  pkgs.codex
   pkgs.curl
   pkgs.fd
   pkgs.fzf
