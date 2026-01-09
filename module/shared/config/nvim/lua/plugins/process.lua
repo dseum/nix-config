@@ -62,6 +62,37 @@ return {
     end,
   },
   {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("nvim-treesitter-textobjects").setup {
+        select = {
+          lookahead = true,
+          selection_modes = {
+            ["@parameter.outer"] = "v",
+            ["@function.outer"] = "V",
+          },
+          include_surrounding_whitespace = false,
+        },
+      }
+
+      local select = require("nvim-treesitter-textobjects.select").select_textobject
+      local map = function(keys, query, group)
+        group = group or "textobjects"
+        vim.keymap.set({ "x", "o" }, keys, function()
+          select(query, group)
+        end)
+      end
+
+      map("af", "@function.outer")
+      map("if", "@function.inner")
+      map("ac", "@class.outer")
+      map("ic", "@class.inner")
+      map("as", "@local.scope", "locals")
+    end,
+  },
+  {
     "saghen/blink.cmp",
     dependenices = {
       "folke/lazydev.nvim",

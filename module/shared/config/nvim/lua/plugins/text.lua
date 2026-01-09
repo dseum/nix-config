@@ -1,6 +1,11 @@
 return {
   { "nvim-mini/mini.surround", opts = {} },
-  { "nvim-mini/mini.ai",       opts = {} },
+  {
+    "nvim-mini/mini.ai",
+    opts = {
+      n_lines = 1000,
+    }
+  },
   {
     "nvim-mini/mini.indentscope",
     config = function()
