@@ -93,6 +93,17 @@ return {
     end,
   },
   {
+    "nvim-treesitter/nvim-treesitter-context",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = "BufReadPost",
+    opts = {
+      enable = true,
+      max_lines = 3,
+      multiline_threshold = 5,
+      mode = "cursor",
+    },
+  },
+  {
     "saghen/blink.cmp",
     dependenices = {
       "folke/lazydev.nvim",
