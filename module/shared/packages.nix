@@ -17,7 +17,7 @@
   pkgs.mupdf
   pkgs.ninja
   pkgs.nixd
-  pkgs.nixfmt-rfc-style
+  pkgs.nixfmt
   pkgs.nodejs_24
   pkgs.obsidian
   pkgs.opam
