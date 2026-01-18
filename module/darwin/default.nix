@@ -37,7 +37,6 @@ in
     masApps = {
       "KakaoTalk" = 869223134;
       "SurfShark" = 1437809329;
-      "Todoist" = 585829637;
       "WhatsApp" = 310633997;
     };
     onActivation.autoUpdate = true;
@@ -104,7 +103,6 @@ in
           "/Applications/Helium.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
-          "/Applications/Todoist.app"
           "/Applications/Nix Apps/Spotify.app"
           "/Applications/Ghostty.app"
           "${config.users.users.${user}.home}/Applications/Home Manager Apps/Visual Studio Code.app"
