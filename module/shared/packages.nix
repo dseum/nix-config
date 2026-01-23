@@ -21,6 +21,7 @@
   pkgs.nodejs_24
   pkgs.obsidian
   pkgs.opam
+  pkgs.opencode
   pkgs.pnpm
   pkgs.python313
   pkgs.qemu
