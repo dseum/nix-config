@@ -191,19 +191,30 @@ return {
   {
     "tpope/vim-fugitive",
     config = function()
-      vim.keymap.set("n", "gn", function()
+      local function close_fugitive_win(filetype)
+        local filetype = filetype or "fugitive"
         for _, win in ipairs(vim.api.nvim_list_wins()) do
-          if vim.fn.getwinvar(win, "fugitive_status") ~= "" then
-            vim.api.nvim_win_call(win, function()
-              vim.cmd.close()
-            end)
-            return
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.api.nvim_get_option_value("filetype", { buf = buf }) == filetype then
+            vim.api.nvim_win_close(win, false)
+            return true
           end
+        end
+      end
+      vim.keymap.set("n", "gn", function()
+        if close_fugitive_win() then
+          return
         end
         vim.cmd("Git")
       end)
       vim.keymap.set("n", "gN", function()
         vim.cmd("Git")
+      end)
+      vim.keymap.set("n", "gb", function()
+        if close_fugitive_win("fugitiveblame") then
+          return
+        end
+        vim.cmd("Git blame")
       end)
     end,
   },
