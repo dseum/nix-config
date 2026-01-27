@@ -29,6 +29,23 @@ return {
     end,
   },
   {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      search = {
+        multi_window = false,
+        incremental = false,
+      },
+      modes = {
+        search = {
+          enabled = true,
+          highlight = { backdrop = true },
+          jump = { history = false, register = true, nohlsearch = true },
+        },
+      }
+    },
+  },
+  {
     "tpope/vim-sleuth",
   },
 }
