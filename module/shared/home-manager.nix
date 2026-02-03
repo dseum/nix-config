@@ -14,6 +14,23 @@
     stateVersion = "25.11";
   };
   programs = {
+    codex = {
+      enable = true;
+      custom-instructions = ''
+        - Only add code comments when realistically helpful.
+      '';
+      settings = {
+        approval_policy = "untrusted";
+        cli_auth_credentials_store = "keyring";
+        web_search = "live";
+        feedback.enabled = false;
+        notify = [ "codex-notify" ];
+        tui.notifications = [
+          "agent-turn-complete"
+          "approval-requested"
+        ];
+      };
+    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;

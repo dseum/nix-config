@@ -1,0 +1,37 @@
+#!/bin/sh
+
+set -e
+
+json="${1:-}"
+[ -z "$json" ] && exit 0
+
+event_type=$(printf '%s' "$json" | jq -r '.type // empty')
+last_msg=$(printf '%s' "$json" | jq -r '.["last-assistant-message"] // empty')
+title="Codex"
+
+case "$event_type" in
+    agent-turn-complete)
+        body="${last_msg:-Turn complete}"
+        ;;
+    approval-requested)
+        body="Approval needed"
+        ;;
+    *)
+        body="${event_type:-unknown event}"
+        ;;
+esac
+
+# macOS
+if [ "$(uname -s)" = "Darwin" ]; then
+    osascript -e "display notification \"$body\" with title \"$title\"" 2>/dev/null
+    exit 0
+fi
+
+# Linux
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send "$title" "$body"
+    exit 0
+fi
+
+# Terminal bell
+printf '\a'
