@@ -26,6 +26,7 @@
     }:
     let
       user = "denniseum";
+      localModule = ./local.nix;
       linuxSystems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -123,6 +124,7 @@
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
             ./module/darwin
+            (if builtins.pathExists localModule then localModule else {})
           ];
         }
       );
@@ -137,6 +139,7 @@
           modules = [
             home-manager.nixosModules.home-manager
             ./module/nixos
+            (if builtins.pathExists localModule then localModule else {})
           ];
         }
       );

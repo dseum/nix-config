@@ -20,6 +20,18 @@ nix run <nix-config>#build-switch
 
 That's it!
 
+## Local Module
+
+This config automatically loads a local module for changes specific to your machine. E.g., in the root directory of this repository, create a file named `local.nix` that contains:
+
+```nix
+{ lib, pkgs, ... }:
+{
+  environment.systemPackages = [ ];
+  homebrew.brews = lib.mkAfter [ ];
+}
+```
+
 ## Acknowledgements
 
 Thanks to [dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config) for the starter that began this project!
