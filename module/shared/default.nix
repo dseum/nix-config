@@ -3,6 +3,9 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
+      permittedInsecurePackages = [
+        "google-chrome-144.0.7559.97"
+      ];
     };
     overlays = [
       nix-vscode-extensions.overlays.default
