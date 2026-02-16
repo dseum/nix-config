@@ -50,14 +50,7 @@ in
     channel.enable = false;
     settings = {
       allowed-users = [ "${user}" ];
-      trusted-users = [
-        "@admin"
-        "${user}"
-      ];
     };
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
   };
   powerManagement.cpuFreqGovernor = "schedutil";
   programs = {

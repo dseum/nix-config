@@ -1,5 +1,31 @@
-{ pkgs, nix-vscode-extensions, ... }:
 {
+  pkgs,
+  nix-vscode-extensions,
+  user,
+  ...
+}:
+{
+  nix = {
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
+    };
+    optimise.automatic = true;
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "@admin"
+        "${user}"
+      ];
+      warn-dirty = false;
+      show-trace = true;
+      keep-outputs = true;
+      keep-derivations = true;
+    };
+  };
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -15,7 +41,7 @@
             if (prev.stdenv.isDarwin && prev.stdenv.isAarch64) then
               prev.fetchurl {
                 url = "https://web.archive.org/web/20260213045156/http://download.scdn.co/SpotifyARM64.dmg";
-                hash = "sha256-cslyAkpAXsVvIfx7tsDpDxnSjidH2uHCeFBq3pXFaMo=";
+                hash = "sha256-i/+w9s/3ZQtLAEMVTcLaV69fhpKq2rT5+WoBzer0ahY=";
               }
             else
               oldAttrs.src;
