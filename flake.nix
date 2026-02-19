@@ -124,7 +124,7 @@
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
             ./module/darwin
-            (if builtins.pathExists localModule then localModule else {})
+            (if builtins.pathExists localModule then localModule else { })
           ];
         }
       );
@@ -139,7 +139,7 @@
           modules = [
             home-manager.nixosModules.home-manager
             ./module/nixos
-            (if builtins.pathExists localModule then localModule else {})
+            (if builtins.pathExists localModule then localModule else { })
           ];
         }
       );
