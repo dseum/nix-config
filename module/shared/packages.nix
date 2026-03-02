@@ -10,6 +10,7 @@
   pkgs.fzf
   pkgs.gnumake
   pkgs.go
+  pkgs.hyperfine
   pkgs.jq
   pkgs.jujutsu
   pkgs.luarocks
