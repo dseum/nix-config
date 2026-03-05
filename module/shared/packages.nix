@@ -13,6 +13,7 @@
   pkgs.hyperfine
   pkgs.jq
   pkgs.jujutsu
+  pkgs.kind
   pkgs.luarocks
   pkgs.mupdf
   pkgs.ninja
