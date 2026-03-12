@@ -30,6 +30,15 @@
         xdg.configFile."skhd/skhdrc" =
           let
             effect = ./config/skhd/effect;
+            ghostty-new-window = pkgs.writeScriptBin "ghostty-new-window" ''
+              #!/usr/bin/osascript
+              tell application "System Events" to set isRunning to (name of processes) contains "Ghostty"
+              if isRunning then
+                tell application "Ghostty" to set win to new window
+              else
+                tell application "Ghostty" to activate
+              end if
+            '';
           in
           {
             text = ''
@@ -73,6 +82,8 @@
               lalt - r : ${effect} 10
 
               shift + lalt - m : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" elif .type == "bsp" then "float" else "stack" end')
+
+              shift + lalt - e : ${ghostty-new-window}/bin/ghostty-new-window
 
               shift + lalt - 1 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 0" --new-window
               shift + lalt - 2 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 1" --new-window

@@ -128,7 +128,6 @@
         # Keybinds
         keybind = [
           "global:cmd+backquote=toggle_quick_terminal"
-          "global:shift+alt+e=new_window"
           "shift+enter=text:\\x1b\\r"
         ];
       };
