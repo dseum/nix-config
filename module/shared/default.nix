@@ -12,6 +12,7 @@
     };
     optimise.automatic = true;
     settings = {
+      download-buffer-size = 268435456; # 256 MiB
       experimental-features = [
         "nix-command"
         "flakes"
