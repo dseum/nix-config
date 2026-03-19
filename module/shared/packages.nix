@@ -8,6 +8,7 @@
   pkgs.curlFull
   pkgs.fd
   pkgs.fzf
+  pkgs.gh
   pkgs.gnumake
   pkgs.go
   pkgs.hyperfine
