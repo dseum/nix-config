@@ -1,5 +1,6 @@
 { pkgs }:
 [
+  pkgs.bottom
   pkgs.ccache
   pkgs.claude-code
   pkgs.cmake
