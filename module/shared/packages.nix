@@ -1,6 +1,5 @@
 { pkgs }:
 [
-  pkgs.caddy
   pkgs.ccache
   pkgs.claude-code
   pkgs.cmake
@@ -21,9 +20,7 @@
   pkgs.nixd
   pkgs.nixfmt
   pkgs.nodejs_24
-  pkgs.obsidian
   pkgs.opam
-  pkgs.opencode
   pkgs.pnpm
   pkgs.python313
   pkgs.qemu
