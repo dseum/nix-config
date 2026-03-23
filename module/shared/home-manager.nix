@@ -17,18 +17,27 @@
     codex = {
       enable = true;
       custom-instructions = ''
-        - Only add code comments when realistically helpful.
+        - Only add code comments when realistically helpful. Noisy comments are always worse than no comments.
       '';
       settings = {
         approval_policy = "untrusted";
         cli_auth_credentials_store = "keyring";
-        web_search = "live";
         feedback.enabled = false;
+        model = "gpt-5.4";
+        model_reasoning_effort = "high";
+        model_reasoning_summary = "concise";
+        model_verbosity = "low";
         notify = [ "codex-notify" ];
-        tui.notifications = [
-          "agent-turn-complete"
-          "approval-requested"
-        ];
+        personality = "none";
+        plan_mode_reasoning_effort = "high";
+        tui = {
+          notification_method = "auto";
+          notifications = [
+            "agent-turn-complete"
+            "approval-requested"
+          ];
+        };
+        web_search = "live";
       };
     };
     direnv = {
