@@ -17,7 +17,9 @@
     codex = {
       enable = true;
       custom-instructions = ''
-        - Only add code comments when realistically helpful. Noisy comments are always worse than no comments.
+        - In any language you use, use correct, modern, elegant, idiomatic syntax. Code aesthetics is critical for maintainability and scalability
+        - Only add code comments when realistically helpful. Noisy comments are always worse than no comments
+        - Do not overly abstract code into functions only used once or with a trivial purpose. Non-local control flow is always more difficult to understand than control flow that is all local 
       '';
       settings = {
         approval_policy = "untrusted";
