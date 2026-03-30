@@ -6,7 +6,6 @@
   pkgs.cmake
   pkgs.cmake-format
   pkgs.curlFull
-  pkgs.diskus
   pkgs.fd
   pkgs.fzf
   pkgs.gh
