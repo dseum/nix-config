@@ -91,6 +91,8 @@
               shift + lalt - 4 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 3" --new-window
               shift + lalt - 5 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 4" --new-window
 
+              ctrl + lcmd - q : pmset sleepnow
+
               ctrl + lalt - q : yabai --stop-service
               ctrl + lalt - s : yabai --start-service
               ctrl + lalt - r : yabai --restart-service
