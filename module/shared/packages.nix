@@ -2,7 +2,6 @@
 [
   pkgs.bottom
   pkgs.ccache
-  pkgs.claude-code
   pkgs.cmake
   pkgs.cmake-format
   pkgs.curlFull

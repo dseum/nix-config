@@ -14,14 +14,13 @@
     stateVersion = "25.11";
   };
   programs = {
+    claude-code = {
+      enable = true;
+      memory.source = ./config/claude-code/CLAUDE.md;
+    };
     codex = {
       enable = true;
-      custom-instructions = ''
-        - In any language you use, use correct, modern, elegant, idiomatic syntax. Code aesthetics is critical for maintainability and scalability
-        - Only add code comments when realistically helpful. Noisy comments are always worse than no comments
-        - Do not overly abstract code into functions only used once or with a trivial purpose. Non-local control flow is always more difficult to understand than control flow that is all local, so it is better to inline logic rather than abstracting it into a function call 
-        - Make sure to ask questions if you are uncertain about anything
-      '';
+      custom-instructions = builtins.readFile ./config/codex/AGENTS.md;
       settings = {
         approval_policy = "untrusted";
         cli_auth_credentials_store = "keyring";
@@ -162,6 +161,8 @@
     neovim = {
       enable = true;
       defaultEditor = true;
+      withPython3 = false; # TODO: Remove when moving to 26.05
+      withRuby = false; # TODO: Remove when moving to 26.05
     };
     tmux = {
       enable = true;
