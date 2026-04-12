@@ -16,11 +16,11 @@
   programs = {
     claude-code = {
       enable = true;
-      memory.source = ./config/claude-code/CLAUDE.md;
+      context = ./config/claude-code/CLAUDE.md;
     };
     codex = {
       enable = true;
-      custom-instructions = builtins.readFile ./config/codex/AGENTS.md;
+      context = ./config/codex/AGENTS.md;
       settings = {
         approval_policy = "untrusted";
         cli_auth_credentials_store = "keyring";
