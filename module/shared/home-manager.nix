@@ -211,7 +211,7 @@
         bind % split-window -h -c "#{pane_current_path}"
         bind '"' split-window -v -c "#{pane_current_path}"
         bind X confirm-before kill-session
-        bind c new-window -c "#{pane_current_path}"
+        bind c new-window -a -c "#{pane_current_path}"
         bind h select-pane -L
         bind j select-pane -D
         bind k select-pane -U
