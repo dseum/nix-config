@@ -41,8 +41,8 @@
           src =
             if (prev.stdenv.isDarwin && prev.stdenv.isAarch64) then
               prev.fetchurl {
-                url = "https://web.archive.org/web/20260422122020/http://download.scdn.co/SpotifyARM64.dmg";
-                hash = "sha256-NHEoNIFFGMMEYDeHTmIp6dKwvs/JYocmdVEYbJsUj8c=";
+                url = "https://web.archive.org/web/20260501151114/http://download.scdn.co/SpotifyARM64.dmg";
+                hash = "sha256-rBoJ5PKge4pr90FqYwsG+6JqyKvc3sKyPXM7OXXEmz8=";
               }
             else
               oldAttrs.src;
