@@ -22,7 +22,7 @@
       enable = true;
       context = ./config/codex/AGENTS.md;
       settings = {
-        approval_policy = "untrusted";
+        approval_policy = "on-request";
         cli_auth_credentials_store = "keyring";
         feedback.enabled = false;
         model = "gpt-5.5";
