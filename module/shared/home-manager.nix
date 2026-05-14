@@ -25,7 +25,7 @@
         approval_policy = "untrusted";
         cli_auth_credentials_store = "keyring";
         feedback.enabled = false;
-        model = "gpt-5.4";
+        model = "gpt-5.5";
         model_reasoning_effort = "high";
         model_reasoning_summary = "concise";
         model_verbosity = "low";
