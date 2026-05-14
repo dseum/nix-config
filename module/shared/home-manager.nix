@@ -19,7 +19,7 @@
       context = ./config/claude-code/CLAUDE.md;
     };
     codex = {
-      enable = false;
+      enable = true;
       context = ./config/codex/AGENTS.md;
       settings = {
         approval_policy = "untrusted";
