@@ -51,10 +51,9 @@
             ghostty-new-window = pkgs.writeScriptBin "ghostty-new-window" ''
               #!/usr/bin/osascript
               tell application "System Events" to set isRunning to (name of processes) contains "Ghostty"
+              tell application "Ghostty" to activate
               if isRunning then
-                tell application "Ghostty" to set win to new window
-              else
-                tell application "Ghostty" to activate
+                tell application "System Events" to keystroke "n" using command down
               end if
             '';
           in
