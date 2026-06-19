@@ -27,6 +27,24 @@
         home.packages = pkgs.callPackage ./packages.nix { inherit pkgs; };
         programs.ghostty.package = null;
         targets.darwin.linkApps.enable = false;
+        launchd.agents.nix-user-gc = {
+          enable = true;
+          config = {
+            ProgramArguments = [
+              "/run/current-system/sw/bin/nix-collect-garbage"
+              "--delete-older-than"
+              "7d"
+            ];
+            StartCalendarInterval = [
+              {
+                Hour = 3;
+                Minute = 0;
+              }
+            ];
+            StandardOutPath = "${config.home.homeDirectory}/Library/Logs/nix-user-gc.log";
+            StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/nix-user-gc.log";
+          };
+        };
         xdg.configFile."skhd/skhdrc" =
           let
             effect = ./config/skhd/effect;
