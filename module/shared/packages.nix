@@ -19,7 +19,7 @@
   pkgs.ninja
   pkgs.nixd
   pkgs.nixfmt
-  pkgs.nodejs_26
+  pkgs.nodejs
   pkgs.opam
   pkgs.pnpm
   pkgs.python313
