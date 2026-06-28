@@ -17,6 +17,7 @@
     claude-code = {
       enable = true;
       context = ./config/claude-code/CLAUDE.md;
+      settings.tui = "fullscreen";
     };
     codex = {
       enable = false;
