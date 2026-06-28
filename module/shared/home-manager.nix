@@ -11,7 +11,7 @@
     sessionPath = [
       "${config.xdg.configHome}/bin"
     ];
-    stateVersion = "25.11";
+    stateVersion = "26.05";
   };
   programs = {
     claude-code = {
@@ -162,8 +162,6 @@
     neovim = {
       enable = true;
       defaultEditor = true;
-      withPython3 = false; # TODO: Remove when moving to 26.05
-      withRuby = false; # TODO: Remove when moving to 26.05
     };
     tmux = {
       enable = true;

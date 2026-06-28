@@ -26,6 +26,7 @@
         ];
         home.packages = pkgs.callPackage ./packages.nix { inherit pkgs; };
         programs.ghostty.package = null;
+        programs.man.generateCaches = false; # No man package on Darwin in 26.05; caches are a no-op
         targets.darwin.linkApps.enable = false;
         launchd.agents.nix-user-gc = {
           enable = true;
