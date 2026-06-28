@@ -50,10 +50,10 @@
             effect = ./config/skhd/effect;
             ghostty-new-window = pkgs.writeScriptBin "ghostty-new-window" ''
               #!/usr/bin/osascript
-              tell application "System Events" to set isRunning to (name of processes) contains "Ghostty"
-              tell application "Ghostty" to activate
-              if isRunning then
-                tell application "System Events" to keystroke "n" using command down
+              if application "Ghostty" is running then
+                tell application "Ghostty" to new window
+              else
+                tell application "Ghostty" to activate
               end if
             '';
           in
