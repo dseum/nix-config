@@ -15,6 +15,7 @@ in
     ../shared
     ./home-manager.nix
   ];
+  documentation.enable = false; # FIXME: Once https://github.com/nix-darwin/nix-darwin/issues/1817 is resolved
   environment = {
     etc."pam.d/sudo_local".text = ''
       auth       optional       ${pkgs.pam-reattach}/lib/pam/pam_reattach.so ignore_ssh
@@ -170,6 +171,7 @@ in
     };
     primaryUser = user;
     stateVersion = 6;
+    tools.darwin-uninstaller.enable = false; # FIXME: Once https://github.com/nix-darwin/nix-darwin/issues/1817 is resolved
   };
   users.users.${user} = {
     name = "${user}";
