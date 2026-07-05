@@ -11,7 +11,7 @@
   "mini.diff": { "branch": "main", "commit": "0743d26bd858ebe32efcf5c86a91a422a000f273" },
   "mini.indentscope": { "branch": "main", "commit": "942bc13ccc624c825b086373b8bd6787b98245c8" },
   "mini.surround": { "branch": "main", "commit": "a2f644f3759edd3d3f8b6a6d55378408bfe6d290" },
-  "nvim-lspconfig": { "branch": "master", "commit": "292f44408498103c47996ff5c18fd366293840d8" },
+  "nvim-lspconfig": { "branch": "master", "commit": "d224a1920728ba129880efc700d4a0180ac4ecbb" },
   "nvim-treesitter": { "branch": "main", "commit": "4916d6592ede8c07973490d9322f187e07dfefac" },
   "nvim-treesitter-context": { "branch": "master", "commit": "b311b30818951d01f7b4bf650521b868b3fece16" },
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "851e865342e5a4cb1ae23d31caf6e991e1c99f1e" },
