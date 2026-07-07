@@ -34,11 +34,6 @@ in
       "ghostty"
       "orbstack"
     ];
-    # masApps = {
-    #   "KakaoTalk" = 869223134;
-    #   "SurfShark" = 1437809329;
-    #   "WhatsApp" = 310633997;
-    # };
     onActivation.autoUpdate = true;
     onActivation.cleanup = "zap";
     onActivation.upgrade = true;
@@ -117,7 +112,6 @@ in
           "/Applications/Ghostty.app"
           "${config.users.users.${user}.home}/Applications/Home Manager Apps/Visual Studio Code.app"
           "/Applications/Nix Apps/Slack.app"
-          "/Applications/KakaoTalk.app"
           "/Applications/WhatsApp.app"
           "/System/Applications/System Settings.app"
         ];
