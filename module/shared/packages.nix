@@ -19,9 +19,9 @@
   pkgs.ninja
   pkgs.nixd
   pkgs.nixfmt
-  pkgs.nodejs_22
+  pkgs.nodejs_26
   pkgs.opam
-  (pkgs.pnpm_11.override { nodejs-slim = pkgs.nodejs-slim_22; })
+  (pkgs.pnpm_11.override { nodejs-slim = pkgs.nodejs-slim_26; })
   pkgs.python313
   pkgs.qemu
   pkgs.R
