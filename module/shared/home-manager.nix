@@ -20,19 +20,20 @@
       settings.tui = "fullscreen";
     };
     codex = {
-      enable = false;
+      enable = true;
       context = ./config/codex/AGENTS.md;
       settings = {
-        approval_policy = "on-request";
+        approval_policy = "never";
         cli_auth_credentials_store = "keyring";
         feedback.enabled = false;
-        model = "gpt-5.5";
-        model_reasoning_effort = "high";
+        model = "gpt-5.6-sol";
+        model_reasoning_effort = "xhigh";
         model_reasoning_summary = "concise";
         model_verbosity = "low";
         notify = [ "codex-notify" ];
         personality = "none";
-        plan_mode_reasoning_effort = "high";
+        plan_mode_reasoning_effort = "xhigh";
+        sandbox_mode = "danger-full-access";
         tui = {
           notification_method = "auto";
           notifications = [
