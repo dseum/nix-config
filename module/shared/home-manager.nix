@@ -8,6 +8,9 @@
 {
   home = {
     enableNixpkgsReleaseCheck = false;
+    file.".codex/config.toml".source = config.lib.file.mkOutOfStoreSymlink (
+      targetDir + "/module/shared/config/codex/config.toml"
+    );
     sessionPath = [
       "${config.xdg.configHome}/bin"
     ];
@@ -21,28 +24,8 @@
     };
     codex = {
       enable = true;
+      package = null;
       context = ./config/codex/AGENTS.md;
-      settings = {
-        approval_policy = "never";
-        cli_auth_credentials_store = "keyring";
-        feedback.enabled = false;
-        model = "gpt-5.6-sol";
-        model_reasoning_effort = "xhigh";
-        model_reasoning_summary = "concise";
-        model_verbosity = "low";
-        notify = [ "codex-notify" ];
-        personality = "none";
-        plan_mode_reasoning_effort = "xhigh";
-        sandbox_mode = "danger-full-access";
-        tui = {
-          notification_method = "auto";
-          notifications = [
-            "agent-turn-complete"
-            "approval-requested"
-          ];
-        };
-        web_search = "live";
-      };
     };
     direnv = {
       enable = true;
