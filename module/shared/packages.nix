@@ -2,6 +2,7 @@
 [
   pkgs.bottom
   pkgs.ccache
+  pkgs.cloudflared
   pkgs.cmake
   pkgs.cmake-format
   pkgs.curlFull
