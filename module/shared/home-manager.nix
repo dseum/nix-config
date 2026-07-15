@@ -20,7 +20,14 @@
     claude-code = {
       enable = true;
       context = ./config/claude-code/CLAUDE.md;
-      settings.tui = "fullscreen";
+      settings = {
+        tui = "fullscreen";
+        extraKnownMarketplaces.svelte.source = {
+          source = "github";
+          repo = "sveltejs/ai-tools";
+        };
+        enabledPlugins."svelte@svelte" = true;
+      };
     };
     codex = {
       enable = true;
