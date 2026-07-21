@@ -36,6 +36,22 @@
     };
     overlays = [
       nix-vscode-extensions.overlays.default
+      # https://github.com/NixOS/nixpkgs/pull/543825 — remove once merged and pulled in.
+      # vscode >= 1.129.0 on Darwin ships node_modules under node_modules.asar.unpacked,
+      # but generic.nix still points postPatch's ripgrep chmod at the plain node_modules
+      # path, so the build fails. Rewrite the path to match the PR.
+      (final: prev: {
+        vscode =
+          if prev.stdenv.hostPlatform.isDarwin && prev.lib.versionAtLeast prev.vscode.version "1.129.0" then
+            prev.vscode.overrideAttrs (oldAttrs: {
+              postPatch = builtins.replaceStrings
+                [ "Contents/Resources/app/node_modules/" ]
+                [ "Contents/Resources/app/node_modules.asar.unpacked/" ]
+                oldAttrs.postPatch;
+            })
+          else
+            prev.vscode;
+      })
       (final: prev: {
         spotify = prev.spotify.overrideAttrs (oldAttrs: {
           src =
