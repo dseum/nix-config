@@ -48,14 +48,10 @@ in
   programs = {
     claude-code = {
       enable = true;
-      context = ./config/claude-code/CLAUDE.md;
+      context = ./config/agents/AGENTS.md;
       skills = {
-        review-abstractions = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-abstractions/SKILL.md"
-        );
-        review-comments = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-comments/SKILL.md"
-        );
+        review-abstractions = ./config/agents/skills/review-abstractions;
+        review-comments = ./config/agents/skills/review-comments;
       };
       settings = {
         tui = "fullscreen";
@@ -188,14 +184,10 @@ in
     };
     opencode = {
       enable = true;
-      context = ./config/opencode/AGENTS.md;
+      context = ./config/agents/AGENTS.md;
       skills = {
-        review-abstractions = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-abstractions/SKILL.md"
-        );
-        review-comments = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-comments/SKILL.md"
-        );
+        review-abstractions = ./config/agents/skills/review-abstractions;
+        review-comments = ./config/agents/skills/review-comments;
       };
       settings = {
         autoupdate = false;
