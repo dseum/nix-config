@@ -39,9 +39,6 @@ in
   home = {
     enableNixpkgsReleaseCheck = false;
     packages = [ age-secret ];
-    file.".codex/config.toml".source = config.lib.file.mkOutOfStoreSymlink (
-      targetDir + "/module/shared/config/codex/config.toml"
-    );
     sessionPath = [
       "${config.xdg.configHome}/bin"
     ];
@@ -52,6 +49,14 @@ in
     claude-code = {
       enable = true;
       context = ./config/claude-code/CLAUDE.md;
+      skills = {
+        review-abstractions = config.lib.file.mkOutOfStoreSymlink (
+          targetDir + "/module/shared/config/agents/skills/review-abstractions"
+        );
+        review-comments = config.lib.file.mkOutOfStoreSymlink (
+          targetDir + "/module/shared/config/agents/skills/review-comments"
+        );
+      };
       settings = {
         tui = "fullscreen";
         extraKnownMarketplaces.svelte.source = {
@@ -60,11 +65,6 @@ in
         };
         enabledPlugins."svelte@svelte" = true;
       };
-    };
-    codex = {
-      enable = true;
-      package = null;
-      context = ./config/codex/AGENTS.md;
     };
     direnv = {
       enable = true;
@@ -189,6 +189,14 @@ in
     opencode = {
       enable = true;
       context = ./config/opencode/AGENTS.md;
+      skills = {
+        review-abstractions = config.lib.file.mkOutOfStoreSymlink (
+          targetDir + "/module/shared/config/agents/skills/review-abstractions"
+        );
+        review-comments = config.lib.file.mkOutOfStoreSymlink (
+          targetDir + "/module/shared/config/agents/skills/review-comments"
+        );
+      };
       settings = {
         autoupdate = false;
         permission = "allow";
