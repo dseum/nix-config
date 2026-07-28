@@ -45,6 +45,7 @@ in
     sessionPath = [
       "${config.xdg.configHome}/bin"
     ];
+    shellAliases.oc = "opencode";
     stateVersion = "26.05";
   };
   programs = {
@@ -190,7 +191,11 @@ in
       context = ./config/opencode/AGENTS.md;
       settings = {
         autoupdate = false;
+        permission = "allow";
         share = "disabled";
+      };
+      tui = {
+        plugin = [ "${config.xdg.configHome}/opencode/plugins/metrics.tsx" ];
       };
     };
     tmux = {
@@ -338,4 +343,6 @@ in
     source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/vim");
     recursive = true;
   };
+  xdg.configFile."opencode/plugins/metrics.tsx".source =
+    config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/opencode/plugins/metrics.tsx");
 }

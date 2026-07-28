@@ -64,7 +64,17 @@ Example `local.nix` wiring secrets into an opencode provider (one Modal endpoint
           "Modal-Secret" = "{file:${config.age.secrets.modal-token-secret.path}}";
         };
       };
-      models."moonshotai/Kimi-K3" = { name = "Kimi K3"; };
+      models."moonshotai/Kimi-K3" = {
+        name = "Kimi K3";
+        reasoning = true;
+        interleaved.field = "reasoning_content";
+        limit = { context = 1048576; output = 131072; };
+        variants = {
+          max.reasoningEffort = "max";
+          high.reasoningEffort = "high";
+          low.reasoningEffort = "low";
+        };
+      };
     };
   };
 }
