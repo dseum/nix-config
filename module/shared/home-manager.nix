@@ -51,10 +51,10 @@ in
       context = ./config/claude-code/CLAUDE.md;
       skills = {
         review-abstractions = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-abstractions"
+          targetDir + "/module/shared/config/agents/skills/review-abstractions/SKILL.md"
         );
         review-comments = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-comments"
+          targetDir + "/module/shared/config/agents/skills/review-comments/SKILL.md"
         );
       };
       settings = {
@@ -191,10 +191,10 @@ in
       context = ./config/opencode/AGENTS.md;
       skills = {
         review-abstractions = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-abstractions"
+          targetDir + "/module/shared/config/agents/skills/review-abstractions/SKILL.md"
         );
         review-comments = config.lib.file.mkOutOfStoreSymlink (
-          targetDir + "/module/shared/config/agents/skills/review-comments"
+          targetDir + "/module/shared/config/agents/skills/review-comments/SKILL.md"
         );
       };
       settings = {
