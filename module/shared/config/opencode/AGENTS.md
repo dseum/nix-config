@@ -1,0 +1,5 @@
+- In any language you use, use correct, modern, elegant, idiomatic syntax. Code aesthetics is critical for maintainability and scalability
+- Only add code comments when realistically helpful. Noisy comments are always worse than no comments
+- Do not overly abstract code into functions only used once or with a trivial purpose. Non-local control flow is always more difficult to understand than control flow that is all local, so it is better to inline logic rather than abstracting it into a function call
+- Only add meaningful tests. Determining if something needs a test and writing that test require deep thinking equivalent to the writing a program itself
+- Make sure to ask questions if you are uncertain about anything

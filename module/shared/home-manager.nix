@@ -5,9 +5,40 @@
   targetDir,
   ...
 }:
+let
+  age-secret = pkgs.writeShellApplication {
+    name = "age-secret";
+    runtimeInputs = [ pkgs.age ];
+    text = ''
+      if [ "$#" -ne 1 ]; then
+        echo "usage: age-secret <name>" >&2
+        exit 1
+      fi
+
+      name=$1
+
+      printf 'value for %s: ' "$name" >&2
+      read -rs value || true
+      printf '\n' >&2
+
+      if [ -z "$value" ]; then
+        echo "empty value" >&2
+        exit 1
+      fi
+
+      printf %s "$value" | age \
+        -R /etc/ssh/ssh_host_ed25519_key.pub \
+        -R "$HOME/.ssh/id_ed25519.pub" \
+        -o "${targetDir}/secrets/$name.age"
+
+      echo "wrote ${targetDir}/secrets/$name.age" >&2
+    '';
+  };
+in
 {
   home = {
     enableNixpkgsReleaseCheck = false;
+    packages = [ age-secret ];
     file.".codex/config.toml".source = config.lib.file.mkOutOfStoreSymlink (
       targetDir + "/module/shared/config/codex/config.toml"
     );
@@ -153,6 +184,14 @@
     neovim = {
       enable = true;
       defaultEditor = true;
+    };
+    opencode = {
+      enable = true;
+      context = ./config/opencode/AGENTS.md;
+      settings = {
+        autoupdate = false;
+        share = "disabled";
+      };
     };
     tmux = {
       enable = true;
