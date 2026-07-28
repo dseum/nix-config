@@ -22,12 +22,26 @@ const tui: TuiPlugin = async (api) => {
           const parts = api.state.part(last.id) ?? [];
           let first = Infinity;
           let active = 0;
+          let anchor: number | undefined;
           for (const part of parts) {
-            if (part.type !== "text" && part.type !== "reasoning") continue;
-            const { start, end } = part.time ?? {};
-            if (typeof start !== "number") continue;
-            if (start < first) first = start;
-            if (typeof end === "number" && end > start) active += end - start;
+            if (part.type === "text" || part.type === "reasoning") {
+              const { start, end } = part.time ?? {};
+              if (typeof start !== "number") continue;
+              if (start < first) first = start;
+              if (typeof end === "number" && end > start) {
+                active += end - start;
+                anchor = Math.max(anchor ?? 0, end);
+              }
+            } else if (
+              part.type === "tool" &&
+              (part.state.status === "completed" ||
+                part.state.status === "error")
+            ) {
+              const { start, end } = part.state.time;
+              if (anchor !== undefined && start > anchor)
+                active += start - anchor;
+              anchor = Math.max(anchor ?? 0, end);
+            }
           }
           if (!Number.isFinite(first)) return "";
           const ttft = `${(Math.max(0, first - last.time.created) / 1000).toFixed(2)}s ttft`;
