@@ -172,6 +172,7 @@ in
         };
         init.defaultBranch = "main";
         pull.rebase = true;
+        push.autoSetupRemote = true;
         user = {
           email = "me@denniseum.com";
           name = "dseum";
