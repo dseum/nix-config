@@ -1,6 +1,6 @@
 ---
 name: review-abstractions
-description: Reviews structure in your unpushed work: types, abstraction, naming, and control flow, judged by how locally the code can be reasoned about and how well invariants live in the code itself. Use when asked to review design, judge an abstraction, plan a refactor, or sanity-check recent changes.
+description: "Reviews structure in your unpushed work: types, abstraction, naming, and control flow, judged by how locally the code can be reasoned about and how well invariants live in the code itself. Use when asked to review design, judge an abstraction, plan a refactor, or sanity-check recent changes."
 ---
 
 Default scope is the current session's changes and unpushed commits. Find the range with git: uncommitted diff plus commits ahead of upstream, or the merge-base with the default branch. If the range is unclear, review only what the session touched and say why. A wider review of existing code happens only when asked.

@@ -36,12 +36,17 @@ let
   };
 in
 {
-  home = {
+    home = {
     enableNixpkgsReleaseCheck = false;
+    file.".pi/agent/extensions" = {
+      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/extensions");
+      recursive = true;
+    };
     packages = [ age-secret ];
     sessionPath = [
       "${config.xdg.configHome}/bin"
     ];
+    sessionVariables.PI_SKIP_VERSION_CHECK = "1";
     shellAliases.oc = "opencode";
     stateVersion = "26.05";
   };
@@ -197,6 +202,20 @@ in
       };
       tui = {
         plugin = [ "${config.xdg.configHome}/opencode/plugins/metrics.tsx" ];
+      };
+    };
+    pi-coding-agent = {
+      enable = true;
+      context = ./config/agents/AGENTS.md;
+      settings = {
+        defaultProvider = "kimi-k3";
+        defaultModel = "moonshotai/Kimi-K3";
+        defaultThinkingLevel = "max";
+        enableInstallTelemetry = false;
+        skills = [
+          ./config/agents/skills/review-abstractions
+          ./config/agents/skills/review-comments
+        ];
       };
     };
     tmux = {
