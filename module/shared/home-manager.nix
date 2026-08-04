@@ -68,7 +68,10 @@ in
           source = "github";
           repo = "sveltejs/ai-tools";
         };
-        enabledPlugins."svelte@svelte" = true;
+        enabledPlugins = {
+          "svelte@svelte" = true;
+          "frontend-design@claude-plugins-official" = true;
+        };
       };
     };
     direnv = {
