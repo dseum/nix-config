@@ -42,6 +42,10 @@ in
       source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/extensions");
       recursive = true;
     };
+    file.".pi/agent/themes" = {
+      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/themes");
+      recursive = true;
+    };
     packages = [ age-secret ];
     sessionPath = [
       "${config.xdg.configHome}/bin"
@@ -83,6 +87,7 @@ in
       functions = {
         fish_greeting = "";
         fish_mode_prompt = "";
+        tpi = "tmux new-session -A -s pi pi";
         fish_prompt = ''
           echo -n (set_color cyan -o)(prompt_pwd)\n(set_color normal)(set_color black -b white)" $(whoami) "(set_color normal)(set_color white)" "(set_color normal)
         '';
@@ -212,6 +217,10 @@ in
         defaultModel = "moonshotai/Kimi-K3";
         defaultThinkingLevel = "max";
         enableInstallTelemetry = false;
+        theme = "tokyo-min";
+        quietStartup = true;
+        collapseChangelog = true;
+        outputPad = 0;
         skills = [
           ./config/agents/skills/review-abstractions
           ./config/agents/skills/review-comments
