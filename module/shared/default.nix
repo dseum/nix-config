@@ -39,7 +39,7 @@
       (final: prev: {
         spotify = prev.spotify.overrideAttrs (oldAttrs: {
           src =
-            if (prev.stdenv.isDarwin && prev.stdenv.isAarch64) then
+            if (prev.stdenv.hostPlatform.isDarwin && prev.stdenv.hostPlatform.isAarch64) then
               prev.fetchurl {
                 url = "https://web.archive.org/web/20260613224337/http://download.scdn.co/SpotifyARM64.dmg";
                 hash = "sha256-pRfQpuLLqvUOlr+742+MoLqSVwKDYxm+yk5Yrr8IrUI=";
