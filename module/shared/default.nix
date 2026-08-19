@@ -30,7 +30,6 @@
         "agent-turn-complete"
         "approval-requested"
       ];
-      vim_mode_default = true;
     };
     web_search = "live";
   };
