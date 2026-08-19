@@ -19,17 +19,14 @@
     model_reasoning_effort = "high";
     model_reasoning_summary = "concise";
     model_verbosity = "low";
-    notify = [ "_codex-notify" ];
     personality = "none";
     plan_mode_reasoning_effort = "ultra";
     sandbox_mode = "danger-full-access";
     service_tier = "fast";
     tui = {
-      notification_method = "auto";
-      notifications = [
-        "agent-turn-complete"
-        "approval-requested"
-      ];
+      notification_method = "osc9";
+      notifications = [ "agent-turn-complete" ];
+      vim_mode_default = true;
     };
     web_search = "live";
   };
