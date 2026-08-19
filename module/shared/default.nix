@@ -26,7 +26,6 @@
     tui = {
       notification_method = "osc9";
       notifications = [ "agent-turn-complete" ];
-      vim_mode_default = true;
     };
     web_search = "live";
   };
