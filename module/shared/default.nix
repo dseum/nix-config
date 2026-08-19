@@ -5,6 +5,35 @@
   ...
 }:
 {
+  environment.etc."codex/config.toml".source = (pkgs.formats.toml { }).generate "codex-config.toml" {
+    approval_policy = "never";
+    check_for_update_on_startup = false;
+    cli_auth_credentials_store = "keyring";
+    feedback.enabled = false;
+    features = {
+      memories = true;
+      prevent_idle_sleep = true;
+    };
+    file_opener = "none";
+    model = "gpt-5.6-sol";
+    model_reasoning_effort = "high";
+    model_reasoning_summary = "concise";
+    model_verbosity = "low";
+    notify = [ "_codex-notify" ];
+    personality = "none";
+    plan_mode_reasoning_effort = "ultra";
+    sandbox_mode = "danger-full-access";
+    service_tier = "fast";
+    tui = {
+      notification_method = "auto";
+      notifications = [
+        "agent-turn-complete"
+        "approval-requested"
+      ];
+      vim_mode_default = true;
+    };
+    web_search = "live";
+  };
   nix = {
     gc = {
       automatic = true;

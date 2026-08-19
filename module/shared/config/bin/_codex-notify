@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -e
+
+json=${1:-}
+if [ -z "$json" ]; then
+    exit 0
+fi
+
+event=$(printf '%s' "$json" | jq -r '.type // empty')
+message=$(printf '%s' "$json" | jq -r '.["last-assistant-message"] // empty')
+title="Codex"
+
+case "$event" in
+    agent-turn-complete) body=${message:-Turn complete} ;;
+    approval-requested) body="Approval needed" ;;
+    *) body=${event:-Unknown event} ;;
+esac
+
+if [ "$(uname -s)" = "Darwin" ]; then
+    osascript -e 'on run argv
+        display notification (item 1 of argv) with title (item 2 of argv)
+    end run' "$body" "$title"
+elif command -v notify-send >/dev/null 2>&1; then
+    notify-send "$title" "$body"
+else
+    printf '\a'
+fi

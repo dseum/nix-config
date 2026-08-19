@@ -74,6 +74,14 @@ in
         };
       };
     };
+    codex = {
+      enable = true;
+      context = ./config/agents/AGENTS.md;
+      skills = {
+        review-abstractions = ./config/agents/skills/review-abstractions;
+        review-comments = ./config/agents/skills/review-comments;
+      };
+    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
