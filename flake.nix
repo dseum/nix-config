@@ -43,58 +43,64 @@
       darwinSystems = [
         "aarch64-darwin"
       ];
-      mkApp = pkgs: name: system: {
-        type = "app";
-        program = "${pkgs.writeScriptBin name ''
-          #!/bin/sh -e
-          PATH=${pkgs.git}/bin:$PATH
-          exec ${self}/target/${system}/${name}
-        ''}/bin/${name}";
-      };
-      mkInitApp = pkgs: targetDir: {
-        type = "app";
-        program = "${pkgs.writeScriptBin "init" ''
-          #!/bin/sh -e
+      mkApp =
+        pkgs: name: system:
+        let
+          app = pkgs.writeShellApplication {
+            inherit name;
+            text = ''
+              exec ${self}/target/${system}/${name} "$@"
+            '';
+          };
+        in
+        {
+          type = "app";
+          program = "${app}/bin/${name}";
+          meta.description = "Run ${name} for ${system}";
+        };
+      mkInitApp =
+        pkgs: targetDir:
+        let
+          app = pkgs.writeShellApplication {
+            name = "init";
+            runtimeInputs = [
+              pkgs.coreutils
+              pkgs.git
+            ];
+            text = ''
+              green="$(printf '\033[1;32m')"
+              yellow="$(printf '\033[1;33m')"
 
-          GREEN='\033[1;32m'
-          RED='\033[1;31m'
-          YELLOW='\033[1;33m'
+              println() {
+                printf '\033[1mnix-config: %s%s\n\033[0m' "$1" "$2"
+              }
 
-          println() {
-            printf "\033[1mnix-config: "
-            printf "$@"
-            printf "\n\033[0m"
-          }
+              target_dir="${targetDir}"
+              tmp_dir="$(mktemp -d)"
+              user_name="$(id -un)"
+              trap 'rm -rf "$tmp_dir"' EXIT
 
-          TARGET_DIR="${targetDir}"
-          TMP_DIR=$(mktemp -d)
-          USER_NAME=$(whoami)
+              println "$yellow" "injecting..."
 
-          println "''${YELLOW}injecting..."
+              git clone "https://github.com/dseum/nix-config.git" "$tmp_dir/nix-config" &>/dev/null
 
-          ${pkgs.git}/bin/git clone "https://github.com/dseum/nix-config.git" "$TMP_DIR/nix-config" &>/dev/null
-          if [ $? -ne 0 ]; then
-              println "''${RED}failed to clone repository"
-              exit 1
-          fi
+              if [ -e "$target_dir" ]; then
+                sudo cp -a "$target_dir" "''${target_dir}.backup"
+                sudo rm -rf "$target_dir"
+              fi
 
-          if [ -e "$TARGET_DIR" ]; then
-            sudo cp -a "$TARGET_DIR" "''${TARGET_DIR}.backup"
-            if [ $? -ne 0 ]; then
-                println "''${RED}failed to create backup"
-                exit 1
-            fi
-            sudo rm -rf "$TARGET_DIR"
-          fi
+              sudo mv "$tmp_dir/nix-config" "$target_dir"
+              sudo chown -R "$user_name" "$target_dir"
 
-          sudo mv "$TMP_DIR/nix-config" "$TARGET_DIR"
-          sudo chown -R "$USER_NAME" "$TARGET_DIR"
-
-          rm -rf "$TMP_DIR"
-
-          println "''${GREEN}injected into ''${TARGET_DIR}"
-        ''}/bin/init";
-      };
+              println "$green" "injected into $target_dir"
+            '';
+          };
+        in
+        {
+          type = "app";
+          program = "${app}/bin/init";
+          meta.description = "Install nix-config into ${targetDir}";
+        };
       mkLinuxApps =
         system:
         let
