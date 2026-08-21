@@ -16,16 +16,11 @@ in
     ./home-manager.nix
   ];
   environment = {
-    etc."pam.d/sudo_local".text = ''
-      auth       optional       ${pkgs.pam-reattach}/lib/pam/pam_reattach.so ignore_ssh
-      auth       sufficient     pam_tid.so
-    '';
     shells = [
       pkgs.zsh
     ];
     systemPackages = sharedSystemPackages ++ [
       pkgs.appcleaner
-      pkgs.pam-reattach
     ];
   };
   homebrew = {
@@ -89,6 +84,10 @@ in
   programs = {
     fish.enable = true;
     zsh.enable = true;
+  };
+  security.pam.services.sudo_local = {
+    reattach = true;
+    touchIdAuth = true;
   };
   services = {
     skhd.enable = true;
