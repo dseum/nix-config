@@ -47,9 +47,6 @@ in
       recursive = true;
     };
     packages = [ age-secret ];
-    sessionPath = [
-      "${config.xdg.configHome}/bin"
-    ];
     sessionVariables.PI_SKIP_VERSION_CHECK = "1";
     shellAliases.oc = "opencode";
     stateVersion = "26.05";
@@ -263,7 +260,7 @@ in
         share = "disabled";
       };
       tui = {
-        plugin = [ "${config.xdg.configHome}/opencode/plugins/metrics.tsx" ];
+        plugin = [ "${config.xdg.configHome}/opencode/tui-plugins/metrics.tsx" ];
       };
     };
     pi-coding-agent = {
@@ -402,18 +399,17 @@ in
       '';
     };
   };
-  xdg.configFile."bin" = {
-    source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/bin");
-    recursive = true;
+  xdg.configFile = {
+    "nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/nvim");
+      recursive = true;
+    };
+    "opencode/tui-plugins/metrics.tsx".source = config.lib.file.mkOutOfStoreSymlink (
+      targetDir + "/module/shared/config/opencode/tui-plugins/metrics.tsx"
+    );
+    "vim" = {
+      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/vim");
+      recursive = true;
+    };
   };
-  xdg.configFile."nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/nvim");
-    recursive = true;
-  };
-  xdg.configFile."vim" = {
-    source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/vim");
-    recursive = true;
-  };
-  xdg.configFile."opencode/plugins/metrics.tsx".source =
-    config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/opencode/plugins/metrics.tsx");
 }
