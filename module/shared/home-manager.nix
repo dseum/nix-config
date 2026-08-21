@@ -347,7 +347,7 @@ in
       profiles.default = {
         enableExtensionUpdateCheck = false;
         enableUpdateCheck = false;
-        extensions = with pkgs.nix-vscode-extensions.vscode-marketplace; [
+        extensions = with pkgs.nix-vscode-extensions.vscode-marketplace-release; [
           bradlc.vscode-tailwindcss
           charliermarsh.ruff
           dart-code.dart-code
