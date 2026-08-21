@@ -203,6 +203,41 @@ in
     neovim = {
       enable = true;
       defaultEditor = true;
+      extraPackages = [
+        pkgs.bash-language-server
+        pkgs.caddy
+        pkgs.clang-tools
+        pkgs.cmake-format
+        pkgs.dart
+        pkgs.docker-compose-language-service
+        pkgs.dockerfile-language-server
+        pkgs.fish
+        pkgs.gopls
+        pkgs.go
+        pkgs.hclfmt
+        pkgs.just
+        pkgs.lua-language-server
+        pkgs.nixd
+        pkgs.nixfmt
+        pkgs.ocamlPackages.ocaml-lsp
+        pkgs.ocamlPackages.ocamlformat
+        pkgs.prettierd
+        pkgs.ruff
+        pkgs.rust-analyzer
+        pkgs.rustfmt
+        pkgs.shfmt
+        pkgs.stylua
+        pkgs.svelte-language-server
+        pkgs.tailwindcss-language-server
+        pkgs.taplo
+        pkgs.tex-fmt
+        pkgs.texlab
+        pkgs.ty
+        pkgs.typescript-language-server
+        pkgs.vscode-langservers-extracted
+        pkgs.yaml-language-server
+        pkgs.zls
+      ];
     };
     opencode = {
       enable = true;

@@ -4,16 +4,6 @@ vim.filetype.add({
   },
 })
 vim.filetype.add({
-  extension = {
-    dfy = "dafny",
-  },
-})
-vim.filetype.add({
-  extension = {
-    v = "coq",
-  },
-})
-vim.filetype.add({
   filename = {
     Caddyfile = "caddyfile",
   },

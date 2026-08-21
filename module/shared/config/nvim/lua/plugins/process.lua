@@ -105,7 +105,7 @@ return {
   },
   {
     "saghen/blink.cmp",
-    dependenices = {
+    dependencies = {
       "folke/lazydev.nvim",
       "rafamadriz/friendly-snippets",
     },
@@ -155,16 +155,11 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "saghen/blink.cmp",
-      "mason-org/mason.nvim",
-    },
+    dependencies = { "saghen/blink.cmp" },
     config = function()
       local servers = {
-        bashls = { "bash-language-server" },
-        coq_lsp = {},
+        bashls = {},
         cssls = {
-          "css-lsp",
           settings = {
             css = {
               validate = true,
@@ -177,15 +172,12 @@ return {
         clangd = {
           filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "hpp" },
         },
-        dafny = {},
-        docker_compose_language_service = { "docker-compose-language-server" },
-        dockerls = { "dockerfile-language-server" },
-        gopls = { "gopls" },
-        hls = { "haskell-language-server" },
-        html = { "html-lsp" },
-        jsonls = { "json-lsp" },
+        docker_compose_language_service = {},
+        dockerls = {},
+        gopls = {},
+        html = {},
+        jsonls = {},
         lua_ls = {
-          "lua-language-server",
           settings = {
             Lua = {
               workspace = { checkThirdParty = false },
@@ -195,14 +187,13 @@ return {
         },
         nixd = {},
         ocamllsp = {},
-        ruff = { "ruff" },
+        ruff = {},
         rust_analyzer = {},
-        svelte = { "svelte-language-server" },
-        tailwindcss = { "tailwindcss-language-server" },
-        taplo = { "taplo" },
-        texlab = { "texlab" },
+        svelte = {},
+        tailwindcss = {},
+        taplo = {},
+        texlab = {},
         ts_ls = {
-          "typescript-language-server",
           init_options = {
             preferences = {
               importModuleSpecifierPreference = "non-relative",
@@ -210,42 +201,13 @@ return {
           },
         },
         ty = {
-          cmd = { 'uv', 'run', 'ty', 'server' }
+          cmd = { "ty", "server" },
         },
-        yamlls = { "yaml-language-server" },
-        zls = { "zls" },
+        yamlls = {},
+        zls = {},
       }
 
-      require("mason").setup()
-      local MasonPackage = require("mason-core.package")
-      local MasonOptional = require("mason-core.optional")
-      local MasonRegistry = require("mason-registry")
-
       for server_id, server_config in pairs(servers) do
-        -- Install LSP
-        local pkg_name = server_config[1]
-        if type(pkg_name) == "string" then
-          -- Assume package is valid
-          MasonOptional.of_nilable(pkg_name)
-              :map(function(name)
-                local ok, pkg = pcall(MasonRegistry.get_package, name)
-                if ok then
-                  return pkg
-                end
-              end)
-              :if_present(
-              ---@param pkg Package
-                function(pkg)
-                  if not pkg:is_installed() then
-                    local _, version = MasonPackage.Parse(server_id)
-                    pkg:install({ version = version })
-                  end
-                end
-              )
-          server_config[1] = nil
-        end
-
-        -- Setup LSP
         local M = {}
         vim.lsp.config(server_id,
           vim.tbl_deep_extend("keep", server_config, {
@@ -319,22 +281,6 @@ return {
           command = "caddy",
           args = { "fmt", "-" },
         },
-        rmd = {
-          command = "Rscript",
-          args = {
-            "-e",
-            [[
-              options(styler.quiet = TRUE)
-              con <- file("stdin")
-              temp <- tempfile("styler", fileext = ".Rmd")
-              writeLines(readLines(con), temp)
-              styler::style_file(temp, scope="line_breaks")
-              output <- paste0(readLines(temp), collapse = '\n')
-              cat(output)
-              close(con)
-            ]],
-          },
-        },
         ["tex-fmt"] = {
           args = { "--stdin", "--nowrap" },
         },
@@ -364,7 +310,6 @@ return {
           "ruff_format",
           "ruff_organize_imports",
         },
-        rmd = { "rmd" },
         sh = { "shfmt" },
         svelte = { "prettierd" },
         tex = { "tex-fmt" },
