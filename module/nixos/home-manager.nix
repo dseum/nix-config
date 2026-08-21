@@ -1,8 +1,4 @@
 {
-  self,
-  config,
-  pkgs,
-  lib,
   user,
   targetDir,
   ...
@@ -16,9 +12,7 @@
     useUserPackages = true;
     users.${user} =
       {
-        config,
         pkgs,
-        lib,
         ...
       }:
       {
@@ -27,7 +21,7 @@
         ];
         home = {
           homeDirectory = "/home/${user}";
-          packages = pkgs.callPackage ./packages.nix { };
+          packages = import ./packages.nix { inherit pkgs; };
           username = "${user}";
         };
       };

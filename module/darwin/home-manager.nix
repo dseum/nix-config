@@ -1,8 +1,4 @@
 {
-  self,
-  config,
-  pkgs,
-  lib,
   user,
   targetDir,
   ...

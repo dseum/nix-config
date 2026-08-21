@@ -1,10 +1,7 @@
 {
-  self,
-  config,
   pkgs,
   lib,
   user,
-  targetDir,
   ...
 }:
 let
@@ -34,8 +31,7 @@ in
       "console=tty0"
     ];
   };
-  environment.systemPackages = sharedSystemPackages ++ [
-  ];
+  environment.systemPackages = sharedSystemPackages;
   networking = {
     hostName = "nixos";
     nameservers = [

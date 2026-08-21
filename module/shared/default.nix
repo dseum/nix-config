@@ -55,7 +55,7 @@
     config.allowUnfree = true;
     overlays = [
       nix-vscode-extensions.overlays.default
-      (final: prev: {
+      (_final: prev: {
         spotify = prev.spotify.overrideAttrs (oldAttrs: {
           src =
             if (prev.stdenv.hostPlatform.isDarwin && prev.stdenv.hostPlatform.isAarch64) then

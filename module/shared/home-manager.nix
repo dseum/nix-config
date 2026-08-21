@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   targetDir,
   ...
 }:
@@ -36,8 +35,7 @@ let
   };
 in
 {
-    home = {
-    enableNixpkgsReleaseCheck = false;
+  home = {
     file.".pi/agent/extensions" = {
       source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/extensions");
       recursive = true;

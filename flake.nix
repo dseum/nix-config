@@ -1,9 +1,11 @@
 {
   inputs = {
     agenix = {
-      inputs.darwin.follows = "nix-darwin";
-      inputs.home-manager.follows = "home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        darwin.follows = "nix-darwin";
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
       url = "github:ryantm/agenix";
     };
     home-manager = {
@@ -28,8 +30,8 @@
       home-manager,
       nix-darwin,
       nix-homebrew,
-      nix-vscode-extensions,
       nixpkgs,
+      ...
     }:
     let
       user = "denniseum";

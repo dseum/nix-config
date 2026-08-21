@@ -2,9 +2,7 @@
   self,
   config,
   pkgs,
-  lib,
   user,
-  targetDir,
   ...
 }:
 let
@@ -29,9 +27,11 @@ in
       "ghostty"
       "orbstack"
     ];
-    onActivation.autoUpdate = true;
-    onActivation.cleanup = "zap";
-    onActivation.upgrade = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap";
+      upgrade = true;
+    };
   };
   networking = {
     knownNetworkServices = [
