@@ -100,7 +100,7 @@ in
         fish_mode_prompt = "";
         tpi = "tmux new-session -A -s pi pi";
         fish_prompt = ''
-          echo -n (set_color cyan -o)(prompt_pwd)\n(set_color normal)(set_color black -b white)" $(whoami) "(set_color normal)(set_color white)" "(set_color normal)
+          echo -n (set_color cyan -o)(prompt_pwd)\n(set_color normal)(set_color black -b white)" $USER "(set_color normal)(set_color white)" "(set_color normal)
         '';
       };
       interactiveShellInit = ''
@@ -108,20 +108,31 @@ in
         set -g fish_key_bindings fish_vi_key_bindings
         set -g fish_cursor_default block
         set -g fish_cursor_insert block
-
-        # fzf
-        set -x FZF_DEFAULT_COMMAND "fd --type file"
-        set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS \
-        --color=fg+:#c0caf5,bg+:#1a1b26,hl+:#c0caf5 \
-        --color=fg:#c0caf5,bg:#1a1b26,hl:#c0caf5 \
-        --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
-        --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a \
-        --info=inline-right \
-        --marker='—' \
-        --pointer='—' \
-        --prompt='— ' \
-        "
       '';
+    };
+    fzf = {
+      enable = true;
+      colors = {
+        bg = "#1a1b26";
+        "bg+" = "#1a1b26";
+        fg = "#c0caf5";
+        "fg+" = "#c0caf5";
+        header = "#9ece6a";
+        hl = "#c0caf5";
+        "hl+" = "#c0caf5";
+        info = "#7aa2f7";
+        marker = "#9ece6a";
+        pointer = "#7dcfff";
+        prompt = "#7dcfff";
+        spinner = "#9ece6a";
+      };
+      defaultCommand = "fd --type file";
+      defaultOptions = [
+        "--info=inline-right"
+        "--marker=—"
+        "--pointer=—"
+        "--prompt=— "
+      ];
     };
     ghostty = {
       enable = true;
@@ -135,7 +146,7 @@ in
         confirm-close-surface = false;
         copy-on-select = "clipboard";
         cursor-style = "block";
-        cursor-style-blink = "false";
+        cursor-style-blink = false;
         font-family = "IBM Plex Mono";
         font-feature = "-calt";
         font-size = 14;
@@ -283,7 +294,6 @@ in
         set -as terminal-overrides ',*:Setulc=\E[58::2::::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
         set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
         set -g bell-action none
-        set -g status-left-length 40
         set -g visual-activity off
         set -g visual-bell off
         set -g visual-silence off
@@ -292,7 +302,6 @@ in
         setw -g pane-border-status off
 
         # Indexing
-        set -g base-index 1
         set -g renumber-windows on
 
         # Theme
@@ -333,7 +342,7 @@ in
       keyMode = "vi";
       mouse = true;
       shell = "${pkgs.fish}/bin/fish";
-      terminal = "$TERM";
+      terminal = "tmux-256color";
     };
     vscode = {
       enable = true;
@@ -390,19 +399,6 @@ in
 
         # Prompt
         PROMPT=$'%F{#787e9c}''${(r:$COLUMNS::\u2500:)}%f\n%F{cyan}%B%2~%b%f\n%K{white}%F{black} %n %f%k%F{white}%f '
-
-        # fzf
-        export FZF_DEFAULT_COMMAND="fd --type file"
-        export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
-        --color=fg+:#c0caf5,bg+:#1a1b26,hl+:#c0caf5 \
-        --color=fg:#c0caf5,bg:#1a1b26,hl:#c0caf5 \
-        --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
-        --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a \
-        --info=inline-right \
-        --marker='—' \
-        --pointer='—' \
-        --prompt='— ' \
-        "
       '';
     };
   };
