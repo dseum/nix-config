@@ -84,11 +84,10 @@
 
               shift + lalt - e : ${ghostty-new-window}/bin/ghostty-new-window
 
-              shift + lalt - 1 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 0" --new-window
-              shift + lalt - 2 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 1" --new-window
-              shift + lalt - 3 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 2" --new-window
-              shift + lalt - 4 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 3" --new-window
-              shift + lalt - 5 : /Applications/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 4" --new-window
+              shift + lalt - 1 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 0" --new-window
+              shift + lalt - 2 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window 
+              shift + lalt - 3 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 2" --new-window 
+              shift + lalt - 4 : /Applications/Nix\ Apps/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 3" --new-window 
 
               ctrl + lcmd - z : pmset sleepnow
 

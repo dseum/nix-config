@@ -104,7 +104,7 @@ in
         autohide-delay = 0.0;
         autohide-time-modifier = 0.0;
         persistent-apps = [
-          "/Applications/Helium.app"
+          "/Applications/Nix Apps/Google Chrome.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Nix Apps/Spotify.app"
