@@ -20,7 +20,9 @@ nix run <nix-config>#build-switch
 
 ## Local Module
 
-This config automatically loads a local module for changes specific to your machine. In the root directory of this repository, create a file named `local.nix` that contains:
+This config automatically loads a local module for changes specific to each machine. In the root directory of the checkout, create an ignored file named `local.nix`.
+
+On macOS, it can contain local Homebrew or system settings:
 
 ```nix
 { lib, pkgs, ... }:
@@ -29,6 +31,17 @@ This config automatically loads a local module for changes specific to your mach
   homebrew.brews = lib.mkAfter [ ];
 }
 ```
+
+On NixOS, keep machine identity and hardware-dependent settings there, including `system.stateVersion`, hardware-profile imports, firmware allowances, and machine-specific boot mount points:
+
+```nix
+{ ... }:
+{
+  system.stateVersion = "26.05";
+}
+```
+
+Set `system.stateVersion` to the NixOS release used for that machine's first installation and do not update it during normal upgrades. `hardware-configuration.nix` remains generated hardware discovery; do not put hand-written machine policy in it.
 
 ## Secrets
 

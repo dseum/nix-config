@@ -19,12 +19,11 @@ in
       efi.canTouchEfiVariables = true;
       systemd-boot = {
         enable = true;
-        configurationLimit = 1;
+        configurationLimit = 10;
         consoleMode = "max";
+        editor = false;
       };
-      timeout = null;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [
       "quiet"
       "fbcon=vc:2-6"
@@ -48,7 +47,6 @@ in
       allowed-users = [ "${user}" ];
     };
   };
-  powerManagement.cpuFreqGovernor = "schedutil";
   programs = {
     dconf = {
       enable = true;
@@ -100,7 +98,6 @@ in
       };
     };
   };
-  system.stateVersion = "21.05";
   time.timeZone = lib.mkForce null;
   users.users = {
     ${user} = {
