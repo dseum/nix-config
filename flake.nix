@@ -21,6 +21,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-vscode-extensions";
     };
+    nixos-hardware = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:cooparo/nixos-hardware/dell-xps-14-da14260";
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
   outputs =

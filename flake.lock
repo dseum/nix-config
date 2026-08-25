@@ -122,6 +122,27 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787414884,
+        "narHash": "sha256-eMEeoytSqCSFB+2iDRml6kiaH8pcgWBgF1MSflt+JmA=",
+        "owner": "cooparo",
+        "repo": "nixos-hardware",
+        "rev": "eb2ee0fffd31be6e47abc6acf68be0ee2a18421b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cooparo",
+        "ref": "dell-xps-14-da14260",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1787364730,
@@ -145,6 +166,7 @@
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nix-vscode-extensions": "nix-vscode-extensions",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs"
       }
     },
