@@ -58,6 +58,10 @@ in
           settings = {
             "org/gnome/desktop/datetime".automatic-timezone = true;
             "org/gnome/system/location".enabled = true;
+            "org/gnome/shell/keybindings" = {
+              focus-active-notification = lib.gvariant.mkEmptyArray lib.gvariant.type.string;
+              toggle-message-tray = [ "<Super>m" ];
+            };
           };
         }
       ];
