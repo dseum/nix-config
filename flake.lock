@@ -129,15 +129,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1787414884,
-        "narHash": "sha256-eMEeoytSqCSFB+2iDRml6kiaH8pcgWBgF1MSflt+JmA=",
-        "owner": "cooparo",
+        "lastModified": 1787719001,
+        "narHash": "sha256-qyDEZVD0mJ7qVmP1Jo9tvvDLtQ5KsNSociaTyAl4128=",
+        "owner": "dseum",
         "repo": "nixos-hardware",
-        "rev": "eb2ee0fffd31be6e47abc6acf68be0ee2a18421b",
+        "rev": "73d113ef7fa8d59cb1daaadca350f274852f526b",
         "type": "github"
       },
       "original": {
-        "owner": "cooparo",
+        "owner": "dseum",
         "ref": "dell-xps-14-da14260",
         "repo": "nixos-hardware",
         "type": "github"

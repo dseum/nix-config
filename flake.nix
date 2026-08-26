@@ -23,7 +23,7 @@
     };
     nixos-hardware = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:cooparo/nixos-hardware/dell-xps-14-da14260";
+      url = "github:dseum/nixos-hardware/dell-xps-14-da14260";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
