@@ -209,6 +209,7 @@ in
     neovim = {
       enable = true;
       defaultEditor = true;
+      sideloadInitLua = true;
       extraPackages = [
         pkgs.bash-language-server
         pkgs.caddy
