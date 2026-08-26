@@ -17,9 +17,10 @@ in
     consoleLogLevel = 0;
     loader = {
       efi.canTouchEfiVariables = true;
+      timeout = null;
       systemd-boot = {
         enable = true;
-        configurationLimit = 10;
+        configurationLimit = 1;
         consoleMode = "max";
         editor = false;
       };
