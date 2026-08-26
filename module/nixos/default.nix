@@ -74,8 +74,6 @@ in
           settings = {
             main = {
               capslock = "esc";
-              leftalt = "layer(meta)";
-              meta = "leftalt";
             };
           };
         };
