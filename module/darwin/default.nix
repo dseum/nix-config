@@ -24,12 +24,14 @@ in
   homebrew = {
     enable = true;
     casks = [
+      "google-chrome"
       "ghostty"
       "orbstack"
     ];
     onActivation = {
       autoUpdate = true;
       cleanup = "zap";
+      extraEnv.HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS = "1";
       upgrade = true;
     };
   };
@@ -82,7 +84,7 @@ in
         autohide-delay = 0.0;
         autohide-time-modifier = 0.0;
         persistent-apps = [
-          "/Applications/Nix Apps/Google Chrome.app"
+          "/Applications/Google Chrome.app"
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Nix Apps/Spotify.app"

@@ -31,7 +31,9 @@ in
       "console=tty0"
     ];
   };
-  environment.systemPackages = sharedSystemPackages;
+  environment.systemPackages = sharedSystemPackages ++ [
+    pkgs.google-chrome
+  ];
   networking = {
     hostName = "nixos";
     nameservers = [
