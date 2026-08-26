@@ -50,28 +50,6 @@ in
       Hour = 2;
       Minute = 30;
     };
-    linux-builder = {
-      enable = true;
-      config = {
-        virtualisation = {
-          cores = 8;
-          darwin-builder = {
-            diskSize = 80 * 1024;
-            memorySize = 16 * 1024;
-          };
-        };
-      };
-      maxJobs = 8;
-      supportedFeatures = [
-        "kvm"
-        "benchmark"
-        "big-parallel"
-        "nixos-test"
-      ];
-      systems = [
-        "aarch64-linux"
-      ];
-    };
   };
   nix-homebrew = {
     inherit user;
