@@ -24,12 +24,16 @@ aarch64)
 esac
 
 FLAKE_DIR=$(realpath "/etc/nixos")
+HARDWARE_CONFIG=$(mktemp /etc/nixos/.hardware-configuration.nix.XXXXXX)
+trap 'rm -f "$HARDWARE_CONFIG"' EXIT
 
 println "" "running on ${TARGET}"
 
 println "${YELLOW}" "syncing hardware-configuration.nix..."
 
-sudo nixos-generate-config --show-hardware-config >/etc/nixos/hardware-configuration.nix
+sudo nixos-generate-config --show-hardware-config >"$HARDWARE_CONFIG"
+chmod 0644 "$HARDWARE_CONFIG"
+mv "$HARDWARE_CONFIG" /etc/nixos/hardware-configuration.nix
 
 if [ -f /etc/nixos/hardware.nix ]; then
   println "${YELLOW}" "found /etc/nixos/hardware.nix"
