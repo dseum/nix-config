@@ -72,7 +72,7 @@
           "org/gnome/desktop/peripherals/touchpad" = {
             disable-while-typing = true;
             natural-scroll = true;
-            tap-to-click = true;
+            tap-to-click = false;
           };
           "org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 (15 * 60);
           "org/gnome/desktop/wm/keybindings" = workspaceKeybindings // {
