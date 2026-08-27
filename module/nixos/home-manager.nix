@@ -68,6 +68,7 @@
             natural-scroll = true;
             tap-to-click = true;
           };
+          "org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 (15 * 60);
           "org/gnome/desktop/wm/keybindings" = workspaceKeybindings // {
             close = [ "<Alt>F4" ];
             minimize = emptyKeybinding;
@@ -122,6 +123,12 @@
             binding = "<Shift><Super>e";
             command = "ghostty";
             name = "Ghostty";
+          };
+          "org/gnome/settings-daemon/plugins/power" = {
+            sleep-inactive-ac-timeout = lib.hm.gvariant.mkInt32 (60 * 60);
+            sleep-inactive-ac-type = "suspend";
+            sleep-inactive-battery-timeout = lib.hm.gvariant.mkInt32 (30 * 60);
+            sleep-inactive-battery-type = "suspend";
           };
           "org/gnome/shell/keybindings" = shellApplicationKeybindings // {
             focus-active-notification = emptyKeybinding;
