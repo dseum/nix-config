@@ -1,0 +1,17 @@
+diff --git a/js/ui/status/volume.js b/js/ui/status/volume.js
+index b8d834577..49b9e6e5a 100644
+--- a/js/ui/status/volume.js
++++ b/js/ui/status/volume.js
+@@ -339,8 +339,10 @@ class OutputStreamSlider extends StreamSlider {
+         // a bit hackish, but ALSA/PulseAudio have a number
+         // of different identifiers for headphones, and I could
+         // not find the complete list
+-        if (sink.get_ports().length > 0)
+-            return sink.get_port().port.toLowerCase().includes('headphone');
++        if (sink.get_ports().length > 0) {
++            const port = sink.get_port();
++            return port.available && port.port.toLowerCase().includes('headphone');
++        }
+ 
+         return false;
+     }

@@ -45,6 +45,13 @@ in
     ];
     networkmanager.enable = true;
   };
+  nixpkgs.overlays = [
+    (_final: prev: {
+      gnome-shell = prev.gnome-shell.overrideAttrs (oldAttrs: {
+        patches = (oldAttrs.patches or [ ]) ++ [ ./gnome-shell-ignore-unavailable-headphones-osd.patch ];
+      });
+    })
+  ];
   nix = {
     channel.enable = false;
     settings.allowed-users = [ user ];
