@@ -180,21 +180,6 @@
         programs = {
           ghostty.settings = {
             app-notifications = "no-clipboard-copy";
-            keybind = lib.mkAfter [
-              "ctrl+alt+t=new_tab"
-              "ctrl+alt+w=close_tab:this"
-              "ctrl+alt+n=new_window"
-              "ctrl+alt+c=copy_to_clipboard:mixed"
-              "ctrl+alt+v=paste_from_clipboard"
-              "ctrl+alt+f=start_search"
-              "ctrl+alt+g=navigate_search:next"
-              "ctrl+alt+shift+g=navigate_search:previous"
-              "ctrl+alt+home=scroll_to_top"
-              "ctrl+alt+end=scroll_to_bottom"
-              "ctrl+alt+page_up=scroll_page_up"
-              "ctrl+alt+page_down=scroll_page_down"
-              "ctrl+alt+backspace=clear_screen"
-            ];
             maximize = lib.mkForce false;
           };
           gnome-shell = {
