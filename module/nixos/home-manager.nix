@@ -18,6 +18,12 @@
       }:
       let
         emptyKeybinding = lib.hm.gvariant.mkEmptyArray lib.hm.gvariant.type.string;
+        popShellWithoutIndicator = pkgs.gnomeExtensions.pop-shell.overrideAttrs (oldAttrs: {
+          postInstall = (oldAttrs.postInstall or "") + ''
+            substituteInPlace "$out/share/gnome-shell/extensions/pop-shell@system76.com/extension.js" \
+              --replace-fail "panel.addToStatusArea('pop-shell', indicator.button);" ""
+          '';
+        });
         workspaceKeys = {
           "Above_Tab" = 1;
           "1" = 2;
@@ -188,7 +194,7 @@
           gnome-shell = {
             enable = true;
             extensions = [
-              { package = pkgs.gnomeExtensions.pop-shell; }
+              { package = popShellWithoutIndicator; }
             ];
           };
         };
