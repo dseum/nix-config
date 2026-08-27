@@ -101,6 +101,7 @@
               "${customKeybindingPath}/chrome-2/"
               "${customKeybindingPath}/chrome-3/"
               "${customKeybindingPath}/chrome-4/"
+              "${customKeybindingPath}/1password-quick-access/"
               "${customKeybindingPath}/terminal/"
             ];
             screensaver = [ "<Super><Alt>l" ];
@@ -124,6 +125,11 @@
             binding = "<Shift><Super>4";
             command = "google-chrome-stable --profile-directory='Profile 3' --new-window";
             name = "Chrome Profile 4";
+          };
+          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/1password-quick-access" = {
+            binding = "<Control><Shift>space";
+            command = "1password --quick-access";
+            name = "Show Quick Access";
           };
           "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" = {
             binding = "<Shift><Super>e";

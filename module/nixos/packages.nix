@@ -24,6 +24,7 @@ in
 shared-packages
 ++ [
   caffeinate
+  pkgs._1password-gui
   pkgs.docker
   pkgs.docker-compose
   pkgs.llvmPackages_20.clang-tools
