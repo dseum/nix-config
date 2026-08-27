@@ -74,6 +74,7 @@
             natural-scroll = true;
             tap-to-click = false;
           };
+          "org/gnome/desktop/search-providers".disabled = [ "org.gnome.Epiphany.desktop" ];
           "org/gnome/desktop/session".idle-delay = lib.hm.gvariant.mkUint32 (15 * 60);
           "org/gnome/desktop/wm/keybindings" = workspaceKeybindings // {
             close = [ "<Alt>F4" ];
