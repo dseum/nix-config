@@ -9,4 +9,5 @@ shared-packages
   pkgs.llvmPackages_20.clang-tools
   pkgs.llvmPackages_20.clangWithLibcAndBasicRtAndLibcxx
   pkgs.unzip
+  pkgs.xprop
 ]

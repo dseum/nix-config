@@ -13,6 +13,7 @@ in
     ./home-manager.nix
     ../../hardware.nix
   ];
+  console.useXkbConfig = true;
   boot = {
     consoleLogLevel = 0;
     loader = {
@@ -46,45 +47,16 @@ in
   };
   nix = {
     channel.enable = false;
-    settings = {
-      allowed-users = [ "${user}" ];
-    };
+    settings.allowed-users = [ user ];
   };
   programs = {
-    dconf = {
-      enable = true;
-      profiles.user.databases = [
-        {
-          settings = {
-            "org/gnome/desktop/datetime".automatic-timezone = true;
-            "org/gnome/system/location".enabled = true;
-            "org/gnome/shell/keybindings" = {
-              focus-active-notification = lib.gvariant.mkEmptyArray lib.gvariant.type.string;
-              toggle-message-tray = [ "<Super>m" ];
-            };
-          };
-        }
-      ];
-    };
+    dconf.enable = true;
     zsh.enable = true;
   };
   services = {
     automatic-timezoned.enable = true;
-    displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
-    keyd = {
-      enable = true;
-      keyboards = {
-        default = {
-          ids = [ "*" ];
-          settings = {
-            main = {
-              capslock = "esc";
-            };
-          };
-        };
-      };
-    };
+    displayManager.gdm.enable = true;
     printing.enable = true;
     pulseaudio.enable = false;
     pipewire = {
@@ -104,16 +76,14 @@ in
     };
   };
   time.timeZone = lib.mkForce null;
-  users.users = {
-    ${user} = {
-      extraGroups = [
-        "docker"
-        "networkmanager"
-        "wheel"
-      ];
-      isNormalUser = true;
-      shell = pkgs.zsh;
-    };
+  users.users.${user} = {
+    extraGroups = [
+      "docker"
+      "networkmanager"
+      "wheel"
+    ];
+    isNormalUser = true;
+    shell = pkgs.zsh;
   };
   virtualisation.docker.enable = true;
 }
