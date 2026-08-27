@@ -147,6 +147,7 @@
             focus-active-notification = emptyKeybinding;
             toggle-message-tray = [ "<Super>m" ];
           };
+          "org/gnome/shell/extensions/panel-date-format".format = "%B %-d %H:%M";
           "org/gnome/shell/extensions/pop-shell" = {
             activate-launcher = emptyKeybinding;
             active-hint = false;
@@ -186,6 +187,7 @@
           gnome-shell = {
             enable = true;
             extensions = [
+              { package = pkgs.gnomeExtensions.panel-date-format; }
               { package = popShellWithoutIndicator; }
             ];
           };
