@@ -57,6 +57,10 @@ in
     settings.allowed-users = [ user ];
   };
   programs = {
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ user ];
+    };
     dconf.enable = true;
     zsh.enable = true;
   };
