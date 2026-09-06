@@ -385,7 +385,6 @@ in
     zsh = {
       enable = true;
       dotDir = config.xdg.configHome + "/zsh";
-      enableCompletion = true;
       initContent = ''
         # Options
         setopt NO_CASE_GLOB

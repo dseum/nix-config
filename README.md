@@ -25,10 +25,10 @@ This config automatically loads a local module for changes specific to each mach
 On macOS, it can contain local Homebrew or system settings:
 
 ```nix
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = [ ];
-  homebrew.brews = lib.mkAfter [ ];
+  environment.systemPackages = [ pkgs.terraform ];
+  homebrew.brews = [ "livekit" ];
 }
 ```
 

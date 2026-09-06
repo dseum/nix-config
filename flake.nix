@@ -134,12 +134,12 @@
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (
         system:
         nix-darwin.lib.darwinSystem {
-          inherit system;
           specialArgs = inputs // {
             inherit user;
             targetDir = "/private/etc/nix-darwin";
           };
           modules = [
+            { nixpkgs.hostPlatform = system; }
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
             agenix.darwinModules.default
@@ -151,12 +151,12 @@
       nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (
         system:
         nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = inputs // {
             inherit user;
             targetDir = "/etc/nixos";
           };
           modules = [
+            { nixpkgs.hostPlatform = system; }
             home-manager.nixosModules.home-manager
             agenix.nixosModules.default
             ./module/nixos

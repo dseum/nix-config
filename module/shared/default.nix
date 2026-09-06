@@ -41,33 +41,15 @@
         "nix-command"
         "flakes"
       ];
-      trusted-users = [
-        "@admin"
-        "${user}"
-      ];
+      trusted-users = [ user ];
       warn-dirty = false;
       show-trace = true;
       keep-outputs = true;
-      keep-derivations = true;
     };
   };
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [
-      nix-vscode-extensions.overlays.default
-      (_final: prev: {
-        spotify = prev.spotify.overrideAttrs (oldAttrs: {
-          src =
-            if (prev.stdenv.hostPlatform.isDarwin && prev.stdenv.hostPlatform.isAarch64) then
-              prev.fetchurl {
-                url = "https://web.archive.org/web/20260613224337/http://download.scdn.co/SpotifyARM64.dmg";
-                hash = "sha256-pRfQpuLLqvUOlr+742+MoLqSVwKDYxm+yk5Yrr8IrUI=";
-              }
-            else
-              oldAttrs.src;
-        });
-      })
-    ];
+    overlays = [ nix-vscode-extensions.overlays.default ];
   };
   fonts.packages = [
     pkgs.ibm-plex
