@@ -8,4 +8,4 @@
 
 ## Git
 
-Never create issues, commits, or PRs.
+Never create issues or PRs. However, uou may create commits and push, but only when a human explicitly asks.
