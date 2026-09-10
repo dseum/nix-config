@@ -15,11 +15,11 @@ println "" "running on ${TARGET}"
 
 println "${YELLOW}" "building..."
 
-nix --extra-experimental-features 'nix-command flakes' build path:${FLAKE_DIR}#"darwinConfigurations.${TARGET}.system" "$@"
+nix --extra-experimental-features 'nix-command flakes' build "path:${FLAKE_DIR}#darwinConfigurations.${TARGET}.system" "$@"
 
 println "${YELLOW}" "switching..."
 
-sudo ./result/sw/bin/darwin-rebuild switch --flake path:${FLAKE_DIR}#${TARGET} "$@"
+sudo ./result/sw/bin/darwin-rebuild switch --flake "path:${FLAKE_DIR}#${TARGET}" "$@"
 
 unlink ./result
 

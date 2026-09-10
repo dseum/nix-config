@@ -18,6 +18,20 @@ Then, to build and switch, run:
 nix run <nix-config>#build-switch
 ```
 
+To preview and apply updates, run:
+
+```sh
+nix run <nix-config>#update
+```
+
+This shows package version changes without building the updated system, then asks before updating `flake.lock`. Press Enter to cancel. Build-time dependencies may be included.
+
+To update specific inputs, pass them after `--`:
+
+```sh
+nix run <nix-config>#update -- nixpkgs home-manager
+```
+
 ## Local Module
 
 This config automatically loads a local module for changes specific to each machine. In the root directory of the checkout, create an ignored file named `local.nix`.

@@ -48,19 +48,25 @@
         "aarch64-darwin"
       ];
       mkApp =
-        pkgs: name: system:
+        pkgs:
+        {
+          name,
+          script,
+          arguments ? [ ],
+          runtimeInputs ? [ ],
+        }:
         let
           app = pkgs.writeShellApplication {
-            inherit name;
+            inherit name runtimeInputs;
             text = ''
-              exec ${self}/target/${system}/${name} "$@"
+              exec ${nixpkgs.lib.escapeShellArgs ([ script ] ++ arguments)} "$@"
             '';
           };
         in
         {
           type = "app";
           program = "${app}/bin/${name}";
-          meta.description = "Run ${name} for ${system}";
+          meta.description = "Run ${name}";
         };
       mkInitApp =
         pkgs: targetDir:
@@ -113,8 +119,23 @@
           };
         in
         {
-          "build-switch" = mkApp pkgs "build-switch" system;
+          "build-switch" = mkApp pkgs {
+            name = "build-switch";
+            script = ./. + "/target/${system}/build-switch";
+          };
           "init" = mkInitApp pkgs "/etc/nixos";
+          "update" = mkApp pkgs {
+            name = "update";
+            script = ./target/update;
+            arguments = [
+              "/etc/nixos"
+              "nixosConfigurations.${system}.config.system.build.toplevel"
+            ];
+            runtimeInputs = [
+              pkgs.coreutils
+              pkgs.nix
+            ];
+          };
         };
       mkDarwinApps =
         system:
@@ -124,8 +145,23 @@
           };
         in
         {
-          "build-switch" = mkApp pkgs "build-switch" system;
+          "build-switch" = mkApp pkgs {
+            name = "build-switch";
+            script = ./. + "/target/${system}/build-switch";
+          };
           "init" = mkInitApp pkgs "/etc/nix-darwin";
+          "update" = mkApp pkgs {
+            name = "update";
+            script = ./target/update;
+            arguments = [
+              "/etc/nix-darwin"
+              "darwinConfigurations.${system}.system"
+            ];
+            runtimeInputs = [
+              pkgs.coreutils
+              pkgs.nix
+            ];
+          };
         };
     in
     {

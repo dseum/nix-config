@@ -44,6 +44,6 @@ fi
 
 println "${YELLOW}" "building and switching..."
 
-sudo -i /run/current-system/sw/bin/nixos-rebuild switch --flake path:${FLAKE_DIR}#$TARGET "$@"
+sudo -i /run/current-system/sw/bin/nixos-rebuild switch --flake "path:${FLAKE_DIR}#${TARGET}" "$@"
 
 println "${GREEN}" "switched"
