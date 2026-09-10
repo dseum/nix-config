@@ -24,7 +24,7 @@ To preview and apply updates, run:
 nix run <nix-config>#update
 ```
 
-This shows package version changes without building the updated system, then asks before updating `flake.lock`. Press Enter to cancel. Build-time dependencies may be included.
+This shows package version changes without building the updated system, then asks before updating `flake.lock`. Press Enter to update it. Build-time dependencies may be included.
 
 To update specific inputs, pass them after `--`:
 

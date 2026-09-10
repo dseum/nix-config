@@ -69,14 +69,14 @@ else
   nix --extra-experimental-features 'nix-command flakes' store diff-closures "$BEFORE" "$AFTER"
 fi
 
-printf '\033[1mnix-config: apply these updates? [y/N] \033[0m'
+printf '\033[1mnix-config: update flake.lock? [Y/n] \033[0m'
 if ! IFS= read -r RESPONSE; then
   RESPONSE=
   printf '\n'
 fi
 
 case "$RESPONSE" in
-[yY] | [yY][eE][sS])
+"" | [yY] | [yY][eE][sS])
   if ! cmp -s "$ORIGINAL_LOCK" "$FLAKE_DIR/flake.lock"; then
     println "$RED" "flake.lock changed during the update; leaving it unchanged"
     exit 1
