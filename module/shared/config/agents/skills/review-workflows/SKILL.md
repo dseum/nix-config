@@ -36,12 +36,38 @@ Follow a coherent repository convention first. Otherwise use these defaults:
 - Use one canonical term for each component, environment, artifact, and operation. Distinguish terms such as `publish` and `release` only when they mean different things.
 - When scope adds useful distinction, use ` / ` as a namespace separator between stable scope segments and the workflow purpose, such as `<service> / <purpose>` or `<service> / <component> / <purpose>`. Do not invent scope for a top-level workflow or when no shared scope exists. Apply title case throughout, except where canonical casing differs. Do not repeat scope in jobs and steps when the workflow already makes it clear.
 - Give every workflow, job, and step a name that explains the responsibility, outcome, or action without opening its commands.
-- Keep workflow and job names unique across the repository. GitHub identifies required Actions checks by job name, so duplicate or changed names can make rules ambiguous or prevent a match.
+- Keep workflow names unique across the repository. Make expanded job names globally unique without repeating workflow-level scope; use the responsibility, component, target, environment, architecture, or matrix value that actually distinguishes the job.
 - Use `run-name` and matrix values to distinguish executions, checks, and operational resource names when collisions are possible. Prefer stable identifiers to free-form attacker-controlled text.
 - Create a step ID only when another expression consumes it. Prefer affirmative boolean inputs such as `publish` to inverted names such as `skip_publish`.
 - Treat names, IDs, reusable workflow interfaces, environment names, concurrency groups, cache keys, and artifact names as interfaces. Find their consumers before renaming them; report an incompatible cleanup instead of breaking it.
 - Apply title case and sentence case only to ordinary words. Preserve the canonical casing of products, services, projects, protocols, and acronyms, such as `GitHub Actions`, `Node.js`, `macOS`, and `npm`.
 - Avoid sequence numbers, decorative emoji, redundant words, and implementation details that do not aid diagnosis.
+
+### Check identity
+
+GitHub's pull request UI presents an Actions check as `<workflow name> / <job name>`. Required-status-check rulesets identify an ordinary workflow check by the expanded job name alone, without the workflow name; a reusable workflow check uses `<job name> / <reusable job name>`. When stable service scope is needed, put it in the workflow name. Keep job and step names free of that repeated scope, while making job names globally unique with meaningful job-level qualifiers.
+
+```yaml
+name: nickel / Checks
+
+jobs:
+  build:
+    name: Build sandbox and exchange images (amd64)
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Build images
+        run: ./scripts/build-images
+```
+
+The pull request displays `nickel / Checks / Build sandbox and exchange images (amd64)`, while the required-check context is `Build sandbox and exchange images (amd64)`.
+
+Treat a required job-name change and its ruleset update as one migration. Do not perform pushes or repository-setting changes unless they are in scope and authorized. For an authorized migration:
+
+1. Push the renamed workflow to a branch with an open pull request.
+2. Observe the actual check identities with `gh pr checks <pr> --json workflow,name,state`.
+3. Replace the old ruleset contexts with the new raw job names.
+4. Verify that the pull request no longer shows the old checks as `Expected`.
+5. Confirm that matrix expansions produce distinct job names.
 
 ## Correctness and reliability
 
@@ -86,4 +112,4 @@ Treat every remote `uses:` entry as executable code with access to the job's wor
 
 Static validation cannot establish runner behavior, secrets, permissions, environment protection, repository rules, or deployment behavior. State those limits.
 
-For version-sensitive claims, use current primary sources: GitHub's [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax), [secure use reference](https://docs.github.com/en/actions/reference/security/secure-use), [event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows), [required-check guidance](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/troubleshooting-rules), and [Dependabot guidance](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/auto-update-actions).
+For version-sensitive claims, use current primary sources: GitHub's [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax), [secure use reference](https://docs.github.com/en/actions/reference/security/secure-use), [event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows), [required-check guidance](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/troubleshooting-rules), [Dependabot guidance](https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/auto-update-actions), and the [`gh pr checks` reference](https://cli.github.com/manual/gh_pr_checks).
