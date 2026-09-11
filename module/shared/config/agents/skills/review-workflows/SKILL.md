@@ -23,7 +23,7 @@ Follow a coherent repository convention first. Otherwise use these defaults:
 | Workflow file                               | `kebab-case` with `.yaml`                                | `api-pull-request-checks.yaml` |
 | Local action metadata                       | Fixed basename with `.yaml`                              | `action.yaml`                  |
 | Dependabot configuration                    | Fixed path with `.yaml`                                  | `.github/dependabot.yaml`      |
-| Workflow `name`                             | Unique, scoped title in title case                       | `API Pull Request Checks`      |
+| Workflow `name`                             | Title case; optional scope uses ` / `                    | `Build` or `Service / Build`   |
 | `run-name`                                  | Sentence-case phrase identifying the subject and target  | `Deploy 1.8.0 to production`   |
 | Job ID                                      | Stable `snake_case` identifier                           | `build_image`                  |
 | Job `name`                                  | Outcome in sentence case; include relevant matrix values | `Unit tests (Node.js 24)`      |
@@ -34,12 +34,14 @@ Follow a coherent repository convention first. Otherwise use these defaults:
 | Environment variable or secret              | Descriptive `UPPER_SNAKE_CASE` name                      | `AWS_DEPLOY_ROLE_ARN`          |
 
 - Use one canonical term for each component, environment, artifact, and operation. Distinguish terms such as `publish` and `release` only when they mean different things.
+- When scope adds useful distinction, use ` / ` as a namespace separator between stable scope segments and the workflow purpose, such as `<service> / <purpose>` or `<service> / <component> / <purpose>`. Do not invent scope for a top-level workflow or when no shared scope exists. Apply title case throughout, except where canonical casing differs. Do not repeat scope in jobs and steps when the workflow already makes it clear.
 - Give every workflow, job, and step a name that explains the responsibility, outcome, or action without opening its commands.
 - Keep workflow and job names unique across the repository. GitHub identifies required Actions checks by job name, so duplicate or changed names can make rules ambiguous or prevent a match.
 - Use `run-name` and matrix values to distinguish executions, checks, and operational resource names when collisions are possible. Prefer stable identifiers to free-form attacker-controlled text.
 - Create a step ID only when another expression consumes it. Prefer affirmative boolean inputs such as `publish` to inverted names such as `skip_publish`.
 - Treat names, IDs, reusable workflow interfaces, environment names, concurrency groups, cache keys, and artifact names as interfaces. Find their consumers before renaming them; report an incompatible cleanup instead of breaking it.
-- Preserve names owned by external actions and APIs. Avoid sequence numbers, decorative emoji, redundant words, and implementation details that do not aid diagnosis.
+- Apply title case and sentence case only to ordinary words. Preserve the canonical casing of products, services, projects, protocols, and acronyms, such as `GitHub Actions`, `Node.js`, `macOS`, and `npm`.
+- Avoid sequence numbers, decorative emoji, redundant words, and implementation details that do not aid diagnosis.
 
 ## Correctness and reliability
 
