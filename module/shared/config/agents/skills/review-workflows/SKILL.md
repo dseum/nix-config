@@ -23,7 +23,7 @@ Follow a coherent repository convention first. Otherwise use these defaults:
 | Workflow file                               | `kebab-case` with `.yaml`                                | `api-pull-request-checks.yaml` |
 | Local action metadata                       | Fixed basename with `.yaml`                              | `action.yaml`                  |
 | Dependabot configuration                    | Fixed path with `.yaml`                                  | `.github/dependabot.yaml`      |
-| Workflow `name`                             | Unique, scoped title in sentence case                    | `API pull request checks`      |
+| Workflow `name`                             | Unique, scoped title in title case                       | `API Pull Request Checks`      |
 | `run-name`                                  | Sentence-case phrase identifying the subject and target  | `Deploy 1.8.0 to production`   |
 | Job ID                                      | Stable `snake_case` identifier                           | `build_image`                  |
 | Job `name`                                  | Outcome in sentence case; include relevant matrix values | `Unit tests (Node.js 24)`      |
