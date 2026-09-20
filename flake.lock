@@ -129,11 +129,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789676423,
-        "narHash": "sha256-5hD60eUVh86m+PjrK3qXYIosoNlXM8f53eJljzPk3oM=",
+        "lastModified": 1789890900,
+        "narHash": "sha256-TgIQnGvoJu0gBEM/jYNEEH9IpB5pUdLbqlKzV/5ZPfc=",
         "owner": "dseum",
         "repo": "nixos-hardware",
-        "rev": "63edac0b628a830a0a9359dbac3003705e852704",
+        "rev": "00f132420f72938e6d42dcae42f9d3f2834e9d25",
         "type": "github"
       },
       "original": {
