@@ -117,6 +117,61 @@
           program = "${app}/bin/init";
           meta.description = "Install nix-config into ${targetDir}";
         };
+      mkPackageUpdaterArguments =
+        pkgs:
+        let
+          updatablePackages = builtins.filter (entry: entry != null) (
+            nixpkgs.lib.mapAttrsToList (
+              attrPath: package:
+              let
+                result = builtins.tryEval package;
+              in
+              if
+                result.success
+                && nixpkgs.lib.isDerivation result.value
+                && result.value ? passthru
+                && result.value.passthru ? updateScript
+              then
+                {
+                  inherit attrPath;
+                  package = result.value;
+                }
+              else
+                null
+            ) (mkPackages pkgs)
+          );
+          updaterArguments =
+            entry:
+            let
+              inherit (entry) attrPath package;
+              updateScript = package.passthru.updateScript;
+              update =
+                if nixpkgs.lib.isDerivation updateScript || !builtins.isAttrs updateScript then
+                  { command = updateScript; }
+                else
+                  updateScript;
+              command = map toString (nixpkgs.lib.toList update.command);
+              updateAttrPath = update.attrPath or attrPath;
+              pname = package.pname or (nixpkgs.lib.getName package);
+              version = package.version or (nixpkgs.lib.getVersion package);
+              updater = pkgs.writeShellApplication {
+                name = "update-${nixpkgs.lib.replaceStrings [ "." ] [ "-" ] attrPath}";
+                text = ''
+                  export UPDATE_NIX_NAME=${nixpkgs.lib.escapeShellArg package.name}
+                  export UPDATE_NIX_PNAME=${nixpkgs.lib.escapeShellArg pname}
+                  export UPDATE_NIX_OLD_VERSION=${nixpkgs.lib.escapeShellArg version}
+                  export UPDATE_NIX_ATTR_PATH=${nixpkgs.lib.escapeShellArg updateAttrPath}
+                  exec ${nixpkgs.lib.escapeShellArgs command}
+                '';
+              };
+            in
+            assert command != [ ];
+            [
+              attrPath
+              (nixpkgs.lib.getExe updater)
+            ];
+        in
+        nixpkgs.lib.concatMap updaterArguments updatablePackages;
       mkLinuxApps =
         system:
         let
@@ -136,8 +191,11 @@
             arguments = [
               "/etc/nixos"
               "nixosConfigurations.${system}.config.system.build.toplevel"
-            ];
+            ]
+            ++ mkPackageUpdaterArguments pkgs
+            ++ [ "--" ];
             runtimeInputs = [
+              pkgs.bash
               pkgs.coreutils
               pkgs.nix
             ];
@@ -162,8 +220,11 @@
             arguments = [
               "/etc/nix-darwin"
               "darwinConfigurations.${system}.system"
-            ];
+            ]
+            ++ mkPackageUpdaterArguments pkgs
+            ++ [ "--" ];
             runtimeInputs = [
+              pkgs.bash
               pkgs.coreutils
               pkgs.nix
             ];
