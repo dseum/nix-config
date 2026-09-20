@@ -47,6 +47,12 @@
       darwinSystems = [
         "aarch64-darwin"
       ];
+      systems = linuxSystems ++ darwinSystems;
+      mkPackages =
+        pkgs:
+        nixpkgs.lib.mapAttrs (name: _: pkgs.callPackage (./packages + "/${name}") { }) (
+          nixpkgs.lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./packages)
+        );
       mkApp =
         pkgs:
         {
@@ -167,6 +173,14 @@
     {
       apps =
         nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
+      packages = nixpkgs.lib.genAttrs systems (
+        system:
+        mkPackages (
+          import nixpkgs {
+            inherit system;
+          }
+        )
+      );
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (
         system:
         nix-darwin.lib.darwinSystem {
