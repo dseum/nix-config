@@ -76,8 +76,8 @@ fi
 
 declare -A urls=(
   [aarch64-darwin]="https://github.com/imputnet/helium-macos/releases/download/$version/helium_${version}_arm64-macos.dmg"
-  [aarch64-linux]="https://github.com/imputnet/helium-linux/releases/download/$version/helium-${version}-arm64.AppImage"
-  [x86_64-linux]="https://github.com/imputnet/helium-linux/releases/download/$version/helium-${version}-x86_64.AppImage"
+  [aarch64-linux]="https://github.com/imputnet/helium-linux/releases/download/$version/helium-bin_${version}-1_arm64.deb"
+  [x86_64-linux]="https://github.com/imputnet/helium-linux/releases/download/$version/helium-bin_${version}-1_amd64.deb"
 )
 
 declare -A hashes=()

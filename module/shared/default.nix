@@ -5,6 +5,10 @@
   ...
 }:
 {
+  imports = [
+    ../../packages/helium/module.nix
+  ];
+
   environment.etc."codex/config.toml".source = (pkgs.formats.toml { }).generate "codex-config.toml" {
     approval_policy = "never";
     check_for_update_on_startup = false;

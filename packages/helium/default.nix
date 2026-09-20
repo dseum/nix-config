@@ -1,18 +1,77 @@
 {
-  appimageTools,
+  adwaita-icon-theme,
+  alsa-lib,
+  at-spi2-atk,
+  at-spi2-core,
+  atk,
+  bintools,
+  bzip2,
+  cairo,
   coreutils,
   curl,
+  cups,
+  dbus,
+  expat,
   fetchurl,
+  flac,
+  fontconfig,
+  freetype,
+  gcc-unwrapped,
+  gdk-pixbuf,
   gitMinimal,
+  glib,
+  gsettings-desktop-schemas,
+  gtk3,
+  gtk4,
   gnugrep,
   gnused,
+  harfbuzz,
+  icu,
   jq,
   lib,
+  libcap,
+  libdrm,
+  libexif,
+  libglvnd,
+  libkrb5,
+  libopus,
+  libpng,
+  libpulseaudio,
+  libva,
+  libx11,
+  libxcb,
+  libxcomposite,
+  libxcursor,
+  libxdamage,
+  libxext,
+  libxfixes,
+  libxi,
+  libxkbcommon,
+  libxrandr,
+  libxrender,
+  libxscrnsaver,
+  libxshmfence,
+  libxtst,
+  libgbm,
   makeWrapper,
   nix,
   nixfmt,
+  nspr,
+  nss,
+  pango,
+  patchelf,
+  pciutils,
+  pipewire,
+  snappy,
+  speechd-minimal,
   stdenvNoCC,
+  systemd,
+  util-linux,
+  vulkan-loader,
+  wayland,
+  wget,
   writeShellApplication,
+  xdg-utils,
   _7zz,
 }:
 let
@@ -25,12 +84,12 @@ let
       hash = "sha256-8aP+zePAglTxse7DDjbs0l+YzzeZZEQn+879bmvq+s8=";
     };
     aarch64-linux = {
-      url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-${version}-arm64.AppImage";
-      hash = "sha256-Fno/dpgXm5zS5SGMOq0W7JwT1BWbGjHcHUsnkXhfMCg=";
+      url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-bin_${version}-1_arm64.deb";
+      hash = "sha256-GzuX/NBiRRCwKcOQBGYdnKb89CdH3/9rVU0pfKugb+g=";
     };
     x86_64-linux = {
-      url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-${version}-x86_64.AppImage";
-      hash = "sha256-DFyqK6nrjZhsc1OoduquJETeByVneWg6B18ybIYWk7Q=";
+      url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-bin_${version}-1_amd64.deb";
+      hash = "sha256-xb4AhHoTY/AE+B07jnDKJmsVrgKgKdLLHhG2TThTaSk=";
     };
   };
 
@@ -66,7 +125,67 @@ let
     text = builtins.readFile ./update.sh;
   });
 
-  linux = appimageTools.wrapType2 {
+  linuxDependencies = [
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    atk
+    bzip2
+    cairo
+    coreutils
+    cups
+    curl
+    dbus
+    expat
+    flac
+    fontconfig
+    freetype
+    gcc-unwrapped.lib
+    gdk-pixbuf
+    glib
+    harfbuzz
+    icu
+    libcap
+    libdrm
+    libexif
+    libglvnd
+    libkrb5
+    libpng
+    libx11
+    libxcb
+    libxcomposite
+    libxcursor
+    libxdamage
+    libxext
+    libxfixes
+    libxi
+    libxkbcommon
+    libxrandr
+    libxrender
+    libxscrnsaver
+    libxshmfence
+    libxtst
+    libgbm
+    nspr
+    nss
+    (libopus.override { withCustomModes = true; })
+    pango
+    pciutils
+    pipewire
+    snappy
+    speechd-minimal
+    systemd
+    util-linux
+    vulkan-loader
+    wayland
+    wget
+    libpulseaudio
+    libva
+    gtk3
+    gtk4
+  ];
+
+  linux = stdenvNoCC.mkDerivation {
     inherit
       meta
       passthru
@@ -75,18 +194,69 @@ let
       version
       ;
 
-    extraInstallCommands =
+    nativeBuildInputs = [
+      makeWrapper
+      patchelf
+    ];
+    buildInputs = [
+      adwaita-icon-theme
+      glib
+      gsettings-desktop-schemas
+      gtk3
+      gtk4
+    ];
+
+    unpackPhase = ''
+      runHook preUnpack
+
+      ${lib.getExe' bintools "ar"} x $src
+      tar xf data.tar.xz
+
+      runHook postUnpack
+    '';
+
+    installPhase =
       let
-        appimageContents = appimageTools.extract {
-          inherit pname src version;
-        };
+        binPath = lib.makeBinPath linuxDependencies;
+        libraryPath =
+          lib.makeLibraryPath linuxDependencies
+          + ":"
+          + lib.makeSearchPathOutput "lib" "lib64" linuxDependencies;
       in
       ''
-        install -Dm444 ${appimageContents}/helium.desktop \
-          $out/share/applications/helium.desktop
-        install -Dm444 ${appimageContents}/usr/share/icons/hicolor/256x256/apps/helium.png \
+        runHook preInstall
+
+        mkdir -p $out/bin $out/opt $out/share
+        cp -R opt/helium $out/opt/
+        cp -R usr/share/applications usr/share/metainfo $out/share/
+        install -Dm444 $out/opt/helium/product_logo_256.png \
           $out/share/icons/hicolor/256x256/apps/helium.png
+
+        for executable in helium helium_crashpad_handler chromedriver; do
+          patchelf \
+            --set-interpreter ${bintools.dynamicLinker} \
+            --set-rpath ${libraryPath} \
+            $out/opt/helium/$executable
+        done
+
+        makeWrapper $out/opt/helium/helium $out/bin/helium \
+          --set CHROME_VERSION_EXTRA nix \
+          --set CHROME_WRAPPER $out/bin/helium \
+          --prefix LD_LIBRARY_PATH : "$out/opt/helium:${libraryPath}" \
+          --prefix PATH : ${binPath} \
+          --suffix PATH : ${lib.makeBinPath [ xdg-utils ]} \
+          --prefix XDG_DATA_DIRS : "$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH" \
+          --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}"
+
+        runHook postInstall
       '';
+
+    dontBuild = true;
+
+    installCheckPhase = ''
+      $out/bin/helium --version
+    '';
+    doInstallCheck = true;
   };
 
   darwin = stdenvNoCC.mkDerivation {
