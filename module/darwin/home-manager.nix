@@ -85,10 +85,10 @@
 
               shift + lalt - e : ${ghostty-new-window}/bin/ghostty-new-window
 
-              shift + lalt - 1 : ${lib.getExe pkgs.helium} --profile-directory="Default" --new-window
-              shift + lalt - 2 : ${lib.getExe pkgs.helium} --profile-directory="Profile 1" --new-window
-              shift + lalt - 3 : ${lib.getExe pkgs.helium} --profile-directory="Profile 2" --new-window
-              shift + lalt - 4 : ${lib.getExe pkgs.helium} --profile-directory="Profile 3" --new-window
+              shift + lalt - 1 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Default" --new-window
+              shift + lalt - 2 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 1" --new-window
+              shift + lalt - 3 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 2" --new-window
+              shift + lalt - 4 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 3" --new-window
 
               ctrl + lcmd - z : pmset sleepnow
 
