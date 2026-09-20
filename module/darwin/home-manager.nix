@@ -12,6 +12,7 @@
     users.${user} =
       {
         config,
+        lib,
         pkgs,
         ...
       }:
@@ -84,10 +85,10 @@
 
               shift + lalt - e : ${ghostty-new-window}/bin/ghostty-new-window
 
-              shift + lalt - 1 : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 0" --new-window
-              shift + lalt - 2 : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 1" --new-window
-              shift + lalt - 3 : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 2" --new-window
-              shift + lalt - 4 : /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --profile-directory="Profile 3" --new-window
+              shift + lalt - 1 : ${lib.getExe pkgs.helium} --profile-directory="Default" --new-window
+              shift + lalt - 2 : ${lib.getExe pkgs.helium} --profile-directory="Profile 1" --new-window
+              shift + lalt - 3 : ${lib.getExe pkgs.helium} --profile-directory="Profile 2" --new-window
+              shift + lalt - 4 : ${lib.getExe pkgs.helium} --profile-directory="Profile 3" --new-window
 
               ctrl + lcmd - z : pmset sleepnow
 

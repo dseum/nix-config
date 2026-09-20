@@ -98,34 +98,34 @@
           };
           "org/gnome/settings-daemon/plugins/media-keys" = {
             custom-keybindings = [
-              "${customKeybindingPath}/chrome-1/"
-              "${customKeybindingPath}/chrome-2/"
-              "${customKeybindingPath}/chrome-3/"
-              "${customKeybindingPath}/chrome-4/"
+              "${customKeybindingPath}/helium-1/"
+              "${customKeybindingPath}/helium-2/"
+              "${customKeybindingPath}/helium-3/"
+              "${customKeybindingPath}/helium-4/"
               "${customKeybindingPath}/1password-quick-access/"
               "${customKeybindingPath}/terminal/"
             ];
             screensaver = [ "<Super><Alt>l" ];
           };
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/chrome-1" = {
+          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/helium-1" = {
             binding = "<Shift><Super>1";
-            command = "google-chrome-stable --profile-directory=Default --new-window";
-            name = "Chrome Profile 1";
+            command = "${lib.getExe pkgs.helium} --profile-directory=Default --new-window";
+            name = "Helium Profile 1";
           };
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/chrome-2" = {
+          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/helium-2" = {
             binding = "<Shift><Super>2";
-            command = "google-chrome-stable --profile-directory='Profile 1' --new-window";
-            name = "Chrome Profile 2";
+            command = "${lib.getExe pkgs.helium} --profile-directory='Profile 1' --new-window";
+            name = "Helium Profile 2";
           };
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/chrome-3" = {
+          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/helium-3" = {
             binding = "<Shift><Super>3";
-            command = "google-chrome-stable --profile-directory='Profile 2' --new-window";
-            name = "Chrome Profile 3";
+            command = "${lib.getExe pkgs.helium} --profile-directory='Profile 2' --new-window";
+            name = "Helium Profile 3";
           };
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/chrome-4" = {
+          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/helium-4" = {
             binding = "<Shift><Super>4";
-            command = "google-chrome-stable --profile-directory='Profile 3' --new-window";
-            name = "Chrome Profile 4";
+            command = "${lib.getExe pkgs.helium} --profile-directory='Profile 3' --new-window";
+            name = "Helium Profile 4";
           };
           "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/1password-quick-access" = {
             binding = "<Control><Shift>space";
