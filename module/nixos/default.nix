@@ -43,7 +43,10 @@ in
       "2606:4700:4700::1111"
       "2606:4700:4700::1001"
     ];
-    networkmanager.enable = true;
+    networkmanager = {
+      dns = "none";
+      enable = true;
+    };
   };
   nixpkgs.overlays = [
     (_final: prev: {
