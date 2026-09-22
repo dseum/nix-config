@@ -76,27 +76,35 @@
 }:
 let
   pname = "helium";
-  version = "0.17.2.1";
+
+  versions = {
+    darwin = "0.17.2.2";
+    linux = "0.17.2.1";
+  };
 
   sources = {
     aarch64-darwin = {
-      url = "https://github.com/imputnet/helium-macos/releases/download/${version}/helium_${version}_arm64-macos.dmg";
-      hash = "sha256-8aP+zePAglTxse7DDjbs0l+YzzeZZEQn+879bmvq+s8=";
+      version = versions.darwin;
+      url = "https://github.com/imputnet/helium-macos/releases/download/${versions.darwin}/helium_${versions.darwin}_arm64-macos.dmg";
+      hash = "sha256-CYY5HNzCql7wLB8kjE1iTRomoO6khmBsO56zNhehCVg=";
     };
     aarch64-linux = {
-      url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-bin_${version}-1_arm64.deb";
+      version = versions.linux;
+      url = "https://github.com/imputnet/helium-linux/releases/download/${versions.linux}/helium-bin_${versions.linux}-1_arm64.deb";
       hash = "sha256-GzuX/NBiRRCwKcOQBGYdnKb89CdH3/9rVU0pfKugb+g=";
     };
     x86_64-linux = {
-      url = "https://github.com/imputnet/helium-linux/releases/download/${version}/helium-bin_${version}-1_amd64.deb";
+      version = versions.linux;
+      url = "https://github.com/imputnet/helium-linux/releases/download/${versions.linux}/helium-bin_${versions.linux}-1_amd64.deb";
       hash = "sha256-xb4AhHoTY/AE+B07jnDKJmsVrgKgKdLLHhG2TThTaSk=";
     };
   };
 
-  src = fetchurl (
+  source =
     sources.${stdenvNoCC.hostPlatform.system}
-      or (throw "helium: unsupported system ${stdenvNoCC.hostPlatform.system}")
-  );
+      or (throw "helium: unsupported system ${stdenvNoCC.hostPlatform.system}");
+  src = fetchurl { inherit (source) hash url; };
+  inherit (source) version;
 
   meta = {
     description = "Private, fast, and user-friendly web browser";

@@ -77,7 +77,7 @@ if (( ${#SELECTED_PACKAGES[@]} == 0 )) && [[ $UPDATE_FLAKE == false ]]; then
 fi
 
 for PACKAGE_NAME in "${SELECTED_PACKAGES[@]}"; do
-  println "" "checking $PACKAGE_NAME for updates..."
+  println "" "$PACKAGE_NAME: checking for updates..."
   "${PACKAGE_UPDATERS[$PACKAGE_NAME]}"
 done
 

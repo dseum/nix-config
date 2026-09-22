@@ -43,11 +43,32 @@ latest_version() {
     jq -er '.tag_name | select(type == "string" and test("^[0-9]+([.][0-9]+){3}$"))'
 }
 
-version_count="$(grep -Ec '^  version = "[^"]+";$' "$package_file" || true)"
-[[ "$version_count" == 1 ]] || die "expected exactly one version assignment in $package_file"
-current_version="$(sed -n 's/^  version = "\([^"]*\)";$/\1/p' "$package_file")"
-[[ "$current_version" =~ ^[0-9]+([.][0-9]+){3}$ ]] ||
-  die "invalid current version $current_version"
+releases=(darwin linux)
+declare -A release_labels=(
+  [darwin]=macOS
+  [linux]=Linux
+)
+declare -A release_repositories=(
+  [darwin]=imputnet/helium-macos
+  [linux]=imputnet/helium-linux
+)
+declare -A current_versions=()
+declare -A latest_versions=()
+
+for release in "${releases[@]}"; do
+  version_count="$(grep -Ec "^    $release = \"[^\"]+\";$" "$package_file" || true)"
+  [[ "$version_count" == 1 ]] ||
+    die "expected exactly one $release version assignment in $package_file"
+
+  current_versions["$release"]="$(
+    sed -n "s/^    $release = \"\([^\"]*\)\";$/\1/p" "$package_file"
+  )"
+  [[ "${current_versions[$release]}" =~ ^[0-9]+([.][0-9]+){3}$ ]] ||
+    die "invalid current ${release_labels[$release]} version ${current_versions[$release]}"
+
+  latest_versions["$release"]="$(latest_version "${release_repositories[$release]}")" ||
+    die "could not determine the latest ${release_labels[$release]} version"
+done
 
 systems=(
   aarch64-darwin
@@ -63,26 +84,35 @@ for system in "${systems[@]}"; do
   [[ "$hash_count" == 1 ]] || die "expected exactly one hash for $system in $package_file"
 done
 
-linux_version="$(latest_version imputnet/helium-linux)" || die "could not determine the latest Linux version"
-darwin_version="$(latest_version imputnet/helium-macos)" || die "could not determine the latest macOS version"
-[[ "$linux_version" == "$darwin_version" ]] ||
-  die "release mismatch: Linux is $linux_version, macOS is $darwin_version"
-version="$linux_version"
+changed_releases=()
+for release in "${releases[@]}"; do
+  if [[ "${latest_versions[$release]}" != "${current_versions[$release]}" ]]; then
+    changed_releases+=("$release")
+  fi
+done
 
-if [[ "$version" == "$current_version" ]]; then
-  println "$GREEN" "helium is current"
+if (( ${#changed_releases[@]} == 0 )); then
+  println "$GREEN" "helium: current"
   exit 0
 fi
 
+declare -A system_releases=(
+  [aarch64-darwin]=darwin
+  [aarch64-linux]=linux
+  [x86_64-linux]=linux
+)
 declare -A urls=(
-  [aarch64-darwin]="https://github.com/imputnet/helium-macos/releases/download/$version/helium_${version}_arm64-macos.dmg"
-  [aarch64-linux]="https://github.com/imputnet/helium-linux/releases/download/$version/helium-bin_${version}-1_arm64.deb"
-  [x86_64-linux]="https://github.com/imputnet/helium-linux/releases/download/$version/helium-bin_${version}-1_amd64.deb"
+  [aarch64-darwin]="https://github.com/imputnet/helium-macos/releases/download/${latest_versions[darwin]}/helium_${latest_versions[darwin]}_arm64-macos.dmg"
+  [aarch64-linux]="https://github.com/imputnet/helium-linux/releases/download/${latest_versions[linux]}/helium-bin_${latest_versions[linux]}-1_arm64.deb"
+  [x86_64-linux]="https://github.com/imputnet/helium-linux/releases/download/${latest_versions[linux]}/helium-bin_${latest_versions[linux]}-1_amd64.deb"
 )
 
 declare -A hashes=()
 for system in "${systems[@]}"; do
-  println "" "prefetching helium $version for $system..."
+  release="${system_releases[$system]}"
+  [[ "${latest_versions[$release]}" != "${current_versions[$release]}" ]] || continue
+
+  println "" "helium: prefetching ${latest_versions[$release]} for $system..."
   hashes["$system"]="$(
     nix store prefetch-file --json "${urls[$system]}" |
       jq -er '.hash | select(type == "string" and startswith("sha256-"))'
@@ -93,8 +123,15 @@ tmp_file="$(mktemp "${package_file%.nix}.XXXXXX.nix")"
 trap 'rm -f -- "$tmp_file"' EXIT
 cp --preserve=mode "$package_file" "$tmp_file"
 
-sed -i "s|^  version = \".*\";$|  version = \"$version\";|" "$tmp_file"
+for release in "${changed_releases[@]}"; do
+  sed -i \
+    "s|^    $release = \".*\";$|    $release = \"${latest_versions[$release]}\";|" \
+    "$tmp_file"
+done
 for system in "${systems[@]}"; do
+  release="${system_releases[$system]}"
+  [[ "${latest_versions[$release]}" != "${current_versions[$release]}" ]] || continue
+
   sed -i \
     "/^    $system = {$/,/^    };$/ s|^      hash = \".*\";$|      hash = \"${hashes[$system]}\";|" \
     "$tmp_file"
@@ -104,4 +141,6 @@ nixfmt "$tmp_file"
 
 mv "$tmp_file" "$package_file"
 trap - EXIT
-println "$GREEN" "updated helium to $version"
+for release in "${changed_releases[@]}"; do
+  println "$GREEN" "helium: updated ${release_labels[$release]} to ${latest_versions[$release]}"
+done
