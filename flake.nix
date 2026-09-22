@@ -17,6 +17,10 @@
       url = "github:nix-darwin/nix-darwin";
     };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-index-database = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-index-database";
+    };
     nix-vscode-extensions = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-vscode-extensions";
@@ -34,6 +38,7 @@
       home-manager,
       nix-darwin,
       nix-homebrew,
+      nix-index-database,
       nixpkgs,
       ...
     }:

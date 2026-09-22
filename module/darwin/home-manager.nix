@@ -1,4 +1,5 @@
 {
+  nix-index-database,
   user,
   targetDir,
   ...
@@ -8,6 +9,7 @@
     extraSpecialArgs = {
       inherit targetDir;
     };
+    sharedModules = [ nix-index-database.homeModules.nix-index ];
     useGlobalPkgs = true;
     users.${user} =
       {

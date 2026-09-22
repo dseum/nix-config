@@ -277,6 +277,8 @@ in
         pkgs.zls
       ];
     };
+    nix-index.enable = false;
+    nix-index-database.comma.enable = true;
     opencode = {
       enable = true;
       context = ./config/agents/AGENTS.md;
