@@ -35,6 +35,10 @@ let
   };
 in
 {
+  imports = [
+    ./programs/codex.nix
+  ];
+
   home = {
     file.".pi/agent/extensions" = {
       source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/extensions");
@@ -73,6 +77,31 @@ in
     codex = {
       enable = true;
       context = ./config/agents/AGENTS.md;
+      mutableUserSettings = true;
+      settings = {
+        approval_policy = "never";
+        check_for_update_on_startup = false;
+        cli_auth_credentials_store = "keyring";
+        feedback.enabled = false;
+        features = {
+          memories = true;
+          prevent_idle_sleep = true;
+        };
+        file_opener = "none";
+        model = "gpt-6-sol";
+        model_reasoning_effort = "high";
+        model_reasoning_summary = "concise";
+        model_verbosity = "low";
+        personality = "none";
+        plan_mode_reasoning_effort = "max";
+        sandbox_mode = "danger-full-access";
+        service_tier = "fast";
+        tui = {
+          notification_method = "osc9";
+          notifications = [ "agent-turn-complete" ];
+        };
+        web_search = "live";
+      };
       skills = {
         review-abstractions = ./config/agents/skills/review-abstractions;
         review-comments = ./config/agents/skills/review-comments;
