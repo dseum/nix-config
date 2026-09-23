@@ -202,6 +202,7 @@
             runtimeInputs = [
               pkgs.bash
               pkgs.coreutils
+              pkgs.jq
               pkgs.nix
             ];
           };
@@ -231,6 +232,7 @@
             runtimeInputs = [
               pkgs.bash
               pkgs.coreutils
+              pkgs.jq
               pkgs.nix
             ];
           };

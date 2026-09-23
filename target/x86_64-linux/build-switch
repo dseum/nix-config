@@ -1,11 +1,20 @@
 #!/bin/sh -e
 
-GREEN=$(printf '\033[1;32m')
-RED=$(printf '\033[1;31m')
-YELLOW=$(printf '\033[1;33m')
+GREEN=
+RED=
+if [ -z "${NO_COLOR:-}" ] && [ -t 1 ]; then
+  GREEN=$(printf '\033[1;32m')
+fi
+if [ -z "${NO_COLOR:-}" ] && [ -t 2 ]; then
+  RED=$(printf '\033[1;31m')
+fi
 
 println() {
-  printf '\033[1mnix-config: %s%s\n\033[0m' "$1" "$2"
+  if [ -n "$1" ]; then
+    printf 'nix-config: %s%s\033[0m\n' "$1" "$2"
+  else
+    printf 'nix-config: %s\n' "$2"
+  fi
 }
 
 CPU=$(uname -m)
@@ -18,7 +27,7 @@ aarch64)
   TARGET="aarch64-linux"
   ;;
 *)
-  println "${RED}" "unsupported architecture: ${CPU}"
+  println "${RED}" "unsupported architecture: ${CPU}" >&2
   exit 1
   ;;
 esac
@@ -27,23 +36,23 @@ FLAKE_DIR=$(realpath "/etc/nixos")
 HARDWARE_CONFIG=$(mktemp /etc/nixos/.hardware-configuration.nix.XXXXXX)
 trap 'rm -f "$HARDWARE_CONFIG"' EXIT
 
-println "" "running on ${TARGET}"
+println "" "target: ${TARGET}"
 
-println "${YELLOW}" "syncing hardware-configuration.nix..."
+println "" "updating hardware-configuration.nix..."
 
 sudo nixos-generate-config --show-hardware-config >"$HARDWARE_CONFIG"
 chmod 0644 "$HARDWARE_CONFIG"
 mv "$HARDWARE_CONFIG" /etc/nixos/hardware-configuration.nix
 
 if [ -f /etc/nixos/hardware.nix ]; then
-  println "${YELLOW}" "found /etc/nixos/hardware.nix"
+  println "" "using /etc/nixos/hardware.nix"
 else
   cp "/etc/nixos/target/$TARGET/hardware.nix" /etc/nixos
-  println "${YELLOW}" "created /etc/nixos/hardware.nix"
+  println "" "created /etc/nixos/hardware.nix"
 fi
 
-println "${YELLOW}" "building and switching..."
+println "" "building and switching system..."
 
 sudo -i /run/current-system/sw/bin/nixos-rebuild switch --flake "path:${FLAKE_DIR}#${TARGET}" "$@"
 
-println "${GREEN}" "switched"
+println "${GREEN}" "system switched"

@@ -1,10 +1,20 @@
 # shellcheck shell=bash
 
-GREEN="$(printf '\033[1;32m')"
-RED="$(printf '\033[1;31m')"
+GREEN=
+RED=
+if [[ -z ${NO_COLOR:-} && -t 1 ]]; then
+  GREEN=$(printf '\033[1;32m')
+fi
+if [[ -z ${NO_COLOR:-} && -t 2 ]]; then
+  RED=$(printf '\033[1;31m')
+fi
 
 println() {
-  printf '\033[1mnix-config: %s%s\n\033[0m' "$1" "$2"
+  if [[ -n $1 ]]; then
+    printf 'nix-config: %s%s\033[0m\n' "$1" "$2"
+  else
+    printf 'nix-config: %s\n' "$2"
+  fi
 }
 
 die() {
@@ -92,7 +102,7 @@ for release in "${releases[@]}"; do
 done
 
 if (( ${#changed_releases[@]} == 0 )); then
-  println "$GREEN" "helium: current"
+  println "$GREEN" "helium: up to date"
   exit 0
 fi
 
