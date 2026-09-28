@@ -168,30 +168,35 @@ fi
 
 println "" "evaluating system changes..."
 
-BEFORE=$(nix --extra-experimental-features 'nix-command flakes' eval \
-  --no-update-lock-file \
-  --raw \
-  --reference-lock-file "$ORIGINAL_LOCK" \
-  "path:${FLAKE_DIR}#${CONFIGURATION}.drvPath")
-
-AFTER=$(nix --extra-experimental-features 'nix-command flakes' eval \
+if ! AFTER=$(nix --extra-experimental-features 'nix-command flakes' eval \
   --no-update-lock-file \
   --raw \
   --reference-lock-file "$CANDIDATE_LOCK" \
-  "path:${FLAKE_DIR}#${CONFIGURATION}.drvPath")
+  "path:${FLAKE_DIR}#${CONFIGURATION}.drvPath"); then
+  println "$RED" "candidate system cannot be evaluated; leaving flake.lock unchanged" >&2
+  exit 1
+fi
 
-if [[ $BEFORE == "$AFTER" ]]; then
-  println "" "system derivation unchanged"
-else
-  PACKAGE_CHANGES=$(nix --extra-experimental-features 'nix-command flakes' store diff-closures "$BEFORE" "$AFTER")
-  if [[ -n $PACKAGE_CHANGES ]]; then
-    println "" "package changes:"
-    while IFS= read -r CHANGE; do
-      printf '  %s\n' "$CHANGE"
-    done <<< "$PACKAGE_CHANGES"
+if BEFORE=$(nix --extra-experimental-features 'nix-command flakes' eval \
+  --no-update-lock-file \
+  --raw \
+  --reference-lock-file "$ORIGINAL_LOCK" \
+  "path:${FLAKE_DIR}#${CONFIGURATION}.drvPath"); then
+  if [[ $BEFORE == "$AFTER" ]]; then
+    println "" "system derivation unchanged"
   else
-    println "" "system derivation changed; no package differences reported"
+    PACKAGE_CHANGES=$(nix --extra-experimental-features 'nix-command flakes' store diff-closures "$BEFORE" "$AFTER")
+    if [[ -n $PACKAGE_CHANGES ]]; then
+      println "" "package changes:"
+      while IFS= read -r CHANGE; do
+        printf '  %s\n' "$CHANGE"
+      done <<< "$PACKAGE_CHANGES"
+    else
+      println "" "system derivation changed; no package differences reported"
+    fi
   fi
+else
+  println "$RED" "current system cannot be evaluated; package changes unavailable" >&2
 fi
 
 printf 'nix-config: update flake.lock? [Y/n] '
