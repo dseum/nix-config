@@ -12,5 +12,25 @@
 
 ## Git
 
-- Never create issues or pull requests.
-- Create commits or push only when a human explicitly asks.
+### Issues
+
+Never create.
+
+### Commits
+
+Create commits and push only when the user explicitly asks.
+
+#### Format
+
+```text
+<type>[!]: <description>
+```
+
+- Use `feat` for features and `fix` for bug fixes. Other lowercase types, such as `docs`, `refactor`, `test`, `ci`, and `chore`, are allowed
+- Keep the description concise
+- Mark breaking changes with `!` before `:`
+- Do not use a body or a footer unless the user explicitly asks
+
+### Pull Requests
+
+Create only when the user explicitly asks. Never add a description; once the PR is created, provide the link to the user so the user can add a description.

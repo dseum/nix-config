@@ -61,6 +61,7 @@ in
         review-abstractions = ./config/agents/skills/review-abstractions;
         review-comments = ./config/agents/skills/review-comments;
         review-workflows = ./config/agents/skills/review-workflows;
+        squash = ./config/agents/skills/squash;
       };
       settings = {
         tui = "fullscreen";
@@ -106,6 +107,7 @@ in
         review-abstractions = ./config/agents/skills/review-abstractions;
         review-comments = ./config/agents/skills/review-comments;
         review-workflows = ./config/agents/skills/review-workflows;
+        squash = ./config/agents/skills/squash;
       };
     };
     direnv = {
@@ -312,6 +314,7 @@ in
           ./config/agents/skills/review-abstractions
           ./config/agents/skills/review-comments
           ./config/agents/skills/review-workflows
+          ./config/agents/skills/squash
         ];
       };
     };
