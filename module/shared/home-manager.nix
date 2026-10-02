@@ -4,55 +4,12 @@
   targetDir,
   ...
 }:
-let
-  age-secret = pkgs.writeShellApplication {
-    name = "age-secret";
-    runtimeInputs = [ pkgs.age ];
-    text = ''
-      if [ "$#" -ne 1 ]; then
-        echo "usage: age-secret <name>" >&2
-        exit 1
-      fi
-
-      name=$1
-
-      printf 'value for %s: ' "$name" >&2
-      read -rs value || true
-      printf '\n' >&2
-
-      if [ -z "$value" ]; then
-        echo "empty value" >&2
-        exit 1
-      fi
-
-      printf %s "$value" | age \
-        -R /etc/ssh/ssh_host_ed25519_key.pub \
-        -R "$HOME/.ssh/id_ed25519.pub" \
-        -o "${targetDir}/secrets/$name.age"
-
-      echo "wrote ${targetDir}/secrets/$name.age" >&2
-    '';
-  };
-in
 {
   imports = [
     ./programs/codex.nix
   ];
 
-  home = {
-    file.".pi/agent/extensions" = {
-      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/extensions");
-      recursive = true;
-    };
-    file.".pi/agent/themes" = {
-      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/pi/themes");
-      recursive = true;
-    };
-    packages = [ age-secret ];
-    sessionVariables.PI_SKIP_VERSION_CHECK = "1";
-    shellAliases.oc = "opencode";
-    stateVersion = "26.05";
-  };
+  home.stateVersion = "26.05";
   programs = {
     claude-code = {
       enable = true;
@@ -126,7 +83,6 @@ in
       functions = {
         fish_greeting = "";
         fish_mode_prompt = "";
-        tpi = "tmux new-session -A -s pi pi";
         fish_prompt = ''
           echo -n (set_color cyan -o)(prompt_pwd)\n(set_color normal)(set_color black -b white)" $USER "(set_color normal)(set_color white)" "(set_color normal)
         '';
@@ -281,43 +237,6 @@ in
     };
     nix-index.enable = false;
     nix-index-database.comma.enable = true;
-    opencode = {
-      enable = true;
-      context = ./config/agents/AGENTS.md;
-      skills = {
-        review-abstractions = ./config/agents/skills/review-abstractions;
-        review-comments = ./config/agents/skills/review-comments;
-        review-workflows = ./config/agents/skills/review-workflows;
-      };
-      settings = {
-        autoupdate = false;
-        permission = "allow";
-        share = "disabled";
-      };
-      tui = {
-        plugin = [ "${config.xdg.configHome}/opencode/tui-plugins/metrics.tsx" ];
-      };
-    };
-    pi-coding-agent = {
-      enable = true;
-      context = ./config/agents/AGENTS.md;
-      settings = {
-        defaultProvider = "kimi-k3";
-        defaultModel = "moonshotai/Kimi-K3";
-        defaultThinkingLevel = "max";
-        enableInstallTelemetry = false;
-        theme = "tokyo-min";
-        quietStartup = true;
-        collapseChangelog = true;
-        outputPad = 0;
-        skills = [
-          ./config/agents/skills/review-abstractions
-          ./config/agents/skills/review-comments
-          ./config/agents/skills/review-workflows
-          ./config/agents/skills/squash
-        ];
-      };
-    };
     tmux = {
       enable = true;
       baseIndex = 1;
@@ -440,9 +359,6 @@ in
       source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/nvim");
       recursive = true;
     };
-    "opencode/tui-plugins/metrics.tsx".source = config.lib.file.mkOutOfStoreSymlink (
-      targetDir + "/module/shared/config/opencode/tui-plugins/metrics.tsx"
-    );
     "vim" = {
       source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/vim");
       recursive = true;

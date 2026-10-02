@@ -1,9 +1,5 @@
 {
   inputs = {
-    agenix = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:ryantm/agenix";
-    };
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
@@ -30,7 +26,6 @@
   outputs =
     inputs@{
       self,
-      agenix,
       home-manager,
       nix-darwin,
       nix-homebrew,
@@ -256,7 +251,6 @@
             { nixpkgs.hostPlatform = system; }
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
-            agenix.darwinModules.default
             ./module/darwin
             (if builtins.pathExists localModule then localModule else { })
           ];
@@ -272,7 +266,6 @@
           modules = [
             { nixpkgs.hostPlatform = system; }
             home-manager.nixosModules.home-manager
-            agenix.nixosModules.default
             ./module/nixos
             (if builtins.pathExists localModule then localModule else { })
           ];
