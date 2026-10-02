@@ -89,7 +89,7 @@ in
           prevent_idle_sleep = true;
         };
         file_opener = "none";
-        model = "gpt-6-sol";
+        model = "gpt-6.1-sol";
         model_reasoning_effort = "high";
         model_reasoning_summary = "concise";
         model_verbosity = "low";

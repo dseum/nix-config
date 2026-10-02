@@ -29,7 +29,28 @@
   };
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [ nix-vscode-extensions.overlays.default ];
+    overlays = [
+      nix-vscode-extensions.overlays.default
+      (_final: prev: {
+        codex = prev.codex.overrideAttrs (
+          finalAttrs: _oldAttrs: {
+            version = "0.160.0";
+            src = prev.fetchFromGitHub {
+              owner = "openai";
+              repo = "codex";
+              tag = "rust-v${finalAttrs.version}";
+              hash = "sha256-UFPv9UK0MBYZfpZ3QlkTXa19ykHwIEo3JdwPtUUrJls=";
+            };
+            cargoHash = "sha256-DMRbIOynO0wGXjBxaXZJNKorD9YQv3fAoRTZ4iZEIE4=";
+            cargoDeps = prev.rustPlatform.fetchCargoVendor {
+              inherit (finalAttrs) src sourceRoot;
+              name = "codex-${finalAttrs.version}";
+              hash = finalAttrs.cargoHash;
+            };
+          }
+        );
+      })
+    ];
   };
   fonts.packages = [
     pkgs.ibm-plex
