@@ -34,12 +34,12 @@
       (_final: prev: {
         codex = prev.codex.overrideAttrs (
           finalAttrs: _oldAttrs: {
-            version = "0.160.0";
+            version = "0.160.1";
             src = prev.fetchFromGitHub {
               owner = "openai";
               repo = "codex";
               tag = "rust-v${finalAttrs.version}";
-              hash = "sha256-UFPv9UK0MBYZfpZ3QlkTXa19ykHwIEo3JdwPtUUrJls=";
+              hash = "sha256-9oXMysQ+v4txGIhPsgh45xAAqWYglZjhdS50uxMPHz4=";
             };
             cargoHash = "sha256-DMRbIOynO0wGXjBxaXZJNKorD9YQv3fAoRTZ4iZEIE4=";
             cargoDeps = prev.rustPlatform.fetchCargoVendor {
