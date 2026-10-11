@@ -15,6 +15,7 @@
       enable = true;
       context = ./config/agents/AGENTS.md;
       skills = {
+        asd = ./config/agents/skills/asd;
         review-abstractions = ./config/agents/skills/review-abstractions;
         review-comments = ./config/agents/skills/review-comments;
         review-workflows = ./config/agents/skills/review-workflows;
@@ -61,6 +62,7 @@
         web_search = "live";
       };
       skills = {
+        asd = ./config/agents/skills/asd;
         review-abstractions = ./config/agents/skills/review-abstractions;
         review-comments = ./config/agents/skills/review-comments;
         review-workflows = ./config/agents/skills/review-workflows;
