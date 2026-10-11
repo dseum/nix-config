@@ -297,48 +297,6 @@
       shell = "${pkgs.fish}/bin/fish";
       terminal = "tmux-256color";
     };
-    vscode = {
-      enable = true;
-      mutableExtensionsDir = false;
-      profiles.default = {
-        enableExtensionUpdateCheck = false;
-        enableUpdateCheck = false;
-        extensions = with pkgs.nix-vscode-extensions.vscode-marketplace-release; [
-          bradlc.vscode-tailwindcss
-          charliermarsh.ruff
-          dart-code.dart-code
-          dbaeumer.vscode-eslint
-          docker.docker
-          enkia.tokyo-night
-          esbenp.prettier-vscode
-          james-yu.latex-workshop
-          keenethics.keen-neutral-icon-theme
-          mermaidchart.vscode-mermaid-chart
-          mjmlio.vscode-mjml
-          ms-azuretools.vscode-containers
-          ms-azuretools.vscode-docker
-          ms-python.python
-          ms-toolsai.jupyter
-          ms-toolsai.jupyter-keymap
-          ms-toolsai.jupyter-renderers
-          ms-toolsai.vscode-jupyter-cell-tags
-          ms-toolsai.vscode-jupyter-slideshow
-          ms-vscode-remote.remote-containers
-          ms-vscode-remote.remote-wsl-recommender
-          ms-vscode.makefile-tools
-          ms-vsliveshare.vsliveshare
-          ocamllabs.ocaml-platform
-          rebornix.toggle
-          reditorsupport.r
-          reditorsupport.r-syntax
-          rust-lang.rust-analyzer
-          svelte.svelte-vscode
-          vscodevim.vim
-        ];
-        keybindings = builtins.fromJSON (builtins.readFile ./config/vscode/keybindings.json);
-        userSettings = builtins.fromJSON (builtins.readFile ./config/vscode/settings.json);
-      };
-    };
     zsh = {
       enable = true;
       dotDir = config.xdg.configHome + "/zsh";

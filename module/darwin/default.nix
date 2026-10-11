@@ -1,6 +1,5 @@
 {
   self,
-  config,
   pkgs,
   user,
   ...
@@ -89,7 +88,6 @@ in
           "/System/Applications/Calendar.app"
           "/Applications/Nix Apps/Spotify.app"
           "/Applications/Ghostty.app"
-          "${config.users.users.${user}.home}/Applications/Home Manager Apps/Visual Studio Code.app"
           "/Applications/Nix Apps/Slack.app"
           "/Applications/WhatsApp.app"
           "/System/Applications/System Settings.app"

@@ -1,6 +1,5 @@
 {
   pkgs,
-  nix-vscode-extensions,
   user,
   ...
 }:
@@ -30,7 +29,6 @@
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
-      nix-vscode-extensions.overlays.default
       (_final: prev: {
         codex = prev.codex.overrideAttrs (
           finalAttrs: _oldAttrs: {
