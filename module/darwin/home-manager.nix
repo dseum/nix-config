@@ -33,13 +33,22 @@
         xdg.configFile."skhd/skhdrc" =
           let
             effect = ./config/skhd/effect;
-            ghostty-new-window = pkgs.writeScriptBin "ghostty-new-window" ''
+            ghosttyNewWindow = pkgs.writeScriptBin "ghostty-new-window" ''
               #!/usr/bin/osascript
-              if application "Ghostty" is running then
-                tell application "Ghostty" to new window
-              else
-                tell application "Ghostty" to activate
-              end if
+              tell application "Ghostty"
+                new window
+                activate
+              end tell
+            '';
+            heliumNewWindow = pkgs.writeShellScriptBin "helium-new-window" ''
+              if [[ ! -f "$HOME/Library/Application Support/net.imput.helium/$1/Preferences" ]]; then
+                echo "Helium profile does not exist: $1" >&2
+                exit 1
+              fi
+
+              # -n forwards arguments even when Chromium's existing browser process handles the request
+              exec /usr/bin/open -n -a "/Applications/Nix Apps/Helium.app" --args \
+                --profile-directory="$1" --new-window --no-first-run
             '';
           in
           {
@@ -85,12 +94,12 @@
 
               shift + lalt - m : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" elif .type == "bsp" then "float" else "stack" end')
 
-              shift + lalt - e : ${ghostty-new-window}/bin/ghostty-new-window
+              shift + lalt - e : ${lib.getExe ghosttyNewWindow}
 
-              shift + lalt - 1 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Default" --new-window
-              shift + lalt - 2 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 1" --new-window
-              shift + lalt - 3 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 2" --new-window
-              shift + lalt - 4 : /Applications/Nix\ Apps/Helium.app/Contents/MacOS/Helium --profile-directory="Profile 3" --new-window
+              shift + lalt - 1 : ${lib.getExe heliumNewWindow} "Default"
+              shift + lalt - 2 : ${lib.getExe heliumNewWindow} "Profile 1"
+              shift + lalt - 3 : ${lib.getExe heliumNewWindow} "Profile 2"
+              shift + lalt - 4 : ${lib.getExe heliumNewWindow} "Profile 3"
 
               ctrl + lcmd - z : pmset sleepnow
 
