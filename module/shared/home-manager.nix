@@ -274,15 +274,98 @@
     zsh = {
       enable = true;
       dotDir = config.xdg.configHome + "/zsh";
+      defaultKeymap = "viins";
+      autosuggestion = {
+        enable = true;
+        highlight = "fg=8";
+        strategy = [
+          "history"
+          "completion"
+        ];
+      };
+      syntaxHighlighting = {
+        enable = true;
+        styles = {
+          default = "fg=cyan";
+          arg0 = "none";
+          reserved-word = "none";
+          suffix-alias = "none";
+          global-alias = "fg=cyan";
+          precommand = "none";
+          autodirectory = "underline";
+          path = "fg=cyan,underline";
+          path_prefix = "fg=cyan,underline";
+          unknown-token = "fg=9";
+          commandseparator = "fg=green";
+          redirection = "fg=cyan,bold";
+          single-hyphen-option = "fg=cyan";
+          double-hyphen-option = "fg=cyan";
+          single-quoted-argument = "fg=yellow";
+          double-quoted-argument = "fg=yellow";
+          dollar-quoted-argument = "fg=yellow";
+          dollar-double-quoted-argument = "fg=14";
+          back-double-quoted-argument = "fg=14";
+          back-dollar-quoted-argument = "fg=14";
+          rc-quote = "fg=14";
+          globbing = "fg=14";
+          history-expansion = "fg=14";
+          command-substitution-delimiter = "fg=14";
+          process-substitution-delimiter = "fg=14";
+          back-quoted-argument-delimiter = "fg=14";
+          assign = "fg=cyan";
+          comment = "fg=red";
+        };
+      };
       initContent = ''
-        # Options
-        setopt NO_CASE_GLOB
-        setopt PROMPT_SUBST
-        setopt CORRECT
-        bindkey -v
+        setopt AUTO_CD INTERACTIVE_COMMENTS
+        unsetopt BANG_HIST BEEP CORRECT NO_CASE_GLOB PROMPT_SUBST
 
-        # Prompt
-        PROMPT=$'%F{#787e9c}''${(r:$COLUMNS::\u2500:)}%f\n%F{cyan}%B%2~%b%f\n%K{white}%F{black} %n %f%k%F{white}%f '
+        zstyle ':completion:*' menu select
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+        zstyle ':completion:*:descriptions' format '%F{yellow}%d%f'
+
+        source ${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+        HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=white,bg=8'
+        HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=white,bg=8'
+        HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+        for keymap in viins vicmd; do
+          bindkey -M "$keymap" '^[[A' history-substring-search-up
+          bindkey -M "$keymap" '^[[B' history-substring-search-down
+          bindkey -M "$keymap" '^[OA' history-substring-search-up
+          bindkey -M "$keymap" '^[OB' history-substring-search-down
+        done
+        unset keymap
+        bindkey -M viins '^[[Z' autosuggest-accept
+
+        zle_highlight=('region:fg=white,bg=8,bold')
+        autoload -Uz add-zle-hook-widget add-zsh-hook
+
+        _fish_style_cursor() {
+          printf '\e[2 q'
+        }
+        add-zle-hook-widget line-init _fish_style_cursor
+        add-zle-hook-widget keymap-select _fish_style_cursor
+
+        _fish_style_prompt() {
+          local prompt_pwd=$PWD
+          if [[ $prompt_pwd == "$HOME" || $prompt_pwd == "$HOME/"* ]]; then
+            prompt_pwd="~''${prompt_pwd#"$HOME"}"
+          fi
+          prompt_pwd=''${prompt_pwd//[[:cntrl:]]/}
+
+          local -a parts=("''${(@s:/:)prompt_pwd}")
+          local i
+          for (( i = 1; i < ''${#parts}; ++i )); do
+            if [[ ''${parts[i]} == .* ]]; then
+              parts[i]=''${parts[i][1,2]}
+            else
+              parts[i]=''${parts[i][1]}
+            fi
+          done
+          prompt_pwd=''${(j:/:)parts}
+          PROMPT=$'%B%F{cyan}'"''${prompt_pwd//\%/%%}"$'%b%f\n%K{white}%F{black} %n %f%k%F{white} %f'
+        }
+        add-zsh-hook precmd _fish_style_prompt
       '';
     };
   };
