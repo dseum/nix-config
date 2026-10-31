@@ -1,7 +1,12 @@
 { pkgs }:
 [
   pkgs.bottom
-  pkgs.ccache
+  (pkgs.ccache.overrideAttrs (
+    pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+      # ccache's test inputs currently include Linux-only elfutils.
+      doCheck = false;
+    }
+  ))
   pkgs.cloudflared
   pkgs.cmake
   pkgs.cmake-format
