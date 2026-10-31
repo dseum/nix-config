@@ -61,12 +61,19 @@
             effect = ./config/skhd/effect;
             rexNewWindow = pkgs.writeShellApplication {
               name = "rex-new-window";
+              runtimeInputs = [ pkgs.jq ];
               text = ''
                 was_running=$(/usr/bin/osascript -e 'application id "com.superlogical.rex" is running')
                 /usr/bin/open -a "/Applications/Rex Beta.app"
                 if [[ "$was_running" == true ]]; then
-                  exec "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" \
-                    --autostart=false 'do' client.window.new
+                  rex="/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+                  sessions=$("$rex" --autostart=false ls --quiet)
+                  if [[ -z "$sessions" ]]; then
+                    session_id=$("$rex" --autostart=false new --json --cwd "$HOME" --shell none -- \
+                      ${lib.getExe pkgs.fish} --interactive --login | jq -er '.session_id')
+                    exec "$rex" --autostart=false 'do' session.select session_id="$session_id"
+                  fi
+                  exec "$rex" --autostart=false 'do' client.window.new
                 fi
               '';
             };
