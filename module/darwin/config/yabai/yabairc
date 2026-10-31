@@ -4,7 +4,6 @@ sudo yabai --load-sa
 
 # Config
 yabai -m config \
-    mouse_follows_focus on \
     window_placement second_child \
     top_padding 7 \
     bottom_padding 7 \
