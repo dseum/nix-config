@@ -56,6 +56,15 @@
         tui = {
           notification_method = "osc9";
           notifications = [ "agent-turn-complete" ];
+          show_tooltips = false;
+          status_line = [
+            "model-with-reasoning"
+            "current-dir"
+            "git-branch"
+            "weekly-limit"
+            "context-remaining"
+            "pull-request-number"
+          ];
         };
         web_search = "live";
       };
