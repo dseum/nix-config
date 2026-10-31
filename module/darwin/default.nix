@@ -85,6 +85,10 @@ in
     defaults = {
       CustomUserPreferences."com.superlogical.rex" = {
         "Workspace.terminalStartupCommand" = "${pkgs.fish}/bin/fish --interactive --login";
+        "Workspace.terminalUseThemePalette" = false;
+        "Workspace.terminalImproveTextContrast" = false;
+        "Workspace.lightUsesExtendedThemePalette" = false;
+        "Workspace.darkUsesExtendedThemePalette" = false;
         "rex.client.remoteControl" = true;
       };
       dock = {
