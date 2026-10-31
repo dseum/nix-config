@@ -107,7 +107,7 @@
         cursor-style-blink = false;
         font-family = "IBM Plex Mono";
         font-feature = "-calt";
-        font-size = 14;
+        font-size = 13;
         font-thicken = true;
         macos-titlebar-style = "tabs";
         macos-window-shadow = false;

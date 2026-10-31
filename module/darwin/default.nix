@@ -85,6 +85,14 @@ in
     defaults = {
       CustomUserPreferences."com.superlogical.rex" = {
         "Workspace.appearance" = "dark";
+        "Workspace.terminalFontName" = "IBMPlexMono";
+        "Workspace.terminalFontPointSize" = 13;
+        "Workspace.terminalCursorStyle" = "block";
+        "Workspace.terminalCursorStyleForced" = false;
+        "Workspace.terminalCursorBlinkIntervalMilliseconds" = 0;
+        "Workspace.terminalCursorBlinkUsesCustomInterval" = false;
+        "Workspace.terminalCopyOnSelect" = true;
+        "Workspace.terminalUsesDisplayP3" = true;
         "Workspace.terminalStartupCommand" = "${pkgs.fish}/bin/fish --interactive --login";
         "Workspace.terminalUseThemePalette" = false;
         "Workspace.terminalImproveTextContrast" = false;

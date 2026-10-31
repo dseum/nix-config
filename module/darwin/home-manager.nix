@@ -41,6 +41,21 @@
         xdg.configFile."rex/init.lua".text = ''
           rex.bind("shift+enter", "pane.send_key", { key = "alt+enter" })
         '';
+        xdg.configFile."rex/themes/Tokyo Night".text =
+          lib.generators.toKeyValue
+            {
+              listsAsDuplicateKeys = true;
+            }
+            (
+              lib.getAttrs [
+                "background"
+                "foreground"
+                "cursor-color"
+                "selection-background"
+                "selection-foreground"
+                "palette"
+              ] config.programs.ghostty.settings
+            );
         xdg.configFile."skhd/skhdrc" =
           let
             effect = ./config/skhd/effect;
