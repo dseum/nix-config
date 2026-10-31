@@ -92,30 +92,6 @@
         set -g fish_cursor_insert block
       '';
     };
-    fzf = {
-      enable = true;
-      colors = {
-        bg = "#1a1b26";
-        "bg+" = "#1a1b26";
-        fg = "#c0caf5";
-        "fg+" = "#c0caf5";
-        header = "#9ece6a";
-        hl = "#c0caf5";
-        "hl+" = "#c0caf5";
-        info = "#7aa2f7";
-        marker = "#9ece6a";
-        pointer = "#7dcfff";
-        prompt = "#7dcfff";
-        spinner = "#9ece6a";
-      };
-      defaultCommand = "fd --type file";
-      defaultOptions = [
-        "--info=inline-right"
-        "--marker=—"
-        "--pointer=—"
-        "--prompt=— "
-      ];
-    };
     ghostty = {
       enable = true;
       settings = {
