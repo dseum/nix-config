@@ -88,6 +88,8 @@ in
         "Workspace.showsPaneHeaders" = false;
         "Workspace.terminalFontName" = "IBMPlexMono";
         "Workspace.terminalFontPointSize" = 13;
+        "Workspace.terminalFontSmoothing" = true;
+        "Workspace.terminalAllowsLigatures" = false;
         "Workspace.terminalCursorStyle" = "block";
         "Workspace.terminalCursorStyleForced" = false;
         "Workspace.terminalCursorBlinkIntervalMilliseconds" = 0;
