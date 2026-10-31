@@ -17,7 +17,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:dseum/nixos-hardware/dell-xps-14-da14260";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
   outputs =
     inputs@{
