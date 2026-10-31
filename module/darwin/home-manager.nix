@@ -23,23 +23,39 @@
           ../shared/home-manager.nix
         ];
         home.packages = import ./packages.nix { inherit pkgs; };
+        home.activation.configureRex = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+          run "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" terminfo setup
+        '';
         nix.gc = {
           automatic = true;
           dates = "weekly";
           options = "--delete-older-than=7d";
         };
+        programs.fish.interactiveShellInit = lib.mkAfter ''
+          if set -q REX_BIN_DIR; and test -n "$REX_BIN_DIR"
+            fish_add_path --path --prepend --move "$REX_BIN_DIR"
+          end
+        '';
         programs.ghostty.package = null;
         programs.man.generateCaches = false;
+        xdg.configFile."rex/init.lua".text = ''
+          rex.unbind("shift+tab")
+          rex.bind("shift+enter", "pane.send_key", { key = "alt+enter" })
+        '';
         xdg.configFile."skhd/skhdrc" =
           let
             effect = ./config/skhd/effect;
-            ghosttyNewWindow = pkgs.writeScriptBin "ghostty-new-window" ''
-              #!/usr/bin/osascript
-              tell application "Ghostty"
-                new window
-                activate
-              end tell
-            '';
+            rexNewWindow = pkgs.writeShellApplication {
+              name = "rex-new-window";
+              text = ''
+                was_running=$(/usr/bin/osascript -e 'application id "com.superlogical.rex" is running')
+                /usr/bin/open -a "/Applications/Rex Beta.app"
+                if [[ "$was_running" == true ]]; then
+                  exec "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" \
+                    --autostart=false 'do' client.window.new
+                fi
+              '';
+            };
             heliumNewWindow = pkgs.writeShellScriptBin "helium-new-window" ''
               if [[ ! -f "$HOME/Library/Application Support/net.imput.helium/$1/Preferences" ]]; then
                 echo "Helium profile does not exist: $1" >&2
@@ -94,7 +110,7 @@
 
               shift + lalt - m : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" elif .type == "bsp" then "float" else "stack" end')
 
-              shift + lalt - e : ${lib.getExe ghosttyNewWindow}
+              shift + lalt - e : ${lib.getExe rexNewWindow}
 
               shift + lalt - 1 : ${lib.getExe heliumNewWindow} "Default"
               shift + lalt - 2 : ${lib.getExe heliumNewWindow} "Profile 1"

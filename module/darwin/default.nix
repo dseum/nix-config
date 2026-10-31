@@ -13,6 +13,11 @@ in
     ./home-manager.nix
   ];
   environment = {
+    interactiveShellInit = ''
+      if [ -n "$REX_BIN_DIR" ] && [ "''${PATH%%:*}" != "$REX_BIN_DIR" ]; then
+        export PATH="$REX_BIN_DIR:$PATH"
+      fi
+    '';
     shells = [
       pkgs.zsh
     ];
@@ -78,6 +83,10 @@ in
   system = {
     configurationRevision = self.rev or self.dirtyRev or null;
     defaults = {
+      CustomUserPreferences."com.superlogical.rex" = {
+        "Workspace.terminalStartupCommand" = "${pkgs.fish}/bin/fish --interactive --login";
+        "rex.client.remoteControl" = true;
+      };
       dock = {
         autohide = true;
         autohide-delay = 0.0;
@@ -87,7 +96,7 @@ in
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Nix Apps/Spotify.app"
-          "/Applications/Ghostty.app"
+          "/Applications/Rex Beta.app"
           "/Applications/Nix Apps/Slack.app"
           "/Applications/WhatsApp.app"
           "/System/Applications/System Settings.app"
