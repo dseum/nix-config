@@ -5,10 +5,6 @@
   ...
 }:
 {
-  imports = [
-    ./programs/codex.nix
-  ];
-
   home.stateVersion = "26.05";
   programs = {
     claude-code = {
@@ -36,7 +32,7 @@
     codex = {
       enable = true;
       context = ./config/agents/AGENTS.md;
-      mutableUserSettings = true;
+      mutableSettings = true;
       settings = {
         approval_policy = "never";
         check_for_update_on_startup = false;
