@@ -9,6 +9,7 @@
   programs = {
     claude-code = {
       enable = true;
+      enableMcpIntegration = true;
       context = ./config/agents/AGENTS.md;
       skills = {
         asd = ./config/agents/skills/asd;
@@ -31,6 +32,7 @@
     };
     codex = {
       enable = true;
+      enableMcpIntegration = true;
       context = ./config/agents/AGENTS.md;
       mutableSettings = true;
       settings = {
@@ -168,6 +170,10 @@
           name = "dseum";
         };
       };
+    };
+    mcp = {
+      enable = true;
+      servers.superlogical.url = "https://www.superlogical.com/rex/community-mcp";
     };
     neovim = {
       enable = true;
