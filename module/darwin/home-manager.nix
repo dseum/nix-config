@@ -39,7 +39,6 @@
         programs.ghostty.package = null;
         programs.man.generateCaches = false;
         xdg.configFile."rex/init.lua".text = ''
-          rex.unbind("shift+tab")
           rex.bind("shift+enter", "pane.send_key", { key = "alt+enter" })
         '';
         xdg.configFile."skhd/skhdrc" =
