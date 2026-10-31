@@ -85,6 +85,7 @@ in
     defaults = {
       CustomUserPreferences."com.superlogical.rex" = {
         "Workspace.appearance" = "dark";
+        "Workspace.showsPaneHeaders" = false;
         "Workspace.terminalFontName" = "IBMPlexMono";
         "Workspace.terminalFontPointSize" = 13;
         "Workspace.terminalCursorStyle" = "block";
