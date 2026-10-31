@@ -47,7 +47,7 @@ mv "$HARDWARE_CONFIG" /etc/nixos/hardware-configuration.nix
 if [ -f /etc/nixos/hardware.nix ]; then
   println "" "using /etc/nixos/hardware.nix"
 else
-  cp "/etc/nixos/target/$TARGET/hardware.nix" /etc/nixos
+  cp "/etc/nixos/targets/$TARGET/hardware.nix" /etc/nixos
   println "" "created /etc/nixos/hardware.nix"
 fi
 

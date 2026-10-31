@@ -10,13 +10,13 @@
     claude-code = {
       enable = true;
       enableMcpIntegration = true;
-      context = ./config/agents/AGENTS.md;
+      context = ./configs/agents/AGENTS.md;
       skills = {
-        asd = ./config/agents/skills/asd;
-        review-abstractions = ./config/agents/skills/review-abstractions;
-        review-comments = ./config/agents/skills/review-comments;
-        review-workflows = ./config/agents/skills/review-workflows;
-        squash = ./config/agents/skills/squash;
+        asd = ./configs/agents/skills/asd;
+        review-abstractions = ./configs/agents/skills/review-abstractions;
+        review-comments = ./configs/agents/skills/review-comments;
+        review-workflows = ./configs/agents/skills/review-workflows;
+        squash = ./configs/agents/skills/squash;
       };
       settings = {
         tui = "fullscreen";
@@ -33,7 +33,7 @@
     codex = {
       enable = true;
       enableMcpIntegration = true;
-      context = ./config/agents/AGENTS.md;
+      context = ./configs/agents/AGENTS.md;
       mutableSettings = true;
       settings = {
         approval_policy = "never";
@@ -60,11 +60,11 @@
         web_search = "live";
       };
       skills = {
-        asd = ./config/agents/skills/asd;
-        review-abstractions = ./config/agents/skills/review-abstractions;
-        review-comments = ./config/agents/skills/review-comments;
-        review-workflows = ./config/agents/skills/review-workflows;
-        squash = ./config/agents/skills/squash;
+        asd = ./configs/agents/skills/asd;
+        review-abstractions = ./configs/agents/skills/review-abstractions;
+        review-comments = ./configs/agents/skills/review-comments;
+        review-workflows = ./configs/agents/skills/review-workflows;
+        squash = ./configs/agents/skills/squash;
       };
     };
     direnv = {
@@ -377,11 +377,11 @@
   };
   xdg.configFile = {
     "nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/nvim");
+      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/modules/shared/configs/nvim");
       recursive = true;
     };
     "vim" = {
-      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/shared/config/vim");
+      source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/modules/shared/configs/vim");
       recursive = true;
     };
   };

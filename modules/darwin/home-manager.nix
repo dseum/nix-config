@@ -58,7 +58,7 @@
             );
         xdg.configFile."skhd/skhdrc" =
           let
-            effect = ./config/skhd/effect;
+            effect = ./configs/skhd/effect;
             rexNewWindow = pkgs.writeShellApplication {
               name = "rex-new-window";
               runtimeInputs = [ pkgs.jq ];
@@ -146,7 +146,7 @@
             '';
           };
         xdg.configFile."yabai" = {
-          source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/module/darwin/config/yabai");
+          source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/modules/darwin/configs/yabai");
           recursive = true;
         };
       };

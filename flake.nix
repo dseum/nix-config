@@ -174,12 +174,12 @@
         {
           "build-switch" = mkApp pkgs {
             name = "build-switch";
-            script = ./. + "/target/${system}/build-switch";
+            script = ./. + "/targets/${system}/build-switch";
           };
           "init" = mkInitApp pkgs "/etc/nixos";
           "update" = mkApp pkgs {
             name = "update";
-            script = ./target/update;
+            script = ./targets/update;
             arguments = [
               "/etc/nixos"
               "nixosConfigurations.${system}.config.system.build.toplevel"
@@ -204,12 +204,12 @@
         {
           "build-switch" = mkApp pkgs {
             name = "build-switch";
-            script = ./. + "/target/${system}/build-switch";
+            script = ./. + "/targets/${system}/build-switch";
           };
           "init" = mkInitApp pkgs "/etc/nix-darwin";
           "update" = mkApp pkgs {
             name = "update";
-            script = ./target/update;
+            script = ./targets/update;
             arguments = [
               "/etc/nix-darwin"
               "darwinConfigurations.${system}.system"
@@ -247,7 +247,7 @@
             { nixpkgs.hostPlatform = system; }
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
-            ./module/darwin
+            ./modules/darwin
             (if builtins.pathExists localModule then localModule else { })
           ];
         }
@@ -262,7 +262,7 @@
           modules = [
             { nixpkgs.hostPlatform = system; }
             home-manager.nixosModules.home-manager
-            ./module/nixos
+            ./modules/nixos
             (if builtins.pathExists localModule then localModule else { })
           ];
         }
