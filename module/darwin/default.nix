@@ -84,6 +84,7 @@ in
     configurationRevision = self.rev or self.dirtyRev or null;
     defaults = {
       CustomUserPreferences."com.superlogical.rex" = {
+        "Workspace.appearance" = "dark";
         "Workspace.terminalStartupCommand" = "${pkgs.fish}/bin/fish --interactive --login";
         "Workspace.terminalUseThemePalette" = false;
         "Workspace.terminalImproveTextContrast" = false;
