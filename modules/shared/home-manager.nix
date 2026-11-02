@@ -19,6 +19,10 @@
         squash = ./configs/agents/skills/squash;
       };
       settings = {
+        attribution = {
+          commit = "";
+          pr = "";
+        };
         tui = "fullscreen";
         extraKnownMarketplaces.svelte.source = {
           source = "github";
