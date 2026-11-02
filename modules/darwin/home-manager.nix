@@ -40,6 +40,32 @@
         programs.man.generateCaches = false;
         xdg.configFile."rex/init.lua".text = ''
           rex.bind("shift+enter", "pane.send_key", { key = "alt+enter" })
+
+          rex.action {
+            name = "tab_new_next",
+            title = "New Tab Next to Current",
+            run = function(ctx)
+              if not ctx.session_id then
+                rex.client.queue("client.tab.new")
+                return
+              end
+
+              local view, err = rex.session.view {}
+              if err then error(err, 0) end
+
+              rex.client.queue("client.tab.new")
+              for i, window in ipairs(view.windows) do
+                if window.window_id == view.active_window_id then
+                  for _ = i + 1, #view.windows do
+                    rex.client.queue("client.tab.move", { direction = "backward" })
+                  end
+                  break
+                end
+              end
+            end,
+          }
+
+          rex.bind("cmd+t", "tab_new_next")
         '';
         xdg.configFile."rex/themes/Tokyo Night".text =
           lib.generators.toKeyValue
