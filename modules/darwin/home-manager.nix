@@ -38,33 +38,11 @@
         '';
         programs.ghostty.package = null;
         programs.man.generateCaches = false;
-        xdg.configFile."rex/init.lua".text = ''
-          rex.bind("shift+enter", "pane.send_key", { key = "alt+enter" })
-
-          rex.action {
-            name = "tab_new_next",
-            title = "New Tab Next to Current",
-            args = { client_id = "string?" },
-            run = function(ctx, args)
-              if not ctx.session_id then
-                rex.client.queue("client.tab.new")
-                return
-              end
-
-              local process, err = rex.exec.start({
-                "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex",
-                "-C", args.client_id or ctx.client_id,
-                "do", "--session", ctx.session_id,
-                "${config.xdg.configHome}/rex/new-tab-next.lua",
-                "--args", rex.json.encode { block_id = ctx.block_id },
-              }, { detach = true })
-              if not process then error(err, 0) end
-            end,
-          }
-
-          rex.bind("cmd+t", "tab_new_next")
-        '';
-        xdg.configFile."rex/new-tab-next.lua".source = ./configs/rex/new-tab-next.lua;
+        xdg.configFile."rex" = {
+          source = config.lib.file.mkOutOfStoreSymlink (targetDir + "/modules/darwin/configs/rex");
+          recursive = true;
+        };
+        xdg.configFile."rex/bin/flock".source = lib.getExe pkgs.flock;
         xdg.configFile."rex/themes/Tokyo Night".text =
           lib.generators.toKeyValue
             {
