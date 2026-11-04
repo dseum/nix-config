@@ -24,7 +24,7 @@
         ];
         home.packages = import ./packages.nix { inherit pkgs; };
         home.activation.configureRex = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-          run "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" terminfo setup
+          run /usr/bin/env PATH="$PATH:/usr/bin" "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" terminfo setup
         '';
         nix.gc = {
           automatic = true;
