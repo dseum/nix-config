@@ -23,14 +23,17 @@ die() {
 }
 
 repo_root="$(git rev-parse --show-toplevel)" || die "run this command from the nix-config repository"
-package_file="$repo_root/packages/helium/default.nix"
-[[ -f "$package_file" ]] || die "missing $package_file"
+sources_file="$repo_root/packages/helium/sources.json"
+sources="$(jq . "$sources_file")"
 
 curl_args=(
   --fail
   --silent
   --show-error
   --location
+  --connect-timeout 15
+  --max-time 120
+  --retry 3
   --header "Accept: application/vnd.github+json"
   --header "X-GitHub-Api-Version: 2022-11-28"
 )
@@ -48,109 +51,63 @@ github_api() {
   fi
 }
 
-latest_version() {
-  github_api "https://api.github.com/repos/$1/releases/latest" |
-    jq -er '.tag_name | select(type == "string" and test("^[0-9]+([.][0-9]+){3}$"))'
-}
-
-releases=(darwin linux)
-declare -A release_labels=(
-  [darwin]=macOS
-  [linux]=Linux
-)
-declare -A release_repositories=(
+declare -A repositories=(
   [darwin]=imputnet/helium-macos
   [linux]=imputnet/helium-linux
 )
-declare -A current_versions=()
-declare -A latest_versions=()
-
-for release in "${releases[@]}"; do
-  version_count="$(grep -Ec "^    $release = \"[^\"]+\";$" "$package_file" || true)"
-  [[ "$version_count" == 1 ]] ||
-    die "expected exactly one $release version assignment in $package_file"
-
-  current_versions["$release"]="$(
-    sed -n "s/^    $release = \"\([^\"]*\)\";$/\1/p" "$package_file"
-  )"
-  [[ "${current_versions[$release]}" =~ ^[0-9]+([.][0-9]+){3}$ ]] ||
-    die "invalid current ${release_labels[$release]} version ${current_versions[$release]}"
-
-  latest_versions["$release"]="$(latest_version "${release_repositories[$release]}")" ||
-    die "could not determine the latest ${release_labels[$release]} version"
-done
-
-systems=(
-  aarch64-darwin
-  aarch64-linux
-  x86_64-linux
+declare -A asset_suffixes=(
+  [aarch64-darwin]=_arm64-macos.dmg
+  [aarch64-linux]=_arm64.deb
+  [x86_64-linux]=_amd64.deb
 )
+changes=()
 
-for system in "${systems[@]}"; do
-  hash_count="$(
-    sed -n "/^    $system = {$/,/^    };$/p" "$package_file" |
-      grep -Ec '^      hash = "sha256-[A-Za-z0-9+/]+={0,2}";$' || true
-  )"
-  [[ "$hash_count" == 1 ]] || die "expected exactly one hash for $system in $package_file"
+for platform in darwin linux; do
+  release="$(github_api "https://api.github.com/repos/${repositories[$platform]}/releases/latest")" ||
+    die "could not fetch the latest $platform release"
+  version="$(jq -er '.tag_name' <<< "$release")" || die "missing $platform release version"
+
+  while IFS= read -r system; do
+    current_version="$(jq -er --arg system "$system" '.[$system].version' <<< "$sources")"
+    [[ "$version" != "$current_version" ]] || continue
+
+    asset="$(
+      jq -ce --arg suffix "${asset_suffixes[$system]}" '
+        .assets[] | select(.name | endswith($suffix))
+      ' <<< "$release"
+    )" || die "could not find the release asset for $system"
+    url="$(jq -er '.browser_download_url' <<< "$asset")"
+    digest="$(jq -r '.digest // empty' <<< "$asset")"
+
+    if [[ -n "$digest" ]]; then
+      hash="$(nix hash convert --to sri "$digest")" || die "invalid release digest for $system"
+    else
+      println "" "helium: no release digest; prefetching $version for $system..."
+      hash="$(nix store prefetch-file --json "$url" | jq -er '.hash')" ||
+        die "could not prefetch $system; leaving $sources_file unchanged"
+    fi
+
+    sources="$(
+      jq --arg system "$system" --arg version "$version" --arg url "$url" --arg hash "$hash" '
+        .[$system] = {version: $version, url: $url, hash: $hash}
+      ' <<< "$sources"
+    )"
+    changes+=("$system: $current_version → $version")
+  done < <(jq -r --arg platform "$platform" 'keys[] | select(endswith("-" + $platform))' <<< "$sources")
 done
 
-changed_releases=()
-for release in "${releases[@]}"; do
-  if [[ "${latest_versions[$release]}" != "${current_versions[$release]}" ]]; then
-    changed_releases+=("$release")
-  fi
-done
-
-if (( ${#changed_releases[@]} == 0 )); then
+if (( ${#changes[@]} == 0 )); then
   println "$GREEN" "helium: up to date"
   exit 0
 fi
 
-declare -A system_releases=(
-  [aarch64-darwin]=darwin
-  [aarch64-linux]=linux
-  [x86_64-linux]=linux
-)
-declare -A urls=(
-  [aarch64-darwin]="https://github.com/imputnet/helium-macos/releases/download/${latest_versions[darwin]}/helium_${latest_versions[darwin]}_arm64-macos.dmg"
-  [aarch64-linux]="https://github.com/imputnet/helium-linux/releases/download/${latest_versions[linux]}/helium-bin_${latest_versions[linux]}-1_arm64.deb"
-  [x86_64-linux]="https://github.com/imputnet/helium-linux/releases/download/${latest_versions[linux]}/helium-bin_${latest_versions[linux]}-1_amd64.deb"
-)
-
-declare -A hashes=()
-for system in "${systems[@]}"; do
-  release="${system_releases[$system]}"
-  [[ "${latest_versions[$release]}" != "${current_versions[$release]}" ]] || continue
-
-  println "" "helium: prefetching ${latest_versions[$release]} for $system..."
-  hashes["$system"]="$(
-    nix store prefetch-file --json "${urls[$system]}" |
-      jq -er '.hash | select(type == "string" and startswith("sha256-"))'
-  )" || die "could not prefetch $system"
-done
-
-tmp_file="$(mktemp "${package_file%.nix}.XXXXXX.nix")"
+tmp_file="$(mktemp "$sources_file.XXXXXX")"
 trap 'rm -f -- "$tmp_file"' EXIT
-cp --preserve=mode "$package_file" "$tmp_file"
-
-for release in "${changed_releases[@]}"; do
-  sed -i \
-    "s|^    $release = \".*\";$|    $release = \"${latest_versions[$release]}\";|" \
-    "$tmp_file"
-done
-for system in "${systems[@]}"; do
-  release="${system_releases[$system]}"
-  [[ "${latest_versions[$release]}" != "${current_versions[$release]}" ]] || continue
-
-  sed -i \
-    "/^    $system = {$/,/^    };$/ s|^      hash = \".*\";$|      hash = \"${hashes[$system]}\";|" \
-    "$tmp_file"
-done
-
-nixfmt "$tmp_file"
-
-mv "$tmp_file" "$package_file"
+printf '%s\n' "$sources" > "$tmp_file"
+chmod --reference="$sources_file" "$tmp_file"
+mv "$tmp_file" "$sources_file"
 trap - EXIT
-for release in "${changed_releases[@]}"; do
-  println "$GREEN" "helium: updated ${release_labels[$release]} to ${latest_versions[$release]}"
+
+for change in "${changes[@]}"; do
+  println "$GREEN" "helium: updated $change"
 done

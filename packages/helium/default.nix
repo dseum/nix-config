@@ -23,8 +23,6 @@
   gsettings-desktop-schemas,
   gtk3,
   gtk4,
-  gnugrep,
-  gnused,
   harfbuzz,
   icu,
   jq,
@@ -55,7 +53,6 @@
   libgbm,
   makeWrapper,
   nix,
-  nixfmt,
   nspr,
   nss,
   pango,
@@ -77,28 +74,7 @@
 let
   pname = "helium";
 
-  versions = {
-    darwin = "0.20.3.1";
-    linux = "0.20.3.1";
-  };
-
-  sources = {
-    aarch64-darwin = {
-      version = versions.darwin;
-      url = "https://github.com/imputnet/helium-macos/releases/download/${versions.darwin}/helium_${versions.darwin}_arm64-macos.dmg";
-      hash = "sha256-+bLzEuu6qb4J/Fml3pGRQE3ACPFQJDSm8xmvKk3MusU=";
-    };
-    aarch64-linux = {
-      version = versions.linux;
-      url = "https://github.com/imputnet/helium-linux/releases/download/${versions.linux}/helium-bin_${versions.linux}-1_arm64.deb";
-      hash = "sha256-75iZjrLLOrtRjrasotN8oefpCS7M8j2AW9XfbWu+YQ0=";
-    };
-    x86_64-linux = {
-      version = versions.linux;
-      url = "https://github.com/imputnet/helium-linux/releases/download/${versions.linux}/helium-bin_${versions.linux}-1_amd64.deb";
-      hash = "sha256-DtVlqWSy+49pcg1x90A+m7JDNImu+4SV9ldmrhXDstU=";
-    };
-  };
+  sources = builtins.fromJSON (builtins.readFile ./sources.json);
 
   source =
     sources.${stdenvNoCC.hostPlatform.system}
@@ -124,11 +100,8 @@ let
       coreutils
       curl
       gitMinimal
-      gnugrep
-      gnused
       jq
       nix
-      nixfmt
     ];
     text = builtins.readFile ./update.sh;
   });
@@ -193,15 +166,7 @@ let
     gtk4
   ];
 
-  linux = stdenvNoCC.mkDerivation {
-    inherit
-      meta
-      passthru
-      pname
-      src
-      version
-      ;
-
+  linux = {
     nativeBuildInputs = [
       makeWrapper
       patchelf
@@ -259,23 +224,13 @@ let
         runHook postInstall
       '';
 
-    dontBuild = true;
-
     installCheckPhase = ''
       $out/bin/helium --version
     '';
     doInstallCheck = true;
   };
 
-  darwin = stdenvNoCC.mkDerivation {
-    inherit
-      meta
-      passthru
-      pname
-      src
-      version
-      ;
-
+  darwin = {
     nativeBuildInputs = [
       makeWrapper
       _7zz
@@ -302,13 +257,19 @@ let
       runHook postInstall
     '';
 
-    dontBuild = true;
     dontFixup = true;
   };
 in
-if stdenvNoCC.hostPlatform.isLinux then
-  linux
-else if stdenvNoCC.hostPlatform.isDarwin then
-  darwin
-else
-  throw "helium: unsupported operating system ${stdenvNoCC.hostPlatform.system}"
+stdenvNoCC.mkDerivation (
+  {
+    inherit
+      meta
+      passthru
+      pname
+      src
+      version
+      ;
+    dontBuild = true;
+  }
+  // (if stdenvNoCC.hostPlatform.isDarwin then darwin else linux)
+)
