@@ -11,6 +11,7 @@
       enable = true;
       enableMcpIntegration = true;
       context = ./configs/agents/AGENTS.md;
+      mutableSettings = true;
       skills = {
         asd = ./configs/agents/skills/asd;
         review-abstractions = ./configs/agents/skills/review-abstractions;
