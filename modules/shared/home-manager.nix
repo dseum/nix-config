@@ -24,6 +24,8 @@
           commit = "";
           pr = "";
         };
+        model = "claude-opus-5-5";
+        modelSettings."claude-opus-5-5".effortLevel = "high";
         tui = "fullscreen";
         extraKnownMarketplaces.svelte.source = {
           source = "github";
