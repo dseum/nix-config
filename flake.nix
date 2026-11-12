@@ -13,6 +13,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-index-database";
     };
+    nix-vscode-extensions = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-vscode-extensions";
+    };
     nixos-hardware = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:dseum/nixos-hardware/dell-xps-14-da14260";
