@@ -312,7 +312,6 @@
           mermaidchart.vscode-mermaid-chart
           mjmlio.vscode-mjml
           ms-azuretools.vscode-containers
-          ms-azuretools.vscode-docker
           ms-python.python
           ms-toolsai.jupyter
           ms-toolsai.jupyter-keymap

@@ -17,7 +17,7 @@
   },
   {
     "key": "cmd+k cmd+d",
-    "command": "workbench.view.extension.dockerView"
+    "command": "workbench.view.extension.containersView"
   },
   {
     "key": "cmd+k cmd+l",
