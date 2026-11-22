@@ -20,7 +20,6 @@
   pkgs.jujutsu
   pkgs.kind
   pkgs.luarocks
-  pkgs.mupdf
   pkgs.ninja
   pkgs.nixd
   pkgs.nixfmt
