@@ -17,6 +17,8 @@
         allowNonWorkspaceAccess = true;
         altScreenMode = "always";
         artifactReviewPolicy = "always-proceed";
+        colorScheme = "tokyo night";
+        enableTerminalSandbox = false;
         model = "Gemini 4 Neon (High)";
         notifications = true;
         showFeedbackSurvey = false;
