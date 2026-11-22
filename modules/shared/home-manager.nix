@@ -7,6 +7,25 @@
 {
   home.stateVersion = "26.05";
   programs = {
+    antigravity-cli = {
+      enable = true;
+      enableMcpIntegration = true;
+      context.AGENTS = ./configs/agents/AGENTS.md;
+      mutableSettings = true;
+      settings = {
+        agentMode = "accept-edits";
+        allowNonWorkspaceAccess = true;
+        altScreenMode = "always";
+        artifactReviewPolicy = "always-proceed";
+        model = "Gemini 4 Neon (High)";
+        notifications = true;
+        showFeedbackSurvey = false;
+        showTips = false;
+        toolPermission = "always-proceed";
+        verbosity = "low";
+      };
+      skills = ./configs/agents/skills;
+    };
     claude-code = {
       enable = true;
       enableMcpIntegration = true;
