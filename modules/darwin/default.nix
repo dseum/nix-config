@@ -115,6 +115,7 @@ in
           "/Applications/Rex Beta.app"
           "/Applications/Nix Apps/Slack.app"
           "/Applications/WhatsApp.app"
+          "/Applications/Nix Apps/Signal.app"
           "/System/Applications/System Settings.app"
         ];
         launchanim = false;
