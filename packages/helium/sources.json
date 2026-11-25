@@ -5,13 +5,13 @@
     "hash": "sha256-wzU6qTaERhMhAgPJR8PTFd6zJVx40JKTFBxEfdMkw4g="
   },
   "aarch64-linux": {
-    "version": "0.22.2.1",
-    "url": "https://github.com/imputnet/helium-linux/releases/download/0.22.2.1/helium-bin_0.22.2.1-1_arm64.deb",
-    "hash": "sha256-2nnloIli+Vv1ke9Oe8Fiy52jjP2EQtw9UJgtJP2b4ZY="
+    "version": "0.22.4.1",
+    "url": "https://github.com/imputnet/helium-linux/releases/download/0.22.4.1/helium-bin_0.22.4.1-1_arm64.deb",
+    "hash": "sha256-PnO9zVMFtdrJBKIX6S2uG4TZiIqYfb6+XfRuLVhDVNs="
   },
   "x86_64-linux": {
-    "version": "0.22.2.1",
-    "url": "https://github.com/imputnet/helium-linux/releases/download/0.22.2.1/helium-bin_0.22.2.1-1_amd64.deb",
-    "hash": "sha256-9AXe1VdIPUyuYID47PsGU+/IGjBHKPTwvRIOCeLlkfE="
+    "version": "0.22.4.1",
+    "url": "https://github.com/imputnet/helium-linux/releases/download/0.22.4.1/helium-bin_0.22.4.1-1_amd64.deb",
+    "hash": "sha256-78vTqSQsaXs0t5OWxSKXA407n0L+23kOpLS+n/EbuKk="
   }
 }
