@@ -17,7 +17,7 @@ rex.action {
 
     local process, err = rex.exec.start({
       config_dir .. "/bin/flock", lock_file,
-      "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex",
+      "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex",
       "--autostart=false", "-C", client_id,
       "do", "--session", ctx.session_id,
       config_dir .. "/new-tab-next.lua",

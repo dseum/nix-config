@@ -112,7 +112,7 @@ in
           "/System/Applications/Mail.app"
           "/System/Applications/Calendar.app"
           "/Applications/Nix Apps/Spotify.app"
-          "/Applications/Rex Beta.app"
+          "/Applications/Rex.app"
           "/Applications/Nix Apps/Slack.app"
           "/Applications/WhatsApp.app"
           "/Applications/Nix Apps/Signal.app"

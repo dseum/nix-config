@@ -24,7 +24,7 @@
         ];
         home.packages = import ./packages.nix { inherit pkgs; };
         home.activation.configureRex = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-          run /usr/bin/env PATH="$PATH:/usr/bin" "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" terminfo setup
+          run /usr/bin/env PATH="$PATH:/usr/bin" "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" terminfo setup
         '';
         nix.gc = {
           automatic = true;
@@ -66,9 +66,9 @@
               runtimeInputs = [ pkgs.jq ];
               text = ''
                 was_running=$(/usr/bin/osascript -e 'application id "com.superlogical.rex" is running')
-                /usr/bin/open -a "/Applications/Rex Beta.app"
+                /usr/bin/open -a "/Applications/Rex.app"
                 if [[ "$was_running" == true ]]; then
-                  rex="/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+                  rex="/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
                   sessions=$("$rex" --autostart=false ls --quiet)
                   if [[ -z "$sessions" ]]; then
                     session_id=$("$rex" --autostart=false new --json --cwd "$HOME" --shell none -- \
